@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "630938496572",
+    "project_id": "itsds-v1",
+    "storage_bucket": "itsds-v1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630938496572:android:b46f0a6b9c2feb3ef71d39",
+        "android_client_info": {
+          "package_name": "com.example.dich_vu_it"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDC-dTqm2B2eJHPrEuzKqOLT91eU5ZfBEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
