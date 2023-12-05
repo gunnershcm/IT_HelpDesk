@@ -163,7 +163,7 @@ class _HistoryCustomerScreenState extends State<HistoryCustomerScreen> {
                                   children: [
                                     Text(
 //<<<<<<< HEAD
-                                      "Create : ${(listTicket[index].createdAt != null) ? DateFormat('HH:mm  dd-MM-yyyy').format(DateTime.parse(listTicket[index].createdAt!)) : ""}",
+                                      "Complete : ${(listTicket[index].completedTime != null) ? DateFormat('HH:mm  dd-MM-yyyy').format(DateTime.parse(listTicket[index].completedTime!)) : ""}",
                                       style: TextStyle(fontSize: 12),
 //=======
                                       // "Create : ${(listTicket[index].createdAt != null) ? DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(listTicket[index].createdAt!)) : ""}",

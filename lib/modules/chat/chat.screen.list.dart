@@ -11,7 +11,6 @@ import 'chat.card/chat_user_card.dart';
 //home screen -- where all available contacts are shown
 class ListChatScreen extends StatefulWidget {
   const ListChatScreen({super.key});
-
   @override
   State<ListChatScreen> createState() => _State();
 }

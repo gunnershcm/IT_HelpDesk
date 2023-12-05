@@ -43,7 +43,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     super.initState();
     requestTaskModel.priority = 0;
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

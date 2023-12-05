@@ -176,7 +176,8 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
                                   context,
                                   MaterialPageRoute<void>(
                                     builder: (BuildContext context) => ViewTicketScreen(
-                                      tiket: value!,
+                                      tiket: value!, 
+                                      tiketId: value.id
                                     ),
                                   ),
                                 );
@@ -323,6 +324,7 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
                                           MaterialPageRoute<void>(
                                             builder: (BuildContext context) => ViewTicketScreen(
                                               tiket: element,
+                                              tiketId : element.id,
                                             ),
                                           ),
                                         );

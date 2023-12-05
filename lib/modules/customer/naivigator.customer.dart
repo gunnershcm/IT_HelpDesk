@@ -4,6 +4,7 @@ import 'package:dich_vu_it/app/widgets/will.pop.scope.dart';
 import 'package:dich_vu_it/modules/c_technician/profile/ui/profile.screen.dart';
 import 'package:dich_vu_it/modules/chat/chat.screen.list.dart';
 import 'package:dich_vu_it/modules/customer/history_customer/ui/history.customer.page.dart';
+import 'package:dich_vu_it/modules/customer/ticket.solution/ui/ticket.solution.tech.dart';
 import 'package:flutter/material.dart';
 
 import 'ticket/ui/ticket.customer.screen.dart';
@@ -38,8 +39,10 @@ class _NavigatorMainCustomerState extends State<NavigatorMainCustomer> {
                 } else if (value == 1) {
                   body = const HistoryCustomerScreen();
                 } else if (value == 2) {
+                  body = const TicketSolutionPage() ;
+                }else if (value == 3) {
                   body = const ListChatScreen();
-                } else if (value == 3) {
+                } else if (value == 4) {
                   body = const ProfileScreen();
                 }
               });
@@ -55,6 +58,10 @@ class _NavigatorMainCustomerState extends State<NavigatorMainCustomer> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.history, color: (sttPage == 1) ? MyColors.blue : MyColors.greyUnselect),
                 label: 'History',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.wb_incandescent_outlined, color: (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),
+                label: 'Solution',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.message, color: (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),

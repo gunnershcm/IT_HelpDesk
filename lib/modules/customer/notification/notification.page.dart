@@ -79,7 +79,7 @@ class _NotificationPageState extends State<NotificationPage> {
               child: ListView.separated(
                 itemCount: listNoti.length,
                 separatorBuilder: (BuildContext context, int index) => Container(
-                  margin: const EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(15), 
                   decoration: const BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Color.fromARGB(255, 122, 122, 122)))),
                 ),
                 itemBuilder: (BuildContext context, int index) {

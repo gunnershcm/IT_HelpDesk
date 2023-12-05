@@ -1,7 +1,7 @@
 class ServiceResponseModel {
   int? id;
   String? type;
-  String? amount;
+  int? amount;
   String? description;
 
   ServiceResponseModel({

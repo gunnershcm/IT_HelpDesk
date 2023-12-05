@@ -4,6 +4,7 @@ import 'package:dich_vu_it/app/widgets/will.pop.scope.dart';
 import 'package:dich_vu_it/modules/c_technician/history.task/ui/history.technica.page.dart';
 import 'package:dich_vu_it/modules/c_technician/home/ui/home.technica.page.dart';
 import 'package:dich_vu_it/modules/c_technician/profile/ui/profile.screen.dart';
+import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/ticket.solution.tech.dart';
 import 'package:dich_vu_it/modules/chat/chat.screen.list.dart';
 import 'package:flutter/material.dart';
 
@@ -37,12 +38,14 @@ class _NavigatorMainTechnicianState extends State<NavigatorMainTechnician> {
                 } else if (value == 1) {
                   body = const HistoryTaskPage();
                 } else if (value == 2) {
-                  body = const ListChatScreen();
+                  body = const TicketSolutionPage() ;
                 } else if (value == 3) {
+                  body = const ListChatScreen() ;
+                }else if (value == 4) {
                   body = const ProfileScreen();
                 }
               });
-            },
+            },           
             selectedLabelStyle: MyTextStyle.styleSelectMenu,
             selectedItemColor: MyColors.blue,
             unselectedLabelStyle: MyTextStyle.styleUnSelectMenu,
@@ -56,15 +59,19 @@ class _NavigatorMainTechnicianState extends State<NavigatorMainTechnician> {
                 label: 'History',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.message, color: (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),
+                icon: Icon(Icons.wb_incandescent_outlined, color: (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),
+                label: 'Solution',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.message, color: (sttPage == 3) ? MyColors.blue : MyColors.greyUnselect),
                 label: 'Chat',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person, color: (sttPage == 3) ? MyColors.blue : MyColors.greyUnselect),
+                icon: Icon(Icons.person, color: (sttPage == 4) ? MyColors.blue : MyColors.greyUnselect),
                 label: 'Profile',
               ),
             ],
-          )),
+          )),        
     );
   }
 }

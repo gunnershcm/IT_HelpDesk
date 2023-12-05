@@ -161,7 +161,7 @@ class _EditTicketTechnicianScreenState extends State<EditTicketTechnicianScreen>
                     },
                     child: Center(
                       child: Text(
-                        "Send",
+                        "OK",
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),

@@ -13,7 +13,7 @@ class TicketResponseModel {
   int? requesterId;
   String? title;
   String? description;
-  String? amount;
+  //String? amount;
   int? modeId;
   int? serviceId;
   int? categoryId;
@@ -39,7 +39,7 @@ class TicketResponseModel {
     this.requesterId,
     this.title,
     this.description,
-    this.amount,
+    //this.amount,
     this.modeId,
     this.serviceId,
     this.categoryId,
@@ -67,7 +67,7 @@ class TicketResponseModel {
       'requesterId': requesterId,
       'title': title,
       'description': description,
-      'amount': amount,
+      //'amount': amount,
       'modeId': modeId,
       'serviceId': serviceId,
       'categoryId': categoryId,
@@ -96,7 +96,7 @@ class TicketResponseModel {
       requesterId: map['requesterId'] != null ? map['requesterId'] as int : null,
       title: map['title'] != null ? map['title'] as String : null,
       description: map['description'] != null ? map['description'] as String : null,
-      amount: map['amount'] != null ? map['amount'] as String : null,
+      //amount: map['amount'] != null ? map['amount'] as String : null,
       modeId: map['modeId'] != null ? map['modeId'] as int : null,
       serviceId: map['serviceId'] != null ? map['serviceId'] as int : null,
       categoryId: map['categoryId'] != null ? map['categoryId'] as int : null,
@@ -112,7 +112,7 @@ class TicketResponseModel {
       completedTime: map['completedTime'] != null ? map['completedTime'] as String : null,
       createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
       requester: map['requester'] != null ? UserProfileResponseModel.fromMap(map['requester'] as Map<String,dynamic>) : null,
-      service: map['service'] != null ? ServiceResponseModel.fromMap(map['service'] as Map<String,dynamic>) : null,
+      // service: map['service'] != null ? ServiceResponseModel.fromMap(map['service'] as Map<String,dynamic>) : null,
       category: map['category'] != null ? CategoryResponseModel.fromMap(map['category'] as Map<String,dynamic>) : null,
       mode: map['mode'] != null ? ModeResponseModel.fromMap(map['mode'] as Map<String,dynamic>) : null,
       assignment: map['assignment'] != null ? AssigmentModel.fromMap(map['assignment'] as Map<String,dynamic>) : null,
@@ -150,7 +150,7 @@ class TicketResponseModel {
       requesterId: requesterId ?? this.requesterId,
       title: title ?? this.title,
       description: description ?? this.description,
-      amount: amount ?? this.amount,
+      //amount: amount ?? this.amount,
       modeId: modeId ?? this.modeId,
       serviceId: serviceId ?? this.serviceId,
       categoryId: categoryId ?? this.categoryId,
@@ -179,7 +179,7 @@ class TicketResponseModel {
 
   @override
   String toString() {
-    return 'TicketResponseModel(id: $id, requesterId: $requesterId, title: $title, description: $description, amount: $amount, modeId: $modeId, serviceId: $serviceId, categoryId: $categoryId, ticketStatus: $ticketStatus, priority: $priority, impact: $impact, impactDetail: $impactDetail, urgency: $urgency, attachmentUrl: $attachmentUrl, scheduledStartTime: $scheduledStartTime, scheduledEndTime: $scheduledEndTime, dueTime: $dueTime, completedTime: $completedTime, createdAt: $createdAt, requester: $requester, service: $service, category: $category, mode: $mode, assignment: $assignment)';
+    return 'TicketResponseModel(id: $id, requesterId: $requesterId, title: $title, description: $description, modeId: $modeId, serviceId: $serviceId, categoryId: $categoryId, ticketStatus: $ticketStatus, priority: $priority, impact: $impact, impactDetail: $impactDetail, urgency: $urgency, attachmentUrl: $attachmentUrl, scheduledStartTime: $scheduledStartTime, scheduledEndTime: $scheduledEndTime, dueTime: $dueTime, completedTime: $completedTime, createdAt: $createdAt, requester: $requester, service: $service, category: $category, mode: $mode, assignment: $assignment)';
   }
 
   @override
@@ -191,7 +191,7 @@ class TicketResponseModel {
       other.requesterId == requesterId &&
       other.title == title &&
       other.description == description &&
-      other.amount == amount &&
+      //other.amount == amount &&
       other.modeId == modeId &&
       other.serviceId == serviceId &&
       other.categoryId == categoryId &&
@@ -219,7 +219,7 @@ class TicketResponseModel {
       requesterId.hashCode ^
       title.hashCode ^
       description.hashCode ^
-      amount.hashCode ^
+      //amount.hashCode ^
       modeId.hashCode ^
       serviceId.hashCode ^
       categoryId.hashCode ^
