@@ -289,6 +289,7 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                                           element.title ?? "",
                                           style: TextStyle(color: Colors.black, fontSize: 20),
                                           overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
                                         ),
                                       ),
                                       SizedBox(

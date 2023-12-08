@@ -30,3 +30,5 @@ class GetListSolutionState extends TicketSolutionState {
 }
 
 class CareateSolutionSuccessState extends TicketSolutionState {}
+
+class EditSolutionSuccessState extends TicketSolutionState {}

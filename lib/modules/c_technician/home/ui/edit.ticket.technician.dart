@@ -17,7 +17,7 @@ class EditTicketTechnicianScreen extends StatefulWidget {
 }
 
 class _EditTicketTechnicianScreenState extends State<EditTicketTechnicianScreen> {
-  TextEditingController description = TextEditingController();
+  TextEditingController description = TextEditingController();  
   Map<int, String> listImpact = {
     0: 'Low',
     1: 'Medium',

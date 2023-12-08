@@ -5,6 +5,7 @@ import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/models/response/feedback.model.dart';
 
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
+import 'package:dich_vu_it/modules/c_technician/ticket.solution/comment/comment.solution.dart';
 
 import 'package:dich_vu_it/provider/file.provider.dart';
 
@@ -164,11 +165,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                       ),
                     ),
                   ),
-                  Container(
-                    child: Center(
-                      child: Text("aaaa"),
-                    ),
-                  )
+                   Commentslotion(solution: solution,),
                 ]))
               ],
             )));

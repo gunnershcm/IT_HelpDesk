@@ -11,6 +11,7 @@ import 'package:dich_vu_it/models/response/task.model.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
 import 'package:dich_vu_it/models/response/tiket.response.model.dart';
 import 'package:dich_vu_it/provider/session.provider.dart';
+import 'package:dich_vu_it/provider/solution.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -18,7 +19,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'solution.state.dart';
 part 'solution.event.dart';
 
-class TicketSolutionBloc extends Bloc<TicketSolutionEvent, TicketSolutionState> {
+class TicketSolutionBloc
+    extends Bloc<TicketSolutionEvent, TicketSolutionState> {
   TicketSolutionBloc() : super(TicketSolutionInitial()) {
     // event handler was added
     on<TicketSolutionEvent>((event, emit) async {
@@ -32,19 +34,41 @@ class TicketSolutionBloc extends Bloc<TicketSolutionEvent, TicketSolutionState> 
       if (event is GetAllSolutionEvent) {
         var listSolution = await TicketProvider.getAllListSolution();
         emit(GetListSolutionState(list: listSolution));
-      }else if(event is CreateSolutionEvent){
+      } else if (event is CreateSolutionEvent) {
         if (event.requestSolutionModel.title == "") {
           emit(TicketSolutionError(error: "Title not null"));
         } else if (event.requestSolutionModel.categoryId == null) {
           emit(TicketSolutionError(error: "Category not null"));
         } else {
-          var checkCreateTiket = await TicketProvider.createSolution(event.requestSolutionModel);
+          var checkCreateTiket =
+              await TicketProvider.createSolution(event.requestSolutionModel);
           if (checkCreateTiket == true) {
             emit(CareateSolutionSuccessState());
           } else {
             emit(TicketSolutionError(error: "Error"));
-          }          
+          }
         }
+      } else if (event is UpdateSolutionTicketEvent) {
+        if (event.solutionModel.title == null) {
+          emit(TicketSolutionError(error: "Title not null"));
+        } else if (event.solutionModel.reviewDate == null) {
+          emit(TicketSolutionError(error: "Review Date not null"));
+        } else if (event.solutionModel.expiredDate == null) {
+          emit(TicketSolutionError(error: "Expire Date not null"));
+        } else if (event.solutionModel.categoryId == null) {
+          emit(TicketSolutionError(error: "Category not null"));
+        } else if (event.solutionModel.ownerId == null) {
+          emit(TicketSolutionError(error: "Owner not null"));
+        } else {
+          var response = await SolutionProvider.updateTicketSolution(event.solutionModel);
+          if (response) {
+            emit(EditSolutionSuccessState());
+          } else {
+            emit(TicketSolutionError(error: "Error"));
+          }
+        }
+      } else if (event is FixListEvent) {
+        emit(GetListSolutionState(list: [event.ticketSolutionModel]));
       }
     } catch (e) {
       print("Loi: $e");

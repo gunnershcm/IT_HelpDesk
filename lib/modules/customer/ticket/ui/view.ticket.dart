@@ -2,6 +2,7 @@
 import 'package:dich_vu_it/app/constant/enum.dart';
 //import 'package:dich_vu_it/models/response/log.model.dart';
 import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/modules/customer/ticket/ui/log.ticket.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,14 +10,13 @@ import 'package:url_launcher/url_launcher.dart';
 class ViewTicketScreen extends StatelessWidget {
   final TicketResponseModel tiket;
   //final LogModel log;
-  final int? tiketId;
-  const ViewTicketScreen({super.key, required this.tiket, required this.tiketId});
-
+  //final int? tiketId;
+  const ViewTicketScreen({super.key, required this.tiket});
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
             backgroundColor: Color.fromARGB(255, 254, 255, 255),
             appBar: AppBar(
@@ -31,11 +31,8 @@ class ViewTicketScreen extends StatelessWidget {
                 ),
               ),
               title: const Text(
-                "Solution details",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600),
+                "Ticket details",
+                style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
               ),
             ),
             body: Column(
@@ -61,8 +58,7 @@ class ViewTicketScreen extends StatelessWidget {
                           ),
                           FieldTextWidget(
                             title: 'Ticket status',
-                            content:
-                                getNameTicketStatus(tiket.ticketStatus ?? -1),
+                            content: getNameTicketStatus(tiket.ticketStatus ?? -1),
                           ),
                           FieldTextWidget(
                             title: 'Category',
@@ -98,18 +94,12 @@ class ViewTicketScreen extends StatelessWidget {
                           ),
                           FieldTextWidget(
                             title: 'Created Date',
-                            content: (tiket.createdAt != null)
-                                ? DateFormat('HH:mm   dd-MM-yyyy')
-                                    .format(DateTime.parse(tiket.createdAt!))
-                                : "",
+                            content: (tiket.createdAt != null) ? DateFormat('HH:mm   dd-MM-yyyy').format(DateTime.parse(tiket.createdAt!)) : "",
                           ),
                           (tiket.ticketStatus == 4 || tiket.ticketStatus == 5)
                               ? FieldTextWidget(
                                   title: 'Complete Date',
-                                  content: (tiket.completedTime != null)
-                                      ? DateFormat('HH:mm   dd-MM-yyyy').format(
-                                          DateTime.parse(tiket.completedTime!))
-                                      : "",
+                                  content: (tiket.completedTime != null) ? DateFormat('HH:mm   dd-MM-yyyy').format(DateTime.parse(tiket.completedTime!)) : "",
                                 )
                               : SizedBox.shrink(),
                           FieldTextWidget(
@@ -130,9 +120,7 @@ class ViewTicketScreen extends StatelessWidget {
                                       onTap: () async {
                                         final Uri launchUri = Uri(
                                           scheme: 'tel',
-                                          path: tiket.assignment
-                                                  ?.technicianPhone ??
-                                              "0987654321",
+                                          path: tiket.assignment?.technicianPhone ?? "0987654321",
                                         );
                                         await launchUrl(launchUri);
                                       },
@@ -153,53 +141,9 @@ class ViewTicketScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.spaceAround, // Để căn giữa cột
-                      children: const [
-                        // Username
-                        Column(
-                          children: [
-                            Text(
-                              "Username",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            
-                          ],
-                        ),
-                        // Action
-                        Column(
-                          children: [
-                            Text(
-                              "Action",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),                           // Nội dung của action
-                          ],
-                        ),
-                        // Timestamp
-                        Column(
-                          children: [
-                            Text(
-                              "Timestamp",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            // Nội dung của timestamp
-                          ],
-                        ),
-                        // Message
-                        Column(
-                          children: [
-                            Text(
-                              "Message",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            // Nội dung của message
-                          ],
-                        ),
-                      ],
-                    ),
-                  )
+                  LogTicket(
+                    tiket: tiket,
+                  ),
                 ]))
               ],
             )));
@@ -210,8 +154,7 @@ class FieldTextWidget extends StatelessWidget {
   final String title;
   final String content;
   final Widget? widget;
-  const FieldTextWidget(
-      {super.key, required this.title, required this.content, this.widget});
+  const FieldTextWidget({super.key, required this.title, required this.content, this.widget});
 
   @override
   Widget build(BuildContext context) {
@@ -245,8 +188,7 @@ class FieldTextWidget extends StatelessWidget {
                   Expanded(
                     child: Text(
                       content,
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w400),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                     ),
                   ),
                   (widget != null) ? widget! : SizedBox.shrink(),

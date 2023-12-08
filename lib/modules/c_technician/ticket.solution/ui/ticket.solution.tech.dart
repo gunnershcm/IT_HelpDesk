@@ -26,8 +26,7 @@ class TicketSolutionPage extends StatefulWidget {
 class _TicketSolutionPageState extends State<TicketSolutionPage> {
   var bloc = TicketSolutionBloc();
   List<TicketSolutionModel> listSolution = [];
-  TicketSolutionModel? selectedSolution =
-      TicketSolutionModel(title: "All solutions");
+  TicketSolutionModel? selectedSolution = TicketSolutionModel(title: "All solutions");
 
   @override
   void initState() {
@@ -59,10 +58,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
             title: Center(
               child: Text(
                 "Solution",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600),
+                style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
               ),
             ),
             actions: [
@@ -74,7 +70,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                       builder: (BuildContext context) => CreateSolutionScreen(
                         callBack: (value) {
                           if (value == true) {
-                            bloc.add(GetAllListSolution());
+                            bloc.add(GetAllSolutionEvent());
                           }
                         },
                       ),
@@ -99,9 +95,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                   children: [
                     Expanded(
                       child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
                         height: 40,
                         child: DropdownSearch<TicketSolutionModel>(
                           popupProps: PopupPropsMultiSelection.menu(
@@ -113,14 +107,12 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                 width: 300,
                                 height: 40,
                               ),
-                              contentPadding:
-                                  const EdgeInsets.only(left: 14, bottom: 14),
+                              contentPadding: const EdgeInsets.only(left: 14, bottom: 14),
                               focusedBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(0),
                                 ),
-                                borderSide:
-                                    BorderSide(color: Colors.white, width: 0),
+                                borderSide: BorderSide(color: Colors.white, width: 0),
                               ),
                               hintText: "",
                               hintMaxLines: 1,
@@ -128,21 +120,21 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(10),
                                 ),
-                                borderSide:
-                                    BorderSide(color: Colors.white, width: 0),
+                                borderSide: BorderSide(color: Colors.white, width: 0),
                               ),
                             ),
                           ),
-                          asyncItems: (String? filter) =>
-                              TicketProvider.getAllListSolutionFillter(),
-                          itemAsString: (TicketSolutionModel u) =>
-                              "${u.title!} ${u.createdAt != null ? "(${(u.createdAt != null) ? DateFormat('HH:mm dd/MM/yyyy').format(DateTime.parse(u.createdAt!).toLocal()) : ""})" : ""}",
+                          asyncItems: (String? filter) => TicketProvider.getAllListSolutionFillter(),
+                          itemAsString: (TicketSolutionModel u) => "${u.title!} ${u.createdAt != null ? "(${(u.createdAt != null) ? DateFormat('HH:mm dd/MM/yyyy').format(DateTime.parse(u.createdAt!).toLocal()) : ""})" : ""}",
                           selectedItem: selectedSolution,
                           onChanged: (value) {
                             setState(() {
                               selectedSolution = value!;
-                              bloc.add(GetAllSolutionEvent(
-                                  idSolution: selectedSolution?.id));
+                              if (selectedSolution?.id != null && selectedSolution!.id! > 0) {
+                                bloc.add(FixListEvent(ticketSolutionModel: selectedSolution!));
+                              } else {
+                                bloc.add(GetAllSolutionEvent());
+                              }
                             });
                           },
                         ),
@@ -176,16 +168,8 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                 Navigator.push<void>(
                                   context,
                                   MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        ViewSolutionDetail(
+                                    builder: (BuildContext context) => ViewSolutionDetail(
                                       solution: element,
-                                      callBack: (value) {
-                                        if (value != null) {
-                                          setState(() {
-                                            element = value;
-                                          });
-                                        }
-                                      },
                                     ),
                                   ),
                                 );
@@ -194,15 +178,12 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         child: Text(
                                           element.title ?? "",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 20),
+                                          style: TextStyle(color: Colors.black, fontSize: 20),
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
@@ -224,15 +205,11 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                       children: [
                                         TextSpan(
                                           text: "Status: ",
-                                          style: DefaultTextStyle.of(context)
-                                              .style,
+                                          style: DefaultTextStyle.of(context).style,
                                         ),
                                         TextSpan(
-                                          text:
-                                              "${getApproveStatus(element.isApproved)}",
-                                          style: element.isApproved == true
-                                              ? TextStyle(color: Colors.green)
-                                              : TextStyle(color: Colors.red),
+                                          text: "${getApproveStatus(element.isApproved)}",
+                                          style: element.isApproved == true ? TextStyle(color: Colors.green) : TextStyle(color: Colors.red),
                                         ),
                                       ],
                                     ),
@@ -243,15 +220,11 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                       children: [
                                         TextSpan(
                                           text: "Visibility: ",
-                                          style: DefaultTextStyle.of(context)
-                                              .style,
+                                          style: DefaultTextStyle.of(context).style,
                                         ),
                                         TextSpan(
-                                          text:
-                                              "${getPublicStatus(element.isPublic)}",
-                                          style: element.isPublic == true
-                                              ? TextStyle(color: Colors.green)
-                                              : TextStyle(color: Colors.red),
+                                          text: "${getPublicStatus(element.isPublic)}",
+                                          style: element.isPublic == true ? TextStyle(color: Colors.green) : TextStyle(color: Colors.red),
                                         ),
                                       ],
                                     ),

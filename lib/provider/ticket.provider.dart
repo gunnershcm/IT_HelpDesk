@@ -54,16 +54,19 @@ class TicketProvider {
     return listData;
   }
 
-   static Future<List<TicketSolutionModel>> getAllListSolution() async {
+  static Future<List<TicketSolutionModel>> getAllListSolution() async {
     List<TicketSolutionModel> listData = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     try {
-      var url = "$baseUrl/v1/itsds/solution";
+      var url = "$baseUrl/v1/itsds/solution/all";
+
       Map<String, String> header = await getHeader();
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.get(Uri.parse(url.toString()), headers: header);
       String decodedData = utf8.decode(response.bodyBytes);
+      print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(decodedData);
         if (bodyConvert['isError'] == false) {
@@ -81,8 +84,6 @@ class TicketProvider {
     //listData.insert(0, TicketSolutionModel(title: "All tickets"));
     return listData;
   }
-
-
 
   // <<<< Get all ticket at screen history >>>>
   static Future<List<TicketResponseModel>> getAllListTicketHistory() async {
@@ -135,6 +136,7 @@ class TicketProvider {
     // listData = listCategory;
     return listData;
   }
+
   //get all User objects
   static Future<List<UserProfileResponseModel>> getAllUsers() async {
     List<UserProfileResponseModel> listData = [];
@@ -375,7 +377,7 @@ class TicketProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     try {
-      var url = "$baseUrl/v1/itsds/solution";
+      var url = "$baseUrl/v1/itsds/solution/all";
       Map<String, String> header = await getHeader();
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.get(Uri.parse(url.toString()), headers: header);
@@ -386,6 +388,7 @@ class TicketProvider {
           for (var element in bodyConvert['result']) {
             TicketSolutionModel item = TicketSolutionModel.fromMap(element);
             listData.add(item);
+            print(listData);
           }
         }
       }
@@ -394,7 +397,6 @@ class TicketProvider {
     listData.insert(0, TicketSolutionModel(title: "All solutions"));
     return listData;
   }
-
 
   // <<<< Get all ticket assign done filtter >>>>
   static Future<List<TicketResponseModel>> getAllListTicketAssignDoneFillter() async {
@@ -432,6 +434,8 @@ class TicketProvider {
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.post(Uri.parse(url.toString()), headers: header, body: requestTaskModel.toJson());
       String decodedData = utf8.decode(response.bodyBytes);
+      // print(response.statusCode);
+      // print(response.body);
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(decodedData);
         if (bodyConvert['isError'] == false) {
@@ -442,8 +446,7 @@ class TicketProvider {
       } else {
         return false;
       }
-    } catch (e) {
-    }
+    } catch (e) {}
     return false;
   }
 
@@ -537,7 +540,7 @@ class TicketProvider {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString(myToken);
-      var url = "$baseUrl/v1/itsds/solution/feedback?solutionId=$idSolution";     
+      var url = "$baseUrl/v1/itsds/solution/feedback?solutionId=$idSolution";
       Map<String, String> header = await getHeader();
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.get(Uri.parse(url.toString()), headers: header);
@@ -560,7 +563,7 @@ class TicketProvider {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString(myToken);
-      var url = "$baseUrl/v1/itsds/ticket/log?ticketId=$idTicket";     
+      var url = "$baseUrl/v1/itsds/ticket/log?ticketId=$idTicket";
       Map<String, String> header = await getHeader();
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.get(Uri.parse(url.toString()), headers: header);
@@ -574,7 +577,9 @@ class TicketProvider {
           }
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      print("Loi: $e");
+    }
     return listData;
   }
 }
