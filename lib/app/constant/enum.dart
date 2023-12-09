@@ -57,8 +57,6 @@ int valueFromPriority(Priority status) {
   }
 }
 
-
-
 int valueFromPriorityName(String status) {
   if (status == Priority.low.value) {
     return 0;
@@ -193,17 +191,15 @@ String nameUrgency(int urgency) {
       return "Urgent";
     default:
       return "";
-  } 
+  }
 }
-
-
 
 String getApproveStatus(bool? status) {
   switch (status) {
     case true:
-      return "Approved"; // 
+      return "Approved"; //
     case false:
-      return "Not Approved"; 
+      return "Not Approved";
     default:
       return "";
   }
@@ -212,9 +208,9 @@ String getApproveStatus(bool? status) {
 String getPublicStatus(bool? status) {
   switch (status) {
     case true:
-      return "Public"; // 
+      return "Public"; //
     case false:
-      return "Private"; 
+      return "Private";
     default:
       return "";
   }

@@ -31,8 +31,8 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
       } else if (event is CreateTicketEvent) {
         if (event.request.title == "") {
           emit(TicketError(error: "Title not null"));
-        } else if (event.request.categoryId == null) {
-          emit(TicketError(error: "Category not null"));
+        } else if (event.request.serviceId == null) {
+          emit(TicketError(error: "Service not null"));
         } else {
           var checkCreateTiket = await TicketProvider.createTicket(event.request);
           if (checkCreateTiket == true) {
@@ -46,8 +46,8 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
         // updateTicket
         if (event.request.title == "") {
           emit(TicketError(error: "Title not null"));
-        } else if (event.request.categoryId == null) {
-          emit(TicketError(error: "Category not null"));
+        } else if (event.request.serviceId == null) {
+          emit(TicketError(error: "Service not null"));
         } else {
           var checkCreateTiket = await TicketProvider.updateTicket(event.request);
           if (checkCreateTiket == true) {

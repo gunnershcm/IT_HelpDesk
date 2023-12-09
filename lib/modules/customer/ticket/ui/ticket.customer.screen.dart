@@ -167,7 +167,9 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
                                           });
                                         }
                                       },
-                                      request: RequestCreateTicketModel(id: value?.id, title: value?.title, categoryId: value?.categoryId, categoryName: value?.category?.name, attachmentUrl: value?.attachmentUrl, priority: value?.priority, description: value?.description),
+                                      request: RequestCreateTicketModel(id: value?.id, title: value?.title, 
+                                      //categoryId: value?.categoryId, categoryName: value?.category?.name, 
+                                      attachmentUrl: value?.attachmentUrl, priority: value?.priority, description: value?.description),
                                     ),
                                   ),
                                 );
@@ -313,7 +315,9 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
                                                   });
                                                 }
                                               },
-                                              request: RequestCreateTicketModel(id: element.id, title: element.title, categoryId: element.categoryId, categoryName: element.category?.name, attachmentUrl: element.attachmentUrl, priority: element.priority, description: element.description),
+                                              request: RequestCreateTicketModel(id: element.id, title: element.title, 
+                                              //categoryId: element.categoryId, categoryName: element.category?.name, 
+                                              attachmentUrl: element.attachmentUrl, priority: element.priority, description: element.description),
                                             ),
                                           ),
                                         );

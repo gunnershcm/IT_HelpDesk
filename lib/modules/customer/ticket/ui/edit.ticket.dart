@@ -44,7 +44,7 @@ class _EditTickketState extends State<EditTickket> {
     title.text = requestCreateTicketModel.title ?? "";
     description.text = requestCreateTicketModel.description ?? "";
     selectedPriority = requestCreateTicketModel.priority ?? 0;
-    selectedItem = CategoryResponseModel(id: requestCreateTicketModel.categoryId, name: requestCreateTicketModel.categoryName);
+    //selectedItem = CategoryResponseModel(id: requestCreateTicketModel.categoryId, name: requestCreateTicketModel.categoryName);
     attachmentUrl.text = requestCreateTicketModel.attachmentUrl ?? "";
   }
 
@@ -267,7 +267,7 @@ class _EditTickketState extends State<EditTickket> {
                         onTap: () {
                           requestCreateTicketModel.title = title.text;
                           requestCreateTicketModel.description = description.text;
-                          requestCreateTicketModel.categoryId = selectedItem?.id;
+                          //requestCreateTicketModel.categoryId = selectedItem?.id;
                           requestCreateTicketModel.priority = selectedPriority;
                           _bloc.add(UpdtaeTicketEvent(request: requestCreateTicketModel));
                         },

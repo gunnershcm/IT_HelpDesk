@@ -7,6 +7,7 @@ import 'package:dich_vu_it/models/request/request.task.model.dart';
 import 'package:dich_vu_it/models/response/category.response.model.dart';
 import 'package:dich_vu_it/models/response/feedback.model.dart';
 import 'package:dich_vu_it/models/response/log.model.dart';
+import 'package:dich_vu_it/models/response/service.response.model.dart';
 import 'package:dich_vu_it/models/response/task.model.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
 import 'package:dich_vu_it/models/response/tiket.response.model.dart';
@@ -126,6 +127,32 @@ class TicketProvider {
         if (bodyConvert['isError'] == false) {
           for (var element in bodyConvert['result']) {
             var item = CategoryResponseModel.fromMap(element);
+            listData.add(item);
+          }
+        }
+      }
+    } catch (e) {
+      print("loi :$e");
+    }
+    // listData = listCategory;
+    return listData;
+  }
+
+  static Future<List<ServiceResponseModel>> getAllService() async {
+    List<ServiceResponseModel> listData = [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    try {
+      var url = "$baseUrl/v1/itsds/service/all";
+      Map<String, String> header = await getHeader();
+      header.addAll({'Authorization': 'Bearer $token'});
+      var response = await http.get(Uri.parse(url.toString()), headers: header);
+      String decodedData = utf8.decode(response.bodyBytes);
+      if (response.statusCode == 200) {
+        var bodyConvert = jsonDecode(decodedData);
+        if (bodyConvert['isError'] == false) {
+          for (var element in bodyConvert['result']) {
+            var item = ServiceResponseModel.fromMap(element);
             listData.add(item);
           }
         }

@@ -13,7 +13,11 @@ class TicketResponseModel {
   int? requesterId;
   String? title;
   String? description;
-  //String? amount;
+  String? type;
+  String? street;
+  String? ward;
+  String? district;
+  String? city;
   int? modeId;
   int? serviceId;
   int? categoryId;
@@ -33,13 +37,16 @@ class TicketResponseModel {
   CategoryResponseModel? category;
   ModeResponseModel? mode;
   AssigmentModel? assignment;
-
   TicketResponseModel({
     this.id,
     this.requesterId,
     this.title,
     this.description,
-    //this.amount,
+    this.type,
+    this.street,
+    this.ward,
+    this.district,
+    this.city,
     this.modeId,
     this.serviceId,
     this.categoryId,
@@ -61,13 +68,79 @@ class TicketResponseModel {
     this.assignment,
   });
 
+  TicketResponseModel copyWith({
+    int? id,
+    int? requesterId,
+    String? title,
+    String? description,
+    String? type,
+    String? street,
+    String? ward,
+    String? district,
+    String? city,
+    int? modeId,
+    int? serviceId,
+    int? categoryId,
+    int? ticketStatus,
+    int? priority,
+    int? impact,
+    String? impactDetail,
+    int? urgency,
+    String? attachmentUrl,
+    String? scheduledStartTime,
+    String? scheduledEndTime,
+    String? dueTime,
+    String? completedTime,
+    String? createdAt,
+    UserProfileResponseModel? requester,
+    ServiceResponseModel? service,
+    CategoryResponseModel? category,
+    ModeResponseModel? mode,
+    AssigmentModel? assignment,
+  }) {
+    return TicketResponseModel(
+      id: id ?? this.id,
+      requesterId: requesterId ?? this.requesterId,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      type: type ?? this.type,
+      street: street ?? this.street,
+      ward: ward ?? this.ward,
+      district: district ?? this.district,
+      city: city ?? this.city,
+      modeId: modeId ?? this.modeId,
+      serviceId: serviceId ?? this.serviceId,
+      categoryId: categoryId ?? this.categoryId,
+      ticketStatus: ticketStatus ?? this.ticketStatus,
+      priority: priority ?? this.priority,
+      impact: impact ?? this.impact,
+      impactDetail: impactDetail ?? this.impactDetail,
+      urgency: urgency ?? this.urgency,
+      attachmentUrl: attachmentUrl ?? this.attachmentUrl,
+      scheduledStartTime: scheduledStartTime ?? this.scheduledStartTime,
+      scheduledEndTime: scheduledEndTime ?? this.scheduledEndTime,
+      dueTime: dueTime ?? this.dueTime,
+      completedTime: completedTime ?? this.completedTime,
+      createdAt: createdAt ?? this.createdAt,
+      requester: requester ?? this.requester,
+      service: service ?? this.service,
+      category: category ?? this.category,
+      mode: mode ?? this.mode,
+      assignment: assignment ?? this.assignment,
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
       'requesterId': requesterId,
       'title': title,
       'description': description,
-      //'amount': amount,
+      'type': type,
+      'street': street,
+      'ward': ward,
+      'district': district,
+      'city': city,
       'modeId': modeId,
       'serviceId': serviceId,
       'categoryId': categoryId,
@@ -96,7 +169,11 @@ class TicketResponseModel {
       requesterId: map['requesterId'] != null ? map['requesterId'] as int : null,
       title: map['title'] != null ? map['title'] as String : null,
       description: map['description'] != null ? map['description'] as String : null,
-      //amount: map['amount'] != null ? map['amount'] as String : null,
+      type: map['type'] != null ? map['type'] as String : null,
+      street: map['street'] != null ? map['street'] as String : null,
+      ward: map['ward'] != null ? map['ward'] as String : null,
+      district: map['district'] != null ? map['district'] as String : null,
+      city: map['city'] != null ? map['city'] as String : null,
       modeId: map['modeId'] != null ? map['modeId'] as int : null,
       serviceId: map['serviceId'] != null ? map['serviceId'] as int : null,
       categoryId: map['categoryId'] != null ? map['categoryId'] as int : null,
@@ -112,64 +189,10 @@ class TicketResponseModel {
       completedTime: map['completedTime'] != null ? map['completedTime'] as String : null,
       createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
       requester: map['requester'] != null ? UserProfileResponseModel.fromMap(map['requester'] as Map<String,dynamic>) : null,
-      // service: map['service'] != null ? ServiceResponseModel.fromMap(map['service'] as Map<String,dynamic>) : null,
+      service: map['service'] != null ? ServiceResponseModel.fromMap(map['service'] as Map<String,dynamic>) : null,
       category: map['category'] != null ? CategoryResponseModel.fromMap(map['category'] as Map<String,dynamic>) : null,
       mode: map['mode'] != null ? ModeResponseModel.fromMap(map['mode'] as Map<String,dynamic>) : null,
       assignment: map['assignment'] != null ? AssigmentModel.fromMap(map['assignment'] as Map<String,dynamic>) : null,
-    );
-  }
-
-  TicketResponseModel copyWith({
-    int? id,
-    int? requesterId,
-    String? title,
-    String? description,
-    String? amount,
-    int? modeId,
-    int? serviceId,
-    int? categoryId,
-    int? ticketStatus,
-    int? priority,
-    int? impact,
-    String? impactDetail,
-    int? urgency,
-    String? attachmentUrl,
-    String? scheduledStartTime,
-    String? scheduledEndTime,
-    String? dueTime,
-    String? completedTime,
-    String? createdAt,
-    UserProfileResponseModel? requester,
-    ServiceResponseModel? service,
-    CategoryResponseModel? category,
-    ModeResponseModel? mode,
-    AssigmentModel? assignment,
-  }) {
-    return TicketResponseModel(
-      id: id ?? this.id,
-      requesterId: requesterId ?? this.requesterId,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      //amount: amount ?? this.amount,
-      modeId: modeId ?? this.modeId,
-      serviceId: serviceId ?? this.serviceId,
-      categoryId: categoryId ?? this.categoryId,
-      ticketStatus: ticketStatus ?? this.ticketStatus,
-      priority: priority ?? this.priority,
-      impact: impact ?? this.impact,
-      impactDetail: impactDetail ?? this.impactDetail,
-      urgency: urgency ?? this.urgency,
-      attachmentUrl: attachmentUrl ?? this.attachmentUrl,
-      scheduledStartTime: scheduledStartTime ?? this.scheduledStartTime,
-      scheduledEndTime: scheduledEndTime ?? this.scheduledEndTime,
-      dueTime: dueTime ?? this.dueTime,
-      completedTime: completedTime ?? this.completedTime,
-      createdAt: createdAt ?? this.createdAt,
-      requester: requester ?? this.requester,
-      service: service ?? this.service,
-      category: category ?? this.category,
-      mode: mode ?? this.mode,
-      assignment: assignment ?? this.assignment,
     );
   }
 
@@ -179,7 +202,7 @@ class TicketResponseModel {
 
   @override
   String toString() {
-    return 'TicketResponseModel(id: $id, requesterId: $requesterId, title: $title, description: $description, modeId: $modeId, serviceId: $serviceId, categoryId: $categoryId, ticketStatus: $ticketStatus, priority: $priority, impact: $impact, impactDetail: $impactDetail, urgency: $urgency, attachmentUrl: $attachmentUrl, scheduledStartTime: $scheduledStartTime, scheduledEndTime: $scheduledEndTime, dueTime: $dueTime, completedTime: $completedTime, createdAt: $createdAt, requester: $requester, service: $service, category: $category, mode: $mode, assignment: $assignment)';
+    return 'TicketResponseModel(id: $id, requesterId: $requesterId, title: $title, description: $description, type: $type, street: $street, ward: $ward, district: $district, city: $city, modeId: $modeId, serviceId: $serviceId, categoryId: $categoryId, ticketStatus: $ticketStatus, priority: $priority, impact: $impact, impactDetail: $impactDetail, urgency: $urgency, attachmentUrl: $attachmentUrl, scheduledStartTime: $scheduledStartTime, scheduledEndTime: $scheduledEndTime, dueTime: $dueTime, completedTime: $completedTime, createdAt: $createdAt, requester: $requester, service: $service, category: $category, mode: $mode, assignment: $assignment)';
   }
 
   @override
@@ -191,7 +214,11 @@ class TicketResponseModel {
       other.requesterId == requesterId &&
       other.title == title &&
       other.description == description &&
-      //other.amount == amount &&
+      other.type == type &&
+      other.street == street &&
+      other.ward == ward &&
+      other.district == district &&
+      other.city == city &&
       other.modeId == modeId &&
       other.serviceId == serviceId &&
       other.categoryId == categoryId &&
@@ -219,7 +246,11 @@ class TicketResponseModel {
       requesterId.hashCode ^
       title.hashCode ^
       description.hashCode ^
-      //amount.hashCode ^
+      type.hashCode ^
+      street.hashCode ^
+      ward.hashCode ^
+      district.hashCode ^
+      city.hashCode ^
       modeId.hashCode ^
       serviceId.hashCode ^
       categoryId.hashCode ^

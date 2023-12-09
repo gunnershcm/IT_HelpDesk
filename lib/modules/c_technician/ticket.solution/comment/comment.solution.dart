@@ -172,12 +172,12 @@ class ChatComponent extends StatelessWidget {
                     style: TextStyle(fontSize: 10),
                   ),
                   SizedBox(width: 15),
-                  InkWell(
-                    child: Text(
-                      "Trả lời",
-                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700),
-                    ),
-                  )
+                  // InkWell(
+                  //   child: Text(
+                  //     "Trả lời",
+                  //     style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700),
+                  //   ),
+                  // )
                 ],
               )
             ],
