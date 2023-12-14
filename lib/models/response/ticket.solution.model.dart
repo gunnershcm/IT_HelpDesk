@@ -27,6 +27,7 @@ class TicketSolutionModel {
   UserProfileResponseModel? owner;
   UserProfileResponseModel? createdBy;
   CategoryResponseModel? category;
+  
   TicketSolutionModel({
     this.id,
     this.title,

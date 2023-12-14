@@ -35,6 +35,8 @@ dependencies:
   emoji_picker_flutter: ^1.6.3
   url_launcher: ^6.2.1
   flutter_svg: ^2.0.9
+  like_button: ^2.0.5
+
 
 dev_dependencies:
   flutter_test:
@@ -49,5 +51,10 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/images/like.png
+    - assets/images/liked.png
+    - assets/images/unlike.png
+    - assets/images/unliked.png
+
 
 

@@ -1,24 +1,24 @@
+import 'package:dich_vu_it/app/widgets/dislike_button_setting.dart';
 import 'package:flutter/material.dart';
-import 'package:like_button/like_button.dart';
 
-class LikeButtonWidget extends StatefulWidget {
+class DisLikeButtonWidget extends StatefulWidget {
   @override
-  _LikeButtonState createState() => _LikeButtonState();
+  _DisLikeButtonState createState() => _DisLikeButtonState();
 }
 
-class _LikeButtonState extends State<LikeButtonWidget> {
+class _DisLikeButtonState extends State<DisLikeButtonWidget> {
   bool isLiked = false;
   int likeCount = 17;
   double size = 20;
   @override
   Widget build(BuildContext context) {
-    return LikeButton(
+    return DisLikeButton(
       size: size,
       isLiked: isLiked,
       likeCount: likeCount,
       likeCountPadding: EdgeInsets.only(left: 10),
       likeBuilder: (isLiked) {
-        final image = isLiked ? (Image.asset('assets/images/liked.png', width: 30, height: 30)) : (Image.asset('assets/images/like.png', width: 30, height: 30));
+        final image = isLiked ? (Image.asset('assets/images/unliked.png', width: 30, height: 30)) : (Image.asset('assets/images/unlike.png', width: 30, height: 30));
         return image;
       },
       countBuilder: (count, isLiked, text) {

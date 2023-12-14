@@ -41,7 +41,6 @@ class _EditTicketTechnicianScreenState extends State<EditTicketTechnicianScreen>
     selectedUrgency = widget.tiket.urgency;
   }
   
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

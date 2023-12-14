@@ -2,7 +2,10 @@
 
 import 'package:animation_list/animation_list.dart';
 import 'package:dich_vu_it/app/constant/enum.dart';
+import 'package:dich_vu_it/app/widgets/dislike_button.dart';
+import 'package:dich_vu_it/app/widgets/dislike_button_setting.dart';
 import 'package:dich_vu_it/app/widgets/like_button.dart';
+//import 'package:dich_vu_it/app/widgets/like_button.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
 import 'package:dich_vu_it/modules/customer/ticket.solution/bloc/solution.bloc.dart';
@@ -12,6 +15,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+
 
 // import '../bloc/history.bloc.dart';
 // import 'infor.task.screen.dart';
@@ -28,6 +32,9 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
   List<TicketSolutionModel> listSolution = [];
   TicketSolutionModel? selectedSolution =
       TicketSolutionModel(title: "All solutions");
+  bool isLiked = false;
+  int likeCount = 20;
+  double size = 20;
 
   @override
   void initState() {
@@ -238,11 +245,17 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                   // ),
                                   SizedBox(height: 5),
                                   Row(
-                                     crossAxisAlignment:
+                                    crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      LikeButton(isLiked: true, onTap: (){}),
-                                                                         
+                                      LikeButtonWidget(),                                    
+                                      SizedBox(width: 20.0),
+                                      DisLikeButtonWidget(),
+                                      // DisLikeButton(
+                                      //   size: size,
+                                      //   isLiked: isLiked,
+                                      //   likeCount: likeCount,
+                                      // ),
                                     ],
                                   ),
                                 ],
