@@ -32,6 +32,7 @@ class _EditTicketTechnicianScreenState extends State<EditTicketTechnicianScreen>
   };
   int? selectedUrgency;
 
+
   @override
   void initState() {
     super.initState();
@@ -39,7 +40,8 @@ class _EditTicketTechnicianScreenState extends State<EditTicketTechnicianScreen>
     description.text = widget.tiket.impactDetail ?? "";
     selectedUrgency = widget.tiket.urgency;
   }
-
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

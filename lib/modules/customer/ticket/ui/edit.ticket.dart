@@ -3,6 +3,7 @@ import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
 import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
 import 'package:dich_vu_it/models/response/category.response.model.dart';
+import 'package:dich_vu_it/models/response/service.response.model.dart';
 import 'package:dich_vu_it/modules/customer/ticket/bloc/ticket.bloc.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
@@ -21,11 +22,12 @@ class EditTickket extends StatefulWidget {
 }
 
 class _EditTickketState extends State<EditTickket> {
-  RequestCreateTicketModel requestCreateTicketModel = RequestCreateTicketModel();
+  RequestCreateTicketModel requestCreateTicketModel =
+      RequestCreateTicketModel();
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController attachmentUrl = TextEditingController();
-  CategoryResponseModel? selectedItem;
+  ServiceResponseModel? serviceModel;
 
   Map<int, String> listPriority = {
     0: 'Low',
@@ -34,6 +36,7 @@ class _EditTickketState extends State<EditTickket> {
     3: 'Critical',
   };
   int selectedPriority = 0;
+  List<String> listType = ["Offline", "Online"];
 
   final _bloc = TicketBloc();
 
@@ -46,6 +49,7 @@ class _EditTickketState extends State<EditTickket> {
     selectedPriority = requestCreateTicketModel.priority ?? 0;
     //selectedItem = CategoryResponseModel(id: requestCreateTicketModel.categoryId, name: requestCreateTicketModel.categoryName);
     attachmentUrl.text = requestCreateTicketModel.attachmentUrl ?? "";
+    //serviceModel = ServiceResponseModel(id: requestCreateTicketModel.
   }
 
   @override
@@ -64,8 +68,9 @@ class _EditTickketState extends State<EditTickket> {
           ),
         ),
         title: Text(
-          "Ticket",
-          style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+          " Edit Ticket",
+          style: TextStyle(
+              color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
         ),
       ),
       body: BlocConsumer<TicketBloc, TicketState>(
@@ -97,7 +102,9 @@ class _EditTickketState extends State<EditTickket> {
         builder: (context, state) {
           return Container(
             padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(color: const Color.fromARGB(255, 229, 243, 254), borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 229, 243, 254),
+                borderRadius: BorderRadius.circular(10)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -107,7 +114,9 @@ class _EditTickketState extends State<EditTickket> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
                   child: TextFormField(
                     controller: title,
                     decoration: InputDecoration(
@@ -118,14 +127,16 @@ class _EditTickketState extends State<EditTickket> {
                 ),
                 SizedBox(height: 20),
                 const Text(
-                  "Category",
+                  "Service",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 Container(
                     width: MediaQuery.of(context).size.width,
                     height: 48,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
-                    child: DropdownSearch<CategoryResponseModel>(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: DropdownSearch<ServiceResponseModel>(
                       popupProps: PopupPropsMultiSelection.menu(
                         showSearchBox: true,
                       ),
@@ -135,12 +146,14 @@ class _EditTickketState extends State<EditTickket> {
                             width: 300,
                             height: 40,
                           ),
-                          contentPadding: const EdgeInsets.only(left: 14, bottom: 14),
+                          contentPadding:
+                              const EdgeInsets.only(left: 14, bottom: 14),
                           focusedBorder: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(0),
                             ),
-                            borderSide: BorderSide(color: Colors.white, width: 0),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 0),
                           ),
                           hintText: "",
                           hintMaxLines: 1,
@@ -148,19 +161,52 @@ class _EditTickketState extends State<EditTickket> {
                             borderRadius: BorderRadius.all(
                               Radius.circular(10),
                             ),
-                            borderSide: BorderSide(color: Colors.white, width: 0),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 0),
                           ),
                         ),
                       ),
-                      asyncItems: (String? filter) => TicketProvider.getAllCategory(),
-                      itemAsString: (CategoryResponseModel u) => u.name!,
-                      selectedItem: selectedItem,
+                      asyncItems: (String? filter) =>
+                          TicketProvider.getAllService(),
+                      itemAsString: (ServiceResponseModel u) => u.description!,
+                      selectedItem: serviceModel,
                       onChanged: (value) {
                         setState(() {
-                          selectedItem = value!;
+                          serviceModel = value!;
                         });
                       },
                     )),
+                    SizedBox(height: 20),
+                    const Text(
+                      "Type",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2(
+                          items: 
+                          listType.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                  value), // Hiển thị giá trị là văn bản của mục
+                            );
+                          }).toList(),
+                          value: requestCreateTicketModel.type,
+                          onChanged: (value) {
+                            setState(() {
+                              requestCreateTicketModel.type = value as String;
+                            });
+                          },
+                          
+                        ),
+                      ),
+                    ),
                 SizedBox(height: 20),
                 const Text(
                   "Priority",
@@ -168,10 +214,15 @@ class _EditTickketState extends State<EditTickket> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton2(
-                      items: listPriority.entries.map((item) => DropdownMenuItem<int>(value: item.key, child: Text(item.value))).toList(),
+                      items: listPriority.entries
+                          .map((item) => DropdownMenuItem<int>(
+                              value: item.key, child: Text(item.value)))
+                          .toList(),
                       value: selectedPriority,
                       onChanged: (value) {
                         setState(() {
@@ -188,7 +239,9 @@ class _EditTickketState extends State<EditTickket> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
                   child: TextFormField(
                     controller: description,
                     decoration: InputDecoration(
@@ -216,7 +269,9 @@ class _EditTickketState extends State<EditTickket> {
                         children: [
                           Expanded(
                             child: Text(
-                              (requestCreateTicketModel.attachmentUrl != null) ? "File uploaded" : "Upload file",
+                              (requestCreateTicketModel.attachmentUrl != null)
+                                  ? "File uploaded"
+                                  : "Upload file",
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -225,7 +280,8 @@ class _EditTickketState extends State<EditTickket> {
                               onTap: () async {
                                 var fileName = await handleUploadFile();
                                 setState(() {
-                                  requestCreateTicketModel.attachmentUrl = fileName;
+                                  requestCreateTicketModel.attachmentUrl =
+                                      fileName;
                                 });
                               },
                               child: Icon(
@@ -245,7 +301,9 @@ class _EditTickketState extends State<EditTickket> {
                     Container(
                       width: 100,
                       height: 40,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.orange),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.orange),
                       child: InkWell(
                         onTap: () {
                           Navigator.pop(context);
@@ -262,14 +320,18 @@ class _EditTickketState extends State<EditTickket> {
                     Container(
                       width: 100,
                       height: 40,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.blue),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.blue),
                       child: InkWell(
                         onTap: () {
                           requestCreateTicketModel.title = title.text;
-                          requestCreateTicketModel.description = description.text;
+                          requestCreateTicketModel.description =
+                              description.text;
                           //requestCreateTicketModel.categoryId = selectedItem?.id;
                           requestCreateTicketModel.priority = selectedPriority;
-                          _bloc.add(UpdtaeTicketEvent(request: requestCreateTicketModel));
+                          _bloc.add(UpdtaeTicketEvent(
+                              request: requestCreateTicketModel));
                         },
                         child: Center(
                           child: Text(

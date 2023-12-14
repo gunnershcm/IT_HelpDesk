@@ -2,11 +2,12 @@
 
 import 'package:animation_list/animation_list.dart';
 import 'package:dich_vu_it/app/constant/enum.dart';
+import 'package:dich_vu_it/app/widgets/like_button.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
 import 'package:dich_vu_it/modules/customer/ticket.solution/bloc/solution.bloc.dart';
 import 'package:dich_vu_it/modules/customer/ticket.solution/ui/view.ticket.solution.dart';
-import 'package:dich_vu_it/provider/ticket.provider.dart';
+import 'package:dich_vu_it/provider/solution.provider.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -97,7 +98,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                     BorderSide(color: Colors.white, width: 0),
                               ),
                               hintText: "",
-                              hintMaxLines: 1,  
+                              hintMaxLines: 1,
                               enabledBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(10),
@@ -108,7 +109,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                             ),
                           ),
                           asyncItems: (String? filter) =>
-                              TicketProvider.getAllListSolutionFillter(),
+                              SolutionProvider.getAllListSolutionFillter(),
                           itemAsString: (TicketSolutionModel u) =>
                               "${u.title!} ${u.createdAt != null ? "(${(u.createdAt != null) ? DateFormat('HH:mm dd/MM/yyyy').format(DateTime.parse(u.createdAt!).toLocal()) : ""})" : ""}",
                           selectedItem: selectedSolution,
@@ -151,7 +152,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                   context,
                                   MaterialPageRoute<void>(
                                     builder: (BuildContext context) =>
-                                    ViewSolutionDetail(
+                                        ViewSolutionDetail(
                                       solution: element,
                                       callBack: (value) {
                                         if (value != null) {
@@ -164,7 +165,6 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                   ),
                                 );
                               },
-                              
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -231,10 +231,19 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                       ],
                                     ),
                                   ),
+                                  //SizedBox(height: 5),
+                                  // Text(
+                                  //   "Scheduled: ${DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(element.reviewDate ?? ""))} >> ${DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(element.expiredDate ?? ""))}",
+                                  //   style: TextStyle(),
+                                  // ),
                                   SizedBox(height: 5),
-                                  Text(
-                                    "Scheduled: ${DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(element.reviewDate ?? ""))} >> ${DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(element.expiredDate ?? ""))}",
-                                    style: TextStyle(),
+                                  Row(
+                                     crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      LikeButton(isLiked: true, onTap: (){}),
+                                                                         
+                                    ],
                                   ),
                                 ],
                               ),

@@ -6,10 +6,7 @@ import 'package:dich_vu_it/app/widgets/textfiel.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
 import 'package:dich_vu_it/models/request/request.create.solution.model.dart';
 import 'package:dich_vu_it/models/response/category.response.model.dart';
-import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
-
 import 'package:dich_vu_it/models/response/user.profile.response.model.dart';
-
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/bloc/solution.bloc.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';

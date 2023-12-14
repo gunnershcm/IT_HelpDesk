@@ -36,7 +36,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
             backgroundColor: Color.fromARGB(255, 254, 255, 255),
             appBar: AppBar(
@@ -125,6 +125,20 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                             content: (solution.createdAt != null)
                                 ? DateFormat('HH:mm   dd-MM-yyyy')
                                     .format(DateTime.parse(solution.createdAt!))
+                                : "",
+                          ),
+                          FieldTextWidget(
+                            title: 'Review Date',
+                            content: (solution.createdAt != null)
+                                ? DateFormat('HH:mm   dd-MM-yyyy')
+                                    .format(DateTime.parse(solution.reviewDate!))
+                                : "",
+                          ),
+                          FieldTextWidget(
+                            title: 'Expired Date',
+                            content: (solution.createdAt != null)
+                                ? DateFormat('HH:mm   dd-MM-yyyy')
+                                    .format(DateTime.parse(solution.expiredDate!))
                                 : "",
                           ),
                           FieldTextWidget(

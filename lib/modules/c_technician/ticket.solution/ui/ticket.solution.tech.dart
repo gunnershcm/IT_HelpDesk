@@ -7,6 +7,7 @@ import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/bloc/solution.bloc.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/create.ticket.solution.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/view.ticket.solution.dart';
+import 'package:dich_vu_it/provider/solution.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -124,7 +125,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                               ),
                             ),
                           ),
-                          asyncItems: (String? filter) => TicketProvider.getAllListSolutionFillter(),
+                          asyncItems: (String? filter) => SolutionProvider.getAllListSolutionFillter(),
                           itemAsString: (TicketSolutionModel u) => "${u.title!} ${u.createdAt != null ? "(${(u.createdAt != null) ? DateFormat('HH:mm dd/MM/yyyy').format(DateTime.parse(u.createdAt!).toLocal()) : ""})" : ""}",
                           selectedItem: selectedSolution,
                           onChanged: (value) {

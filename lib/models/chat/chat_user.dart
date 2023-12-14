@@ -46,3 +46,4 @@ class ChatUser {
     return data;
   }
 }
+

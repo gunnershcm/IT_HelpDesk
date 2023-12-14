@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dich_vu_it/app/constant/value.dart';
+import 'package:dich_vu_it/models/request/request.create.solution.model.dart';
 import 'package:dich_vu_it/models/response/feedback.model.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
 import 'package:dich_vu_it/provider/session.provider.dart';
@@ -90,5 +91,107 @@ class SolutionProvider {
       print("Loi: $e");
     }
     return false;
+  }
+
+  static Future<List<TicketSolutionModel>> getAllListSolution() async {
+    List<TicketSolutionModel> listData = [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    try {
+      var url = "$baseUrl/v1/itsds/solution/all";
+
+      Map<String, String> header = await getHeader();
+      header.addAll({'Authorization': 'Bearer $token'});
+      var response = await http.get(Uri.parse(url.toString()), headers: header);
+      String decodedData = utf8.decode(response.bodyBytes);
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode == 200) {
+        var bodyConvert = jsonDecode(decodedData);
+        if (bodyConvert['isError'] == false) {
+          for (var element in bodyConvert['result']) {
+            TicketSolutionModel item = TicketSolutionModel.fromMap(element);
+            listData.add(item);
+            print(listData);
+          }
+        }
+      }
+    } catch (e) {
+      print("Loi: $e");
+    }
+    // listData = listDataFake;
+    //listData.insert(0, TicketSolutionModel(title: "All tickets"));
+    return listData;
+  }
+
+  static Future<bool> createSolution(
+      RequestCreateSolutionModel requestCreateSolutionModel) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    Map<String, String> header = await getHeader();
+    header.addAll({'Authorization': 'Bearer $token'});
+    var url = "$baseUrl/v1/itsds/solution/new";
+    var response = await http.post(Uri.parse(url.toString()),
+        headers: header, body: requestCreateSolutionModel.toJson());
+    if (response.statusCode == 200) {
+      var bodyConvert = jsonDecode(response.body);
+      if (bodyConvert['isError'] == false) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
+   static Future<List<TicketSolutionModel>> getAllListSolutionFillter() async {
+    List<TicketSolutionModel> listData = [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    try {
+      var url = "$baseUrl/v1/itsds/solution/all";
+      Map<String, String> header = await getHeader();
+      header.addAll({'Authorization': 'Bearer $token'});
+      var response = await http.get(Uri.parse(url.toString()), headers: header);
+      String decodedData = utf8.decode(response.bodyBytes);
+      if (response.statusCode == 200) {
+        var bodyConvert = jsonDecode(decodedData);
+        if (bodyConvert['isError'] == false) {
+          for (var element in bodyConvert['result']) {
+            TicketSolutionModel item = TicketSolutionModel.fromMap(element);
+            listData.add(item);
+            print(listData);
+          }
+        }
+      }
+    } catch (e) {}
+    // listData = listDataHistoryFake;
+    listData.insert(0, TicketSolutionModel(title: "All solutions"));
+    return listData;
+  }
+
+  static Future<List<FeedbackModel>> getFeedbackBySolutionId(
+      int? idSolution) async {
+    List<FeedbackModel> listData = [];
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString(myToken);
+      var url = "$baseUrl/v1/itsds/solution/feedback?solutionId=$idSolution";
+      Map<String, String> header = await getHeader();
+      header.addAll({'Authorization': 'Bearer $token'});
+      var response = await http.get(Uri.parse(url.toString()), headers: header);
+      String decodedData = utf8.decode(response.bodyBytes);
+      if (response.statusCode == 200) {
+        var bodyConvert = jsonDecode(decodedData);
+        if (bodyConvert['isError'] == false) {
+          for (var element in bodyConvert['result']) {
+            FeedbackModel item = FeedbackModel.fromMap(element);
+            listData.add(item);
+          }
+        }
+      }
+    } catch (e) {}
+    return listData;
   }
 }

@@ -9,6 +9,7 @@ abstract class TicketEvent extends Equatable {
 
 class GetAllListTicket extends TicketEvent {}
 
+
 class CreateTicketEvent extends TicketEvent {
   final RequestCreateTicketModel request;
 

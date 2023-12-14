@@ -3,7 +3,7 @@ import 'dart:convert';
 
 class LocationProvider {
 
-  static Future<void> getchCities() async {
+  static Future<List<Map<String, dynamic>>> fetchCities() async {
     List<Map<String, dynamic>> cities = [];
     final response =
         await http.get(Uri.parse('https://provinces.open-api.vn/api/?depth=1'));
@@ -11,9 +11,21 @@ class LocationProvider {
       cities = List<Map<String, dynamic>>.from(
           json.decode(utf8.decode(response.bodyBytes)));
     }
+    return cities;
   }
 
-  static Future<void> fetchDistricts(
+  // static Future<List<Map<int, dynamic>>> fetchCities1() async {
+  //   List<Map<int, dynamic>> cities = [];
+  //   final response =
+  //       await http.get(Uri.parse('https://provinces.open-api.vn/api/?depth=1'));
+  //   if (response.statusCode == 200) {
+  //     cities = List<Map<int, dynamic>>.from(
+  //         json.decode(utf8.decode(response.bodyBytes)));
+  //   }
+  //   return cities;
+  // }
+
+  static Future<List<Map<String, dynamic>>> fetchDistricts(
       dynamic cityCode) async {
     List<Map<String, dynamic>> districts = [];
     final response = await http.get(
@@ -22,10 +34,23 @@ class LocationProvider {
       districts = List<Map<String, dynamic>>.from(
           json.decode(utf8.decode(response.bodyBytes))['districts']);
     }
+    return districts;
   }
 
-  static Future<void> fetchWards(
-      dynamic districtCode) async {
+  // static Future<List<Map<int, dynamic>>> fetchDistricts1(
+  //     dynamic cityCode) async {
+  //   List<Map<int, dynamic>> districts = [];
+  //   final response = await http.get(
+  //       Uri.parse('https://provinces.open-api.vn/api/p/$cityCode?depth=2'));
+  //   if (response.statusCode == 200) {
+  //     districts = List<Map<int, dynamic>>.from(
+  //         json.decode(utf8.decode(response.bodyBytes))['districts']);
+  //   }
+  //   return districts;
+  // }
+
+  
+  static Future<List<Map<String, dynamic>>> fetchWards(dynamic districtCode) async {
     List<Map<String, dynamic>> wards = [];
     final response = await http.get(
         Uri.parse('https://provinces.open-api.vn/api/d/$districtCode?depth=2'));
@@ -33,6 +58,7 @@ class LocationProvider {
       wards = List<Map<String, dynamic>>.from(
             json.decode(utf8.decode(response.bodyBytes))['wards']);
     }
+    return wards;
   }
 
 }

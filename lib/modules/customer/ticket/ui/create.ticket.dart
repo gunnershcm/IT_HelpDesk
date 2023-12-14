@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
 import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
@@ -26,6 +27,7 @@ class _CreateTickketState extends State<CreateTickket> {
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController attachmentUrl = TextEditingController();
+   TextEditingController street = TextEditingController();
   //CategoryResponseModel? selectedItem;
   ServiceResponseModel? serviceModel;
 
@@ -37,23 +39,46 @@ class _CreateTickketState extends State<CreateTickket> {
   };
 
   List<String> listType = ["Offline", "Online"];
-
-  String? type = "";
+  String? selectedType = "";
+  
   int selectedPriority = 0;
   List<Map<String, dynamic>> cities = [];
   List<Map<String, dynamic>> districts = [];
   List<Map<String, dynamic>> wards = [];
-  String? selectedCity;
-  String? selectedDistrict;
-  String? selectedWard;
+  int? selectedCity;
+  int? selectedDistrict;
+  int? selectedWard;
 
   final _bloc = TicketBloc();
 
   @override
   void initState() {
     super.initState();
-    LocationProvider.getchCities();
+    _loadCities();
   }
+
+  Future<void> _loadCities() async {
+    List<Map<String, dynamic>> fetchedCities = await LocationProvider.fetchCities();
+    setState(() {
+      cities = fetchedCities; // Cập nhật dữ liệu thành phố trong CreateTicket
+    });
+  }
+
+  Future<void> _loadDistricts(dynamic cityCode) async {
+    List<Map<String, dynamic>> fetchedDistrictes = await LocationProvider.fetchDistricts(cityCode);
+    setState(() {
+      districts = fetchedDistrictes; // Cập nhật dữ liệu thành phố trong CreateTicket
+    });
+  }
+
+  Future<void> _loadWards(dynamic districtCode) async {
+    List<Map<String, dynamic>> fetchedWards =await LocationProvider.fetchWards(districtCode);
+    setState(() {
+      wards = fetchedWards; // Cập nhật dữ liệu thành phố trong CreateTicket
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +221,8 @@ class _CreateTickketState extends State<CreateTickket> {
                           borderRadius: BorderRadius.circular(10)),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton2(
-                          items: listType.map((String value) {
+                          items: 
+                          listType.map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(
@@ -209,6 +235,7 @@ class _CreateTickketState extends State<CreateTickket> {
                               requestCreateTicketModel.type = value as String;
                             });
                           },
+                          
                         ),
                       ),
                     ),
@@ -259,7 +286,7 @@ class _CreateTickketState extends State<CreateTickket> {
                     ),
                     SizedBox(height: 20),
                     const Text(
-                      "Thành phố",
+                      "Tỉnh/Thành",
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     ),
@@ -269,20 +296,22 @@ class _CreateTickketState extends State<CreateTickket> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10)),
                       child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
+                        child: DropdownButton<int>(
                           value: selectedCity,
-                          hint: Text('Chọn thành phố'),
-                          onChanged: (String? newValue) {
+                          hint: Text('Chọn tỉnh/thành'),
+                          onChanged: (int? newValue) async {
                             setState(() {
                               selectedCity = newValue;
                               selectedDistrict = null;
                               selectedWard = null;
-                              LocationProvider.fetchDistricts(newValue!);
+                              _loadDistricts(newValue!);
+                              cities;
                             });
+                            await LocationProvider.fetchDistricts(newValue!);
                           },
                           items: cities.map((city) {
-                            return DropdownMenuItem<String>(
-                              value: city['code'].toString(),
+                            return DropdownMenuItem<int>(
+                              value: city['code'],
                               child: Text(city['name']),
                             );
                           }).toList(),
@@ -301,19 +330,21 @@ class _CreateTickketState extends State<CreateTickket> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10)),
                       child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
+                        child: DropdownButton<int>(
                           value: selectedDistrict,
                           hint: Text('Chọn quận/huyện'),
-                          onChanged: (String? newValue) {
+                          onChanged: (int? newValue) async{
                             setState(() {
                               selectedDistrict = newValue;
                               selectedWard = null;
-                              LocationProvider.fetchWards(newValue!);
+                              _loadWards(newValue!);
+                              districts;
                             });
+                            await LocationProvider.fetchWards(newValue!);
                           },
                           items: districts.map((district) {
-                            return DropdownMenuItem<String>(
-                              value: district['code'].toString(),
+                            return DropdownMenuItem<int>(
+                              value: district['code'],
                               child: Text(district['name']),
                             );
                           }).toList(),
@@ -344,17 +375,18 @@ class _CreateTickketState extends State<CreateTickket> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10)),
                       child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
+                        child: DropdownButton<int>(
                           value: selectedWard,
                           hint: Text('Chọn phường/xã'),
-                          onChanged: (String? newValue) {
+                          onChanged: (int? newValue) {
                             setState(() {
                               selectedWard = newValue;
+                              wards;
                             });
                           },
                           items: wards.map((ward) {
-                            return DropdownMenuItem<String>(
-                              value: ward['code'].toString(),
+                            return DropdownMenuItem<int>(
+                              value: ward['code'],
                               child: Text(ward['name']),
                             );
                           }).toList(),
@@ -369,6 +401,25 @@ class _CreateTickketState extends State<CreateTickket> {
                             }
                           },
                           isExpanded: true,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    const Text(
+                      "Street",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: TextFormField(
+                        controller: street,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.all(10),
                         ),
                       ),
                     ),
@@ -457,6 +508,11 @@ class _CreateTickketState extends State<CreateTickket> {
                                   serviceModel?.id;
                               requestCreateTicketModel.priority =
                                   selectedPriority;
+                              requestCreateTicketModel.street = street.text;
+                              //requestCreateTicketModel.type = selectedType;
+                              requestCreateTicketModel.city = selectedCity;
+                              requestCreateTicketModel.district = selectedDistrict;
+                              requestCreateTicketModel.ward = selectedWard;
                               _bloc.add(CreateTicketEvent(
                                   request: requestCreateTicketModel));
                             },

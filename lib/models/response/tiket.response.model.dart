@@ -15,9 +15,9 @@ class TicketResponseModel {
   String? description;
   String? type;
   String? street;
-  String? ward;
-  String? district;
-  String? city;
+  int? ward;
+  int? district;
+  int? city;
   int? modeId;
   int? serviceId;
   int? categoryId;
@@ -67,6 +67,7 @@ class TicketResponseModel {
     this.mode,
     this.assignment,
   });
+  
 
   TicketResponseModel copyWith({
     int? id,
@@ -75,9 +76,9 @@ class TicketResponseModel {
     String? description,
     String? type,
     String? street,
-    String? ward,
-    String? district,
-    String? city,
+    int? ward,
+    int? district,
+    int? city,
     int? modeId,
     int? serviceId,
     int? categoryId,
@@ -171,9 +172,9 @@ class TicketResponseModel {
       description: map['description'] != null ? map['description'] as String : null,
       type: map['type'] != null ? map['type'] as String : null,
       street: map['street'] != null ? map['street'] as String : null,
-      ward: map['ward'] != null ? map['ward'] as String : null,
-      district: map['district'] != null ? map['district'] as String : null,
-      city: map['city'] != null ? map['city'] as String : null,
+      ward: map['ward'] != null ? map['ward'] as int : null,
+      district: map['district'] != null ? map['district'] as int : null,
+      city: map['city'] != null ? map['city'] as int : null,
       modeId: map['modeId'] != null ? map['modeId'] as int : null,
       serviceId: map['serviceId'] != null ? map['serviceId'] as int : null,
       categoryId: map['categoryId'] != null ? map['categoryId'] as int : null,
@@ -182,7 +183,7 @@ class TicketResponseModel {
       impact: map['impact'] != null ? map['impact'] as int : null,
       impactDetail: map['impactDetail'] != null ? map['impactDetail'] as String : null,
       urgency: map['urgency'] != null ? map['urgency'] as int : null,
-      attachmentUrl: map['attachmentUrl'] != null ? map['attachmentUrl'] as String : null,
+      //attachmentUrl: map['attachmentUrl'] != null ? map['attachmentUrl'] as String : null,
       scheduledStartTime: map['scheduledStartTime'] != null ? map['scheduledStartTime'] as String : null,
       scheduledEndTime: map['scheduledEndTime'] != null ? map['scheduledEndTime'] as String : null,
       dueTime: map['dueTime'] != null ? map['dueTime'] as String : null,

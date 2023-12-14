@@ -1,17 +1,13 @@
 // ignore_for_file: depend_on_referenced_packages, empty_catches
 import 'dart:convert';
 import 'package:dich_vu_it/app/constant/value.dart';
-import 'package:dich_vu_it/models/request/request.create.solution.model.dart';
 import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
 import 'package:dich_vu_it/models/request/request.task.model.dart';
 import 'package:dich_vu_it/models/response/category.response.model.dart';
-import 'package:dich_vu_it/models/response/feedback.model.dart';
 import 'package:dich_vu_it/models/response/log.model.dart';
 import 'package:dich_vu_it/models/response/service.response.model.dart';
 import 'package:dich_vu_it/models/response/task.model.dart';
-import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
 import 'package:dich_vu_it/models/response/tiket.response.model.dart';
-import 'package:dich_vu_it/models/response/user.login.response.model.dart';
 import 'package:dich_vu_it/models/response/user.profile.response.model.dart';
 import 'package:dich_vu_it/provider/session.provider.dart';
 import 'package:http/http.dart' as http;
@@ -55,36 +51,7 @@ class TicketProvider {
     return listData;
   }
 
-  static Future<List<TicketSolutionModel>> getAllListSolution() async {
-    List<TicketSolutionModel> listData = [];
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString(myToken);
-    try {
-      var url = "$baseUrl/v1/itsds/solution/all";
 
-      Map<String, String> header = await getHeader();
-      header.addAll({'Authorization': 'Bearer $token'});
-      var response = await http.get(Uri.parse(url.toString()), headers: header);
-      String decodedData = utf8.decode(response.bodyBytes);
-      print(response.statusCode);
-      print(response.body);
-      if (response.statusCode == 200) {
-        var bodyConvert = jsonDecode(decodedData);
-        if (bodyConvert['isError'] == false) {
-          for (var element in bodyConvert['result']) {
-            TicketSolutionModel item = TicketSolutionModel.fromMap(element);
-            listData.add(item);
-            print(listData);
-          }
-        }
-      }
-    } catch (e) {
-      print("Loi: $e");
-    }
-    // listData = listDataFake;
-    //listData.insert(0, TicketSolutionModel(title: "All tickets"));
-    return listData;
-  }
 
   // <<<< Get all ticket at screen history >>>>
   static Future<List<TicketResponseModel>> getAllListTicketHistory() async {
@@ -192,13 +159,17 @@ class TicketProvider {
   }
 
 //creat ticket
-  static Future<bool> createTicket(RequestCreateTicketModel requestCreateTicketModel) async {
+  static Future<bool> createTicket(
+      RequestCreateTicketModel requestCreateTicketModel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     Map<String, String> header = await getHeader();
     header.addAll({'Authorization': 'Bearer $token'});
     var url = "$baseUrl/v1/itsds/ticket/customer/new";
-    var response = await http.post(Uri.parse(url.toString()), headers: header, body: requestCreateTicketModel.toJson());
+    var response = await http.post(Uri.parse(url.toString()),
+        headers: header, body: requestCreateTicketModel.toJson());
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       var bodyConvert = jsonDecode(response.body);
       if (bodyConvert['isError'] == false) {
@@ -211,33 +182,18 @@ class TicketProvider {
     }
   }
 
-  static Future<bool> createSolution(RequestCreateSolutionModel requestCreateSolutionModel) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString(myToken);
-    Map<String, String> header = await getHeader();
-    header.addAll({'Authorization': 'Bearer $token'});
-    var url = "$baseUrl/v1/itsds/solution/new";
-    var response = await http.post(Uri.parse(url.toString()), headers: header, body: requestCreateSolutionModel.toJson());
-    if (response.statusCode == 200) {
-      var bodyConvert = jsonDecode(response.body);
-      if (bodyConvert['isError'] == false) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return true;
-    }
-  }
 
   //update ticket
-  static Future<bool> updateTicket(RequestCreateTicketModel requestCreateTicketModel) async {
+  static Future<bool> updateTicket(
+      RequestCreateTicketModel requestCreateTicketModel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     Map<String, String> header = await getHeader();
     header.addAll({'Authorization': 'Bearer $token'});
-    var url = "$baseUrl/v1/itsds/ticket/customer/${requestCreateTicketModel.id}";
-    var response = await http.put(Uri.parse(url.toString()), headers: header, body: requestCreateTicketModel.toJson());
+    var url =
+        "$baseUrl/v1/itsds/ticket/customer/${requestCreateTicketModel.id}";
+    var response = await http.put(Uri.parse(url.toString()),
+        headers: header, body: requestCreateTicketModel.toJson());
     if (response.statusCode == 200) {
       var bodyConvert = jsonDecode(response.body);
       if (bodyConvert['isError'] == false) {
@@ -302,7 +258,8 @@ class TicketProvider {
     String? token = prefs.getString(myToken);
     Map<String, String> header = await getHeader();
     header.addAll({'Authorization': 'Bearer $token'});
-    var url = "$baseUrl/v1/itsds/ticket/modify-status?ticketId=$idTicket&newStatus=3";
+    var url =
+        "$baseUrl/v1/itsds/ticket/modify-status?ticketId=$idTicket&newStatus=3";
     var response = await http.patch(
       Uri.parse(url.toString()),
       headers: header,
@@ -320,14 +277,22 @@ class TicketProvider {
   }
 
   //danh gia  ticket
-  static Future<bool> patchTechnicianTicket({required int idTicket, required int impact, required String impactDetail, required int urgency}) async {
+  static Future<bool> patchTechnicianTicket(
+      {required int idTicket,
+      required int impact,
+      required String impactDetail,
+      required int urgency}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     Map<String, String> header = await getHeader();
     header.addAll({'Authorization': 'Bearer $token'});
     var url = "$baseUrl/v1/itsds/ticket/technician/$idTicket";
     //
-    var body = {"impact": impact, "impactDetail": impactDetail, "urgency": urgency};
+    var body = {
+      "impact": impact,
+      "impactDetail": impactDetail,
+      "urgency": urgency
+    };
     var response = await http.patch(
       Uri.parse(url.toString()),
       headers: header,
@@ -374,7 +339,8 @@ class TicketProvider {
   }
 
   // <<<< Get all ticket assign filtter >>>>
-  static Future<List<TicketResponseModel>> getAllListTicketAssignFillter() async {
+  static Future<List<TicketResponseModel>>
+      getAllListTicketAssignFillter() async {
     List<TicketResponseModel> listData = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
@@ -399,34 +365,10 @@ class TicketProvider {
     return listData;
   }
 
-  static Future<List<TicketSolutionModel>> getAllListSolutionFillter() async {
-    List<TicketSolutionModel> listData = [];
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString(myToken);
-    try {
-      var url = "$baseUrl/v1/itsds/solution/all";
-      Map<String, String> header = await getHeader();
-      header.addAll({'Authorization': 'Bearer $token'});
-      var response = await http.get(Uri.parse(url.toString()), headers: header);
-      String decodedData = utf8.decode(response.bodyBytes);
-      if (response.statusCode == 200) {
-        var bodyConvert = jsonDecode(decodedData);
-        if (bodyConvert['isError'] == false) {
-          for (var element in bodyConvert['result']) {
-            TicketSolutionModel item = TicketSolutionModel.fromMap(element);
-            listData.add(item);
-            print(listData);
-          }
-        }
-      }
-    } catch (e) {}
-    // listData = listDataHistoryFake;
-    listData.insert(0, TicketSolutionModel(title: "All solutions"));
-    return listData;
-  }
 
   // <<<< Get all ticket assign done filtter >>>>
-  static Future<List<TicketResponseModel>> getAllListTicketAssignDoneFillter() async {
+  static Future<List<TicketResponseModel>>
+      getAllListTicketAssignDoneFillter() async {
     List<TicketResponseModel> listData = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
@@ -452,14 +394,16 @@ class TicketProvider {
   }
 
 //create a new ticket task
-  static Future<bool> createTicketTask(RequestTaskModel requestTaskModel) async {
+  static Future<bool> createTicketTask(
+      RequestTaskModel requestTaskModel) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString(myToken);
       var url = "$baseUrl/v1/itsds/ticket/task/new";
       Map<String, String> header = await getHeader();
       header.addAll({'Authorization': 'Bearer $token'});
-      var response = await http.post(Uri.parse(url.toString()), headers: header, body: requestTaskModel.toJson());
+      var response = await http.post(Uri.parse(url.toString()),
+          headers: header, body: requestTaskModel.toJson());
       String decodedData = utf8.decode(response.bodyBytes);
       // print(response.statusCode);
       // print(response.body);
@@ -485,7 +429,8 @@ class TicketProvider {
       var url = "$baseUrl/v1/itsds/ticket/task/${taskModel.id}";
       Map<String, String> header = await getHeader();
       header.addAll({'Authorization': 'Bearer $token'});
-      var response = await http.put(Uri.parse(url.toString()), headers: header, body: taskModel.toJson());
+      var response = await http.put(Uri.parse(url.toString()),
+          headers: header, body: taskModel.toJson());
       String decodedData = utf8.decode(response.bodyBytes);
       print(response.body);
       if (response.statusCode == 200) {
@@ -505,7 +450,8 @@ class TicketProvider {
   }
 
   //Get list task for ticket(1-4)
-  static Future<List<TaskModel>> getLitsTaskForTicketAcctive({int? idTicket}) async {
+  static Future<List<TaskModel>> getLitsTaskForTicketAcctive(
+      {int? idTicket}) async {
     List<TaskModel> listData = [];
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -534,7 +480,8 @@ class TicketProvider {
   }
 
   //Get list task for ticket(1-4)
-  static Future<List<TaskModel>> getLitsTaskForTicketInacctive({int? idTicket}) async {
+  static Future<List<TaskModel>> getLitsTaskForTicketInacctive(
+      {int? idTicket}) async {
     List<TaskModel> listData = [];
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -562,28 +509,6 @@ class TicketProvider {
     return listData;
   }
 
-  static Future<List<FeedbackModel>> getFeedbackBySolutionId(int? idSolution) async {
-    List<FeedbackModel> listData = [];
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString(myToken);
-      var url = "$baseUrl/v1/itsds/solution/feedback?solutionId=$idSolution";
-      Map<String, String> header = await getHeader();
-      header.addAll({'Authorization': 'Bearer $token'});
-      var response = await http.get(Uri.parse(url.toString()), headers: header);
-      String decodedData = utf8.decode(response.bodyBytes);
-      if (response.statusCode == 200) {
-        var bodyConvert = jsonDecode(decodedData);
-        if (bodyConvert['isError'] == false) {
-          for (var element in bodyConvert['result']) {
-            FeedbackModel item = FeedbackModel.fromMap(element);
-            listData.add(item);
-          }
-        }
-      }
-    } catch (e) {}
-    return listData;
-  }
 
   static Future<List<LogModel>> getLogByTicketId(int? idTicket) async {
     List<LogModel> listData = [];

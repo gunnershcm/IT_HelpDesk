@@ -10,7 +10,7 @@ import 'package:dich_vu_it/models/response/task.model.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
 import 'package:dich_vu_it/models/response/tiket.response.model.dart';
 import 'package:dich_vu_it/provider/session.provider.dart';
-import 'package:dich_vu_it/provider/ticket.provider.dart';
+import 'package:dich_vu_it/provider/solution.provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,7 +29,7 @@ class TicketSolutionBloc extends Bloc<TicketSolutionEvent, TicketSolutionState> 
     emit(TicketSolutionLoading());
     try {
       if (event is GetAllSolutionEvent) {
-        var listSolution = await TicketProvider.getAllListSolution();
+        var listSolution = await SolutionProvider.getAllListSolution();
         emit(GetListSolutionState(list: listSolution));
       }
     } catch (e) {

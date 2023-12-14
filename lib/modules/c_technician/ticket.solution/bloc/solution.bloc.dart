@@ -32,7 +32,7 @@ class TicketSolutionBloc
     emit(TicketSolutionLoading());
     try {
       if (event is GetAllSolutionEvent) {
-        var listSolution = await TicketProvider.getAllListSolution();
+        var listSolution = await SolutionProvider.getAllListSolution();
         emit(GetListSolutionState(list: listSolution));
       } else if (event is CreateSolutionEvent) {
         if (event.requestSolutionModel.title == "") {
@@ -41,7 +41,7 @@ class TicketSolutionBloc
           emit(TicketSolutionError(error: "Category not null"));
         } else {
           var checkCreateTiket =
-              await TicketProvider.createSolution(event.requestSolutionModel);
+              await SolutionProvider.createSolution(event.requestSolutionModel);
           if (checkCreateTiket == true) {
             emit(CareateSolutionSuccessState());
           } else {
