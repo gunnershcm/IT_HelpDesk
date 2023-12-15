@@ -93,6 +93,8 @@ class SolutionProvider {
     return false;
   }
 
+  
+
   static Future<List<TicketSolutionModel>> getAllListSolution() async {
     List<TicketSolutionModel> listData = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -125,6 +127,27 @@ class SolutionProvider {
   }
 
   static Future<bool> createSolution(
+      RequestCreateSolutionModel requestCreateSolutionModel) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    Map<String, String> header = await getHeader();
+    header.addAll({'Authorization': 'Bearer $token'});
+    var url = "$baseUrl/v1/itsds/solution/new";
+    var response = await http.post(Uri.parse(url.toString()),
+        headers: header, body: requestCreateSolutionModel.toJson());
+    if (response.statusCode == 200) {
+      var bodyConvert = jsonDecode(response.body);
+      if (bodyConvert['isError'] == false) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
+   static Future<bool> createSolution(
       RequestCreateSolutionModel requestCreateSolutionModel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);

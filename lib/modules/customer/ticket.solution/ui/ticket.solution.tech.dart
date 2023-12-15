@@ -5,6 +5,7 @@ import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/app/widgets/dislike_button.dart';
 import 'package:dich_vu_it/app/widgets/dislike_button_setting.dart';
 import 'package:dich_vu_it/app/widgets/like_button.dart';
+import 'package:dich_vu_it/app/widgets/like_button_setting.dart';
 //import 'package:dich_vu_it/app/widgets/like_button.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
@@ -15,7 +16,6 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
 
 // import '../bloc/history.bloc.dart';
 // import 'infor.task.screen.dart';
@@ -32,9 +32,9 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
   List<TicketSolutionModel> listSolution = [];
   TicketSolutionModel? selectedSolution =
       TicketSolutionModel(title: "All solutions");
-  bool isLiked = false;
-  int likeCount = 20;
-  double size = 20;
+  // bool isLiked = false;
+  // int likeCount = 20;
+  // double size = 20;
 
   @override
   void initState() {
@@ -139,7 +139,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                       ? listSolution.map((element) {
                           return Container(
                             width: MediaQuery.of(context).size.width,
-                            height: 130,
+                            height: 135,
                             padding: EdgeInsets.all(10),
                             margin: EdgeInsets.only(bottom: 15),
                             decoration: BoxDecoration(
@@ -248,7 +248,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      LikeButtonWidget(),                                    
+                                      LikeButtonWidget(),
                                       SizedBox(width: 20.0),
                                       DisLikeButtonWidget(),
                                       // DisLikeButton(
