@@ -8,7 +8,6 @@ import 'package:dich_vu_it/modules/c_technician/ticket.solution/bloc/solution.bl
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/create.ticket.solution.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/view.ticket.solution.dart';
 import 'package:dich_vu_it/provider/solution.provider.dart';
-import 'package:dich_vu_it/provider/ticket.provider.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

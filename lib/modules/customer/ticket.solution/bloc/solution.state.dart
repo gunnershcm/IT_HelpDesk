@@ -28,3 +28,7 @@ class GetListSolutionState extends TicketSolutionState {
   @override
   List<Object> get props => [list];
 }
+
+class CareateSolutionSuccessState extends TicketSolutionState {}
+
+class EditSolutionSuccessState extends TicketSolutionState {}

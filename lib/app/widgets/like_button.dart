@@ -2,16 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 
 class LikeButtonWidget extends StatefulWidget {
+  final bool like;
+  final int countLike;
+  const LikeButtonWidget(this.like,this.countLike, {super.key});
   @override
   _LikeButtonState createState() => _LikeButtonState();
 }
 
 class _LikeButtonState extends State<LikeButtonWidget> {
-  bool isLiked = false;
-  int likeCount = 17;
+  late bool isLiked;
+  late int likeCount;
   double size = 20;
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isLiked = widget.like;
+    likeCount = widget.countLike;
+  }
+
+  @override
+  Widget build(BuildContext context) {  
     return LikeButton(
       size: size,
       isLiked: isLiked,
@@ -33,9 +45,7 @@ class _LikeButtonState extends State<LikeButtonWidget> {
         );
       },
       onTap: (isLiked) async {
-        this.isLiked = !isLiked;
-        likeCount += this.isLiked ? 1 : -1;
-        return !isLiked;
+        
       },
     );
   }

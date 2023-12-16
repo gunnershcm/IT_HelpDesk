@@ -215,3 +215,29 @@ String getPublicStatus(bool? status) {
       return "";
   }
 }
+
+bool isLike(int? value) {
+  switch (value) {
+    case 0:
+      return true;
+    case 1:
+      return false;
+    case null:
+      return false;
+    default:
+      return false;
+  } 
+}
+
+bool isDislike(int? value) {
+  switch (value) {
+    case 0:
+      return false;
+    case 1:
+      return true;
+    case null:
+      return false;
+    default:
+      return false;
+  }
+}

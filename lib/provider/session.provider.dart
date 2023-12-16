@@ -73,7 +73,6 @@ class SessionProvider {
       header.addAll({'Authorization': 'Bearer $token'});
       var body = {"avatarUrl": urlImage};
       var response = await http.patch(Uri.parse(url.toString()), headers: header, body: jsonEncode(body));
-
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(response.body);
         if (bodyConvert['isError'] == false) {

@@ -123,8 +123,11 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                           onChanged: (value) {
                             setState(() {
                               selectedSolution = value!;
-                              bloc.add(GetAllSolutionEvent(
-                                  idSolution: selectedSolution?.id));
+                              if (selectedSolution?.id != null && selectedSolution!.id! > 0) {
+                                bloc.add(FixListEvent(ticketSolutionModel: selectedSolution!));
+                              } else {
+                                bloc.add(GetAllSolutionEvent());
+                              }
                             });
                           },
                         ),
@@ -248,9 +251,15 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      LikeButtonWidget(),
+                                      LikeButtonWidget(
+                                        isLike(element.currentReactionUser),
+                                        element.countLike!
+                                      ),
                                       SizedBox(width: 20.0),
-                                      DisLikeButtonWidget(),
+                                      DisLikeButtonWidget(
+                                        isDislike(element.currentReactionUser),
+                                        element.countDislike!
+                                      ),
                                       // DisLikeButton(
                                       //   size: size,
                                       //   isLiked: isLiked,
