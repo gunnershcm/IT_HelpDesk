@@ -253,12 +253,14 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                                     children: [
                                       LikeButtonWidget(
                                         isLike(element.currentReactionUser),
-                                        element.countLike!
+                                        element.countLike!,
+                                        element.id!,                                      
                                       ),
                                       SizedBox(width: 20.0),
                                       DisLikeButtonWidget(
                                         isDislike(element.currentReactionUser),
-                                        element.countDislike!
+                                        element.countDislike!,
+                                        element.id!
                                       ),
                                       // DisLikeButton(
                                       //   size: size,

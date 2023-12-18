@@ -1,4 +1,6 @@
-
+///
+///  create by zmtzawqlp on 2019/5/27
+///
 import 'package:flutter/material.dart';
 import 'package:like_button/src/painter/bubbles_painter.dart';
 import 'package:like_button/src/painter/circle_painter.dart';
@@ -7,7 +9,7 @@ import 'package:like_button/src/utils/like_button_typedef.dart';
 import 'package:like_button/src/utils/like_button_util.dart';
 
 class LikeButton extends StatefulWidget {
-  const LikeButton(Image image, {
+  const LikeButton({
     Key? key,
     this.size = 30.0,
     this.likeBuilder,
@@ -16,7 +18,6 @@ class LikeButton extends StatefulWidget {
     double? circleSize,
     this.likeCount,
     this.isLiked = false,
-    this.currentReactionUser,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.animationDuration = const Duration(milliseconds: 1000),
@@ -65,7 +66,7 @@ class LikeButton extends StatefulWidget {
   /// it's initial value
   /// you can get current value from onTap/countBuilder
   final bool? isLiked;
-  final int? currentReactionUser;
+
   /// like count
   /// if null, will not show
   /// it's initial value

@@ -2,7 +2,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class LocationProvider {
-
   static Future<List<Map<String, dynamic>>> fetchCities() async {
     List<Map<String, dynamic>> cities = [];
     final response =
@@ -13,6 +12,12 @@ class LocationProvider {
     }
     return cities;
   }
+
+  // static Future<String> getCityNameById(List<Map<String, dynamic>> cities, int id) {
+  //     // Tìm thành phố có id tương ứng trong danh sách
+
+  // }
+      // Trả về tên thành phố nếu tìm thấy
 
   // static Future<List<Map<int, dynamic>>> fetchCities1() async {
   //   List<Map<int, dynamic>> cities = [];
@@ -49,16 +54,15 @@ class LocationProvider {
   //   return districts;
   // }
 
-  
-  static Future<List<Map<String, dynamic>>> fetchWards(dynamic districtCode) async {
+  static Future<List<Map<String, dynamic>>> fetchWards(
+      dynamic districtCode) async {
     List<Map<String, dynamic>> wards = [];
     final response = await http.get(
         Uri.parse('https://provinces.open-api.vn/api/d/$districtCode?depth=2'));
     if (response.statusCode == 200) {
       wards = List<Map<String, dynamic>>.from(
-            json.decode(utf8.decode(response.bodyBytes))['wards']);
+          json.decode(utf8.decode(response.bodyBytes))['wards']);
     }
     return wards;
   }
-
 }

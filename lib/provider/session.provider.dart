@@ -111,7 +111,7 @@ class SessionProvider {
     }
     return false;
   }
-
+  
   static Future<bool> changePassword({required String currentPass, required String newPass, required String confirmPass}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
