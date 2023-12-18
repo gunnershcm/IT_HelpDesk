@@ -1,32 +1,36 @@
+import 'package:dich_vu_it/provider/solution.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 
 class LikeButtonWidget extends StatefulWidget {
   final bool like;
   final int countLike;
-  const LikeButtonWidget(this.like,this.countLike, {super.key});
+  final int solutionId;
+  const LikeButtonWidget(this.like,this.countLike,this.solutionId,{super.key});
   @override
   _LikeButtonState createState() => _LikeButtonState();
 }
 
 class _LikeButtonState extends State<LikeButtonWidget> {
-  late bool isLiked;
+  late bool issLiked;
   late int likeCount;
-  double size = 20;
+  late int solutionId;
+  late bool like;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    isLiked = widget.like;
+    issLiked = widget.like;
     likeCount = widget.countLike;
+    solutionId = widget.solutionId;
+    like = widget.like;
   }
 
   @override
   Widget build(BuildContext context) {  
     return LikeButton(
-      size: size,
-      isLiked: isLiked,
+      isLiked: issLiked,
       likeCount: likeCount,
       likeCountPadding: EdgeInsets.only(left: 10),
       likeBuilder: (isLiked) {
@@ -45,7 +49,15 @@ class _LikeButtonState extends State<LikeButtonWidget> {
         );
       },
       onTap: (isLiked) async {
-        
+         bool result = await SolutionProvider.likeSolution(solutionId, issLiked);
+        setState(() {
+          issLiked = !issLiked;
+          if (issLiked) {
+            likeCount++;
+          } else {
+            likeCount--;
+          }
+        });
       },
     );
   }

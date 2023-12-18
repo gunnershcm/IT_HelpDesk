@@ -51,7 +51,8 @@ class TicketSolutionModel {
     this.createdBy,
     this.category,
   });
-
+  
+  
 
   TicketSolutionModel copyWith({
     int? id,
