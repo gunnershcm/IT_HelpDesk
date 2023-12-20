@@ -57,7 +57,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
             backgroundColor: Color.fromARGB(255, 254, 255, 255),
             appBar: AppBar(

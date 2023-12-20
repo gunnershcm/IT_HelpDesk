@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:dich_vu_it/app/constant/enum.dart';
+import 'package:dich_vu_it/app/constant/value.dart';
 import 'package:dich_vu_it/app/theme/colors.dart';
 import 'package:dich_vu_it/app/theme/text.style.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
@@ -273,7 +274,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: InkWell(
                             onTap: () async {
                               SharedPreferences prefs = await SharedPreferences.getInstance();
-                              prefs.clear();
+                              //prefs.clear();
+                              prefs.remove(myToken);
                               AuthService().signOut();
                               Navigator.push<void>(
                                 context,

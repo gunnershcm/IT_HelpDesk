@@ -141,6 +141,7 @@ class SessionProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     String? tokenfirebase = prefs.getString("tokenfirebase");
+    print("tokenfirebase:  $tokenfirebase");
     try {
       var url = "$baseUrl/v1/itsds/notification";
       Map<String, String> header = await getHeader();
