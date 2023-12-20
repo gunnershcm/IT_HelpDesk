@@ -80,6 +80,8 @@ class FireMessage {
       print("token firebase $token");
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("tokenfirebase", token ?? "");
+      var  tokenfirebase = prefs.getString("tokenfirebase");
+      print("tokenfirebase:  $tokenfirebase");
       authenticationRepository.updateTokenFirebase(token);
     });
   }
