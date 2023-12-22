@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, unrelated_type_equality_checks, must_be_immutable
 
 import 'package:dich_vu_it/app/constant/enum.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/home/ui/edit.ticket.technician.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:dich_vu_it/provider/location.provider.dart';
@@ -22,66 +22,67 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
   // List<Map<String, dynamic>> cities = [];
   // List<Map<String, dynamic>> districts = [];
   // List<Map<String, dynamic>> wards = [];
-   //String? citiess;
+  //String? citiess;
   // String? districts;
   // String? wards;
 
-  Future<String?> getCityNameById(List<Map<String, dynamic>> cities,int? idCity) async {
-    Map<String, dynamic>? city = cities.firstWhere(
-      (element) => element['code'] == idCity
-    );
-  // Trả về tên thành phố nếu tìm thấy
+  Future<String?> getCityNameById(
+      List<Map<String, dynamic>> cities, int? idCity) async {
+    Map<String, dynamic>? city =
+        cities.firstWhere((element) => element['code'] == idCity);
+    // Trả về tên thành phố nếu tìm thấy
     return city['name'] as String?;
   }
 
-  Future<String?> getDistrictNameById(List<Map<String, dynamic>> districts, int? idDistrict) async {
-    Map<String, dynamic>? district = districts.firstWhere(
-      (element) => element['code'] == idDistrict
-    );
+  Future<String?> getDistrictNameById(
+      List<Map<String, dynamic>> districts, int? idDistrict) async {
+    Map<String, dynamic>? district =
+        districts.firstWhere((element) => element['code'] == idDistrict);
     // Trả về tên thành phố nếu tìm thấy
     return district['name'] as String?;
   }
 
-  Future<String?> getWardNameById(List<Map<String, dynamic>> wards, int? idWard) async {
-    Map<String, dynamic>? ward = wards.firstWhere(
-      (element) => element['code'] == idWard
-    );
+  Future<String?> getWardNameById(
+      List<Map<String, dynamic>> wards, int? idWard) async {
+    Map<String, dynamic>? ward =
+        wards.firstWhere((element) => element['code'] == idWard);
     // Trả về tên thành phố nếu tìm thấy
     return ward['name'] as String?;
   }
+
   Future<String?> _loadCityName() async {
-  // Gọi hàm fetchCities để lấy danh sách thành phố
-  List<Map<String, dynamic>> cities = await LocationProvider.fetchCities();
+    // Gọi hàm fetchCities để lấy danh sách thành phố
+    List<Map<String, dynamic>> cities = await LocationProvider.fetchCities();
 
-  // Gọi hàm getCityNameById để lấy tên thành phố dựa trên id
-  String? cityName = await getCityNameById(cities, tiket.city);
-  print('City Name: $cityName');
-  return cityName;  
+    // Gọi hàm getCityNameById để lấy tên thành phố dựa trên id
+    String? cityName = await getCityNameById(cities, tiket.city);
+    print('City Name: $cityName');
+    return cityName;
   }
-  
-  
+
   Future<String?> _loadDistrictName(dynamic cityCode) async {
-  // Gọi hàm fetchCities để lấy danh sách thành phố
-  dynamic citycode = tiket.city;
-  List<Map<String, dynamic>> districts = await LocationProvider.fetchDistricts(citycode);
+    // Gọi hàm fetchCities để lấy danh sách thành phố
+    dynamic citycode = tiket.city;
+    List<Map<String, dynamic>> districts =
+        await LocationProvider.fetchDistricts(citycode);
 
-  // Gọi hàm getCityNameById để lấy tên thành phố dựa trên id
-  String? districtName = await getDistrictNameById(districts, tiket.district);
-  print('District Name: $districtName');
-  return districtName;  
+    // Gọi hàm getCityNameById để lấy tên thành phố dựa trên id
+    String? districtName = await getDistrictNameById(districts, tiket.district);
+    print('District Name: $districtName');
+    return districtName;
   }
-  
-  Future<String?> _loadWardName(districtCode) async {
-  // Gọi hàm fetchCities để lấy danh sách thành phố
-  dynamic districtCode = tiket.district;
-  List<Map<String, dynamic>> wards = await LocationProvider.fetchWards(districtCode);
 
-  // Gọi hàm getCityNameById để lấy tên thành phố dựa trên id
-  String? wardName = await getCityNameById(wards, tiket.ward);
-  print('Ward Name: $wardName');
-  return wardName;
-  
-}
+  Future<String?> _loadWardName(districtCode) async {
+    // Gọi hàm fetchCities để lấy danh sách thành phố
+    dynamic districtCode = tiket.district;
+    List<Map<String, dynamic>> wards =
+        await LocationProvider.fetchWards(districtCode);
+
+    // Gọi hàm getCityNameById để lấy tên thành phố dựa trên id
+    String? wardName = await getCityNameById(wards, tiket.ward);
+    print('Ward Name: $wardName');
+    return wardName;
+  }
 
   @override
   void initState() {
@@ -165,14 +166,15 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                             // Lấy vị trí từ đối tượng tiket hoặc từ dữ liệu khác
                             String street = tiket.street ?? "";
                             String? city = await _loadCityName();
-                            String? district = await _loadDistrictName(city);  
-                            String? ward = await _loadWardName(district);                  
+                            String? district = await _loadDistrictName(city);
+                            String? ward = await _loadWardName(district);
                             final Uri mapsUri = Uri(
                               scheme: 'https',
                               host: 'www.google.com',
                               path: '/maps',
                               queryParameters: {
-                                'q': '$street,$ward,$district,$city' // Địa chỉ cụ thể
+                                'q':
+                                    '$street,$ward,$district,$city' // Địa chỉ cụ thể
                               },
                             );
                             // Mở Google Maps bằng cách mở URL

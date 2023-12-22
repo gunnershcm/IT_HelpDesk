@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 
 class TaskModel {
   int? id;
@@ -87,24 +87,36 @@ class TaskModel {
     return TaskModel(
       id: map['id'] != null ? map['id'] as int : null,
       ticketId: map['ticketId'] != null ? map['ticketId'] as int : null,
-      ticket: map['ticket'] != null ? TicketResponseModel.fromMap(map['ticket'] as Map<String, dynamic>) : null,
+      ticket: map['ticket'] != null
+          ? TicketResponseModel.fromMap(map['ticket'] as Map<String, dynamic>)
+          : null,
       title: map['title'] != null ? map['title'] as String : null,
-      description: map['description'] != null ? map['description'] as String : null,
+      description:
+          map['description'] != null ? map['description'] as String : null,
       note: map['note'] != null ? map['note'] as String : null,
       priority: map['priority'] != null ? map['priority'] as int : null,
-      scheduledStartTime: map['scheduledStartTime'] != null ? map['scheduledStartTime'] as String : null,
-      scheduledEndTime: map['scheduledEndTime'] != null ? map['scheduledEndTime'] as String : null,
-      actualStartTime: map['actualStartTime'] != null ? map['actualStartTime'] as String : null,
-      actualEndTime: map['actualEndTime'] != null ? map['actualEndTime'] as String : null,
+      scheduledStartTime: map['scheduledStartTime'] != null
+          ? map['scheduledStartTime'] as String
+          : null,
+      scheduledEndTime: map['scheduledEndTime'] != null
+          ? map['scheduledEndTime'] as String
+          : null,
+      actualStartTime: map['actualStartTime'] != null
+          ? map['actualStartTime'] as String
+          : null,
+      actualEndTime:
+          map['actualEndTime'] != null ? map['actualEndTime'] as String : null,
       progress: map['progress'] != null ? map['progress'] as int : null,
-      attachmentUrl: map['attachmentUrl'] != null ? map['attachmentUrl'] as String : null,
+      attachmentUrl:
+          map['attachmentUrl'] != null ? map['attachmentUrl'] as String : null,
       taskStatus: map['taskStatus'] != null ? map['taskStatus'] as int : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory TaskModel.fromJson(String source) => TaskModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory TaskModel.fromJson(String source) =>
+      TaskModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -115,11 +127,37 @@ class TaskModel {
   bool operator ==(covariant TaskModel other) {
     if (identical(this, other)) return true;
 
-    return other.id == id && other.ticketId == ticketId && other.ticket == ticket && other.title == title && other.description == description && other.note == note && other.priority == priority && other.scheduledStartTime == scheduledStartTime && other.scheduledEndTime == scheduledEndTime && other.actualStartTime == actualStartTime && other.actualEndTime == actualEndTime && other.progress == progress && other.attachmentUrl == attachmentUrl && other.taskStatus == taskStatus;
+    return other.id == id &&
+        other.ticketId == ticketId &&
+        other.ticket == ticket &&
+        other.title == title &&
+        other.description == description &&
+        other.note == note &&
+        other.priority == priority &&
+        other.scheduledStartTime == scheduledStartTime &&
+        other.scheduledEndTime == scheduledEndTime &&
+        other.actualStartTime == actualStartTime &&
+        other.actualEndTime == actualEndTime &&
+        other.progress == progress &&
+        other.attachmentUrl == attachmentUrl &&
+        other.taskStatus == taskStatus;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ ticketId.hashCode ^ ticket.hashCode ^ title.hashCode ^ description.hashCode ^ note.hashCode ^ priority.hashCode ^ scheduledStartTime.hashCode ^ scheduledEndTime.hashCode ^ actualStartTime.hashCode ^ actualEndTime.hashCode ^ progress.hashCode ^ attachmentUrl.hashCode ^ taskStatus.hashCode;
+    return id.hashCode ^
+        ticketId.hashCode ^
+        ticket.hashCode ^
+        title.hashCode ^
+        description.hashCode ^
+        note.hashCode ^
+        priority.hashCode ^
+        scheduledStartTime.hashCode ^
+        scheduledEndTime.hashCode ^
+        actualStartTime.hashCode ^
+        actualEndTime.hashCode ^
+        progress.hashCode ^
+        attachmentUrl.hashCode ^
+        taskStatus.hashCode;
   }
 }

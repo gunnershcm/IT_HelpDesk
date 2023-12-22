@@ -1,14 +1,14 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
 import 'package:dich_vu_it/models/response/log.model.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class LogTicket extends StatefulWidget {
-  final TicketResponseModel tiket;
-  const LogTicket({super.key, required this.tiket});
+  final TicketResponseModel ticket;
+  const LogTicket({super.key, required this.ticket});
 
   @override
   State<LogTicket> createState() => _LogTicketState();
@@ -17,7 +17,8 @@ class LogTicket extends StatefulWidget {
 class _LogTicketState extends State<LogTicket> {
   List<LogModel> listdata = [];
   void getData() async {
-    var listdataNew = await TicketProvider.getLogByTicketId(widget.tiket.id ?? 0);
+    var listdataNew =
+        await TicketProvider.getLogByTicketId(widget.ticket.id ?? 0);
     setState(() {
       listdata = listdataNew;
       print(listdata);
@@ -123,7 +124,9 @@ class _LogTicketState extends State<LogTicket> {
                                   children: [
                                     for (var elementMess in element.entries)
                                       Text(
-                                        (elementMess.message != null) ? "* ${elementMess.message}" : "",
+                                        (elementMess.message != null)
+                                            ? "* ${elementMess.message}"
+                                            : "",
                                         style: TextStyle(fontSize: 10),
                                       )
                                   ],
