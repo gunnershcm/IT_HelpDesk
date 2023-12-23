@@ -16,12 +16,12 @@ class LogTicket extends StatefulWidget {
 
 class _LogTicketState extends State<LogTicket> {
   List<LogModel> listdata = [];
+
   void getData() async {
     var listdataNew =
         await TicketProvider.getLogByTicketId(widget.ticket.id ?? 0);
     setState(() {
       listdata = listdataNew;
-      print(listdata);
     });
   }
 
@@ -34,43 +34,39 @@ class _LogTicketState extends State<LogTicket> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.all(10),
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround, // Để căn giữa cột
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: const [
-              // Username
               Expanded(
                 child: Text(
                   "Username",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 ),
               ),
-              // Action
-              SizedBox(width: 5),
+              SizedBox(width: 10),
               Expanded(
                 child: Text(
                   "Action",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 ),
-              ), // Nội dung của action
-              // Timestamp
-              SizedBox(width: 5),
+              ),
+              SizedBox(width: 10),
               Expanded(
                 flex: 2,
                 child: Text(
                   "Timestamp",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 ),
               ),
-              // Message
-              SizedBox(width: 5),
+              SizedBox(width: 10),
               Expanded(
                 flex: 2,
                 child: Text(
                   "Message",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 ),
               ),
             ],
@@ -81,63 +77,55 @@ class _LogTicketState extends State<LogTicket> {
               child: Column(
                 children: [
                   for (var element in listdata)
-                    Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(top: 5, bottom: 3),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  element.username ?? "",
-                                  style: TextStyle(fontSize: 10),
-                                ),
-                              ),
-                              // Action
-                              SizedBox(width: 5),
-                              Expanded(
-                                child: Text(
-                                  element.action ?? "",
-                                  style: TextStyle(fontSize: 10),
-                                ),
-                              ), // Nội dung của action
-                              // Timestamp
-                              SizedBox(width: 5),
-                              Expanded(
-                                flex: 2,
-                                child: Text(
-                                  DateFormat('HH:mm dd-MM-yyyy').format(
-                                    DateTime.parse(
-                                      element.timestamp ?? "",
-                                    ),
-                                  ),
-                                  style: TextStyle(fontSize: 10),
-                                ),
-                              ),
-                              // Message
-                              SizedBox(width: 5),
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    for (var elementMess in element.entries)
-                                      Text(
-                                        (elementMess.message != null)
-                                            ? "* ${elementMess.message}"
-                                            : "",
-                                        style: TextStyle(fontSize: 10),
-                                      )
-                                  ],
-                                ),
-                              ),
-                            ],
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              element.username ?? "",
+                              style: TextStyle(fontSize: 12),
+                            ),
                           ),
-                        ),
-                        Divider(),
-                      ],
-                    )
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              element.action ?? "",
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              DateFormat('HH:mm dd-MM-yyyy').format(
+                                DateTime.parse(
+                                  element.timestamp ?? "",
+                                ),
+                              ),
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                for (var elementMess in element.entries)
+                                  Text(
+                                    (elementMess.message != null)
+                                        ? "* ${elementMess.message}"
+                                        : "",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                 ],
               ),
             ),

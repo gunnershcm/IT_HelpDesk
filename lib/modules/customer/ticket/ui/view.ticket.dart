@@ -113,7 +113,7 @@ class ViewTicketScreen extends StatelessWidget {
                                 )
                               : SizedBox.shrink(),
                           FieldTextWidget(
-                            title: 'Technician Namee',
+                            title: 'Technician Name',
                             content:
                                 ticket.assignment?.technicianFullName ?? "",
                           ),
