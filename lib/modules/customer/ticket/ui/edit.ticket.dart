@@ -12,16 +12,16 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class EditTickket extends StatefulWidget {
+class EditTicket extends StatefulWidget {
   final RequestCreateTicketModel request;
   final Function callBack;
-  const EditTickket({super.key, required this.callBack, required this.request});
+  const EditTicket({super.key, required this.callBack, required this.request});
 
   @override
-  State<EditTickket> createState() => _EditTickketState();
+  State<EditTicket> createState() => _EditTicketState();
 }
 
-class _EditTickketState extends State<EditTickket> {
+class _EditTicketState extends State<EditTicket> {
   RequestCreateTicketModel requestCreateTicketModel =
       RequestCreateTicketModel();
   TextEditingController title = TextEditingController();
@@ -176,37 +176,34 @@ class _EditTickketState extends State<EditTickket> {
                         });
                       },
                     )),
-                    SizedBox(height: 20),
-                    const Text(
-                      "Type",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                SizedBox(height: 20),
+                const Text(
+                  "Type",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton2(
+                      items: listType.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                              value), // Hiển thị giá trị là văn bản của mục
+                        );
+                      }).toList(),
+                      value: requestCreateTicketModel.type,
+                      onChanged: (value) {
+                        setState(() {
+                          requestCreateTicketModel.type = value as String;
+                        });
+                      },
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2(
-                          items: 
-                          listType.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                  value), // Hiển thị giá trị là văn bản của mục
-                            );
-                          }).toList(),
-                          value: requestCreateTicketModel.type,
-                          onChanged: (value) {
-                            setState(() {
-                              requestCreateTicketModel.type = value as String;
-                            });
-                          },
-                          
-                        ),
-                      ),
-                    ),
+                  ),
+                ),
                 SizedBox(height: 20),
                 const Text(
                   "Priority",

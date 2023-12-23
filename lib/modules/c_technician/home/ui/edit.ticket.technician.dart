@@ -2,7 +2,7 @@
 
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -10,14 +10,17 @@ import 'package:flutter/material.dart';
 class EditTicketTechnicianScreen extends StatefulWidget {
   Function callBack;
   final TicketResponseModel tiket;
-   EditTicketTechnicianScreen({super.key, required this.tiket, required this.callBack});
+  EditTicketTechnicianScreen(
+      {super.key, required this.tiket, required this.callBack});
 
   @override
-  State<EditTicketTechnicianScreen> createState() => _EditTicketTechnicianScreenState();
+  State<EditTicketTechnicianScreen> createState() =>
+      _EditTicketTechnicianScreenState();
 }
 
-class _EditTicketTechnicianScreenState extends State<EditTicketTechnicianScreen> {
-  TextEditingController description = TextEditingController();  
+class _EditTicketTechnicianScreenState
+    extends State<EditTicketTechnicianScreen> {
+  TextEditingController description = TextEditingController();
   Map<int, String> listImpact = {
     0: 'Low',
     1: 'Medium',
@@ -32,7 +35,6 @@ class _EditTicketTechnicianScreenState extends State<EditTicketTechnicianScreen>
   };
   int? selectedUrgency;
 
-
   @override
   void initState() {
     super.initState();
@@ -40,7 +42,7 @@ class _EditTicketTechnicianScreenState extends State<EditTicketTechnicianScreen>
     description.text = widget.tiket.impactDetail ?? "";
     selectedUrgency = widget.tiket.urgency;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,12 +59,15 @@ class _EditTicketTechnicianScreenState extends State<EditTicketTechnicianScreen>
         ),
         title: const Text(
           "Evaluate ticket",
-          style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
         ),
       ),
       body: Container(
         padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(color: const Color.fromARGB(255, 229, 243, 254), borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 229, 243, 254),
+            borderRadius: BorderRadius.circular(10)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -72,10 +77,14 @@ class _EditTicketTechnicianScreenState extends State<EditTicketTechnicianScreen>
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton2(
-                  items: listImpact.entries.map((item) => DropdownMenuItem<int>(value: item.key, child: Text(item.value))).toList(),
+                  items: listImpact.entries
+                      .map((item) => DropdownMenuItem<int>(
+                          value: item.key, child: Text(item.value)))
+                      .toList(),
                   value: selectedImpact,
                   onChanged: (value) {
                     setState(() {
@@ -92,7 +101,8 @@ class _EditTicketTechnicianScreenState extends State<EditTicketTechnicianScreen>
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: TextFormField(
                 controller: description,
                 decoration: InputDecoration(
@@ -108,10 +118,14 @@ class _EditTicketTechnicianScreenState extends State<EditTicketTechnicianScreen>
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton2(
-                  items: listUrgency.entries.map((item) => DropdownMenuItem<int>(value: item.key, child: Text(item.value))).toList(),
+                  items: listUrgency.entries
+                      .map((item) => DropdownMenuItem<int>(
+                          value: item.key, child: Text(item.value)))
+                      .toList(),
                   value: selectedUrgency,
                   onChanged: (value) {
                     setState(() {
@@ -128,7 +142,9 @@ class _EditTicketTechnicianScreenState extends State<EditTicketTechnicianScreen>
                 Container(
                   width: 100,
                   height: 40,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.blue),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.blue),
                   child: InkWell(
                     onTap: () async {
                       onLoading(context);

@@ -1,25 +1,19 @@
-// ignore_for_file: prefer_const_constructors, unused_local_variable
-
 import 'package:dich_vu_it/app/constant/enum.dart';
-import 'package:dich_vu_it/app/constant/noti.comfirm.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
+import 'package:dich_vu_it/app/widgets/scroll.item.dart';
 import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/customer/notification/notification.page.dart';
 import 'package:dich_vu_it/modules/customer/ticket/bloc/ticket.bloc.dart';
+import 'package:dich_vu_it/modules/customer/ticket/compoment/ticket.item.dart';
 import 'package:dich_vu_it/modules/customer/ticket/ui/edit.ticket.dart';
 import 'package:dich_vu_it/modules/customer/ticket/ui/view.ticket.dart';
 import 'package:dich_vu_it/provider/noti.provider.dart';
-import 'package:dich_vu_it/provider/ticket.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dropdown_search/dropdown_search.dart';
-import 'package:intl/intl.dart';
-import 'package:animation_list/animation_list.dart';
-import 'create.ticket.dart';
 
 class TicketCustomerScreen extends StatefulWidget {
-  const TicketCustomerScreen({super.key});
+  const TicketCustomerScreen({Key? key}) : super(key: key);
 
   @override
   State<TicketCustomerScreen> createState() => _TicketCustomerScreenState();
@@ -28,8 +22,11 @@ class TicketCustomerScreen extends StatefulWidget {
 class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
   final _bloc = TicketBloc();
   List<TicketResponseModel> listTicket = [];
-  TicketResponseModel? selectedTicket;
+  List<TicketResponseModel> filteredList = [];
+  int? selectedStatus;
   int countNoti = 0;
+  late String query = '';
+
   void getNoti() async {
     var noti = await NotiProvider.getCountNoti();
     setState(() {
@@ -44,20 +41,45 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
     _bloc.add(GetAllListTicket());
   }
 
+  void onStatusSelected(int? status) {
+    setState(() {
+      selectedStatus = status;
+      filterList();
+    });
+  }
+
+  // Add this function to filter the list based on the search query
+  void filterList() {
+    setState(() {
+      filteredList = listTicket
+          .where((ticket) =>
+              (ticket.title!.toLowerCase().contains(query.toLowerCase()) ||
+                  ticket.category!.name!
+                      .toLowerCase()
+                      .contains(query.toLowerCase())) &&
+              (ticket.ticketStatus == selectedStatus || selectedStatus == null))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 229, 243, 254),
+      backgroundColor: const Color.fromARGB(255, 229, 243, 254),
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        leading: Icon(
+        leading: const Icon(
           Icons.person,
           size: 30,
           color: Colors.white,
         ),
-        title: Text(
+        title: const Text(
           "IT_HelpDesk",
-          style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 25,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         actions: [
           InkWell(
@@ -73,7 +95,7 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
             child: Stack(
               alignment: AlignmentDirectional.topEnd,
               children: [
-                Icon(
+                const Icon(
                   Icons.notifications,
                   size: 30,
                   color: Colors.white,
@@ -82,12 +104,15 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
                   Container(
                     width: 15,
                     height: 15,
-                    decoration: BoxDecoration(color: const Color.fromARGB(255, 248, 88, 77), borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 248, 88, 77),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
               ],
             ),
           ),
-          SizedBox(width: 10)
+          const SizedBox(width: 10),
         ],
       ),
       body: BlocConsumer<TicketBloc, TicketState>(
@@ -99,292 +124,146 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
           } else if (state is TicketSuccessState) {
             Navigator.pop(context);
             listTicket = state.list;
+            filterList();
           } else if (state is TicketError) {
             Navigator.pop(context);
           }
         },
         builder: (context, state) {
-          return Container(
-            padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
-                        height: 40,
-                        child: DropdownSearch<TicketResponseModel>(
-                          popupProps: PopupPropsMultiSelection.menu(
-                            showSearchBox: true,
-                          ),
-                          dropdownButtonProps: DropdownButtonProps(
-                            icon: Icon(Icons.search),
-                          ),
-                          dropdownDecoratorProps: DropDownDecoratorProps(
-                            dropdownSearchDecoration: InputDecoration(
-                              constraints: const BoxConstraints.tightFor(
-                                width: 300,
-                                height: 40,
-                              ),
-                              contentPadding: const EdgeInsets.only(left: 14, bottom: 14),
-                              focusedBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(0),
-                                ),
-                                borderSide: BorderSide(color: Colors.white, width: 0),
-                              ),
-                              hintText: "",
-                              hintMaxLines: 1,
-                              enabledBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                                borderSide: BorderSide(color: Colors.white, width: 0),
-                              ),
-                            ),
-                          ),
-                          asyncItems: (String? filter) => TicketProvider.getAllListTicket(),
-                          itemAsString: (TicketResponseModel u) => "${u.title!} (${(u.createdAt != null) ? DateFormat('HH:mm dd/MM/yyyy').format(DateTime.parse(u.createdAt!).toLocal()) : ""})",
-                          // selectedItem: selectedTicket,
-                          onChanged: (value) {
-                            setState(() {
-                              // selectedTicket = value!;
-                              if (value?.ticketStatus == 0) {
-                                Navigator.push<void>(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (BuildContext context) => EditTickket(
-                                      callBack: (value) {
-                                        if (value != null) {
-                                          setState(() {
-                                            value?.title = value.title;
-                                            value?.categoryId = value.categoryId;
-                                            value?.category?.name = value.categoryName;
-                                            value?.attachmentUrl = value.attachmentUrl;
-                                            value?.priority = value.priority;
-                                            value?.description = value.description;
-                                          });
-                                        }
-                                      },
-                                      request: RequestCreateTicketModel(id: value?.id, title: value?.title, 
-                                      //categoryId: value?.categoryId, categoryName: value?.category?.name, 
-                                      attachmentUrl: value?.attachmentUrl, priority: value?.priority, description: value?.description),
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                Navigator.push<void>(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (BuildContext context) => ViewTicketScreen(
-                                      tiket: value!
-                                    ),
-                                  ),
-                                );
-                              }
-                            });
-                          },
-                        ),
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 16, bottom: 8, left: 16, right: 16), // Updated padding
+                child: SizedBox(
+                  height: 40,
+                  child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        query = value;
+                        filterList();
+                      });
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: 'Search...',
+                      prefixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 10),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                        gapPadding: 5.0,
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 10),
-                      width: 100,
-                      height: 40,
-                      decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(10)),
-                      child: InkWell(
-                        onTap: () {
+                  ),
+                ),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.all(8.0), // Updated padding
+                child: Row(
+                  children: [
+                    ScrollItem(
+                      text: 'All',
+                      onTap: () => onStatusSelected(null),
+                      isSelected: selectedStatus == null,
+                    ),
+                    ScrollItem(
+                      text: 'Open',
+                      onTap: () => onStatusSelected(0),
+                      isSelected: selectedStatus == 0,
+                    ),
+                    ScrollItem(
+                      text: 'Assigned',
+                      onTap: () => onStatusSelected(1),
+                      isSelected: selectedStatus == 1,
+                    ),
+                    ScrollItem(
+                      text: 'In Progress',
+                      onTap: () => onStatusSelected(2),
+                      isSelected: selectedStatus == 2,
+                    ),
+                    ScrollItem(
+                      text: 'Resolved',
+                      onTap: () => onStatusSelected(3),
+                      isSelected: selectedStatus == 3,
+                    ),
+                    ScrollItem(
+                      text: 'Closed',
+                      onTap: () => onStatusSelected(4),
+                      isSelected: selectedStatus == 4,
+                    ),
+                    ScrollItem(
+                      text: 'Cancelled',
+                      onTap: () => onStatusSelected(5),
+                      isSelected: selectedStatus == 5,
+                    ),
+                    // Add more ScrollItem widgets as needed
+                  ],
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: filteredList.length,
+                  itemBuilder: (context, index) {
+                    final element = filteredList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        if (element.ticketStatus == 0) {
                           Navigator.push<void>(
                             context,
                             MaterialPageRoute<void>(
-                              builder: (BuildContext context) => CreateTickket(
+                              builder: (BuildContext context) => EditTicket(
                                 callBack: (value) {
-                                  if (value == true) {
-                                    _bloc.add(GetAllListTicket());
+                                  if (value != null) {
+                                    setState(() {
+                                      // Update ticket details
+                                    });
                                   }
                                 },
+                                request: RequestCreateTicketModel(
+                                  id: element.id,
+                                  title: element.title,
+                                  attachmentUrl: element.attachmentUrl,
+                                  priority: element.priority,
+                                  description: element.description,
+                                ),
                               ),
                             ),
                           );
-                        },
-                        child: Center(
-                            child: Text(
-                          "Add a Ticket",
-                          style: TextStyle(color: Colors.white),
-                        )),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 10),
-                Expanded(
-                    child: Center(
-                  child: AnimationList(
-                      children: listTicket.map((element) {
-                    return Container(
-                      margin: EdgeInsets.only(top: 10, bottom: 10),
-                      padding: EdgeInsets.only(top: 10, bottom: 10),
-                      width: MediaQuery.of(context).size.width,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                            "assets/background_ticket.png",
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              flex: 8,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                            child: Text(
-                                          element.title ?? "",
-                                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-                                          overflow: TextOverflow.ellipsis,
-                                        )),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                            child: Text(
-                                          element.category?.name ?? "",
-                                          overflow: TextOverflow.ellipsis,
-                                        )),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Create : ${(element.createdAt != null) ? DateFormat('HH:mm   dd-MM-yyyy').format(DateTime.parse(element.createdAt!).toLocal()) : ""}",
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                        Text(""),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )),
-                          Expanded(
-                            flex: 3,
-                            child: Column(
-                              children: [
-                                Text(
-                                  getNameTicketStatus(element.ticketStatus ?? -1),
-                                  style: TextStyle(
-                                      color: (element.ticketStatus == 0)
-                                          ? Colors.grey
-                                          : (element.ticketStatus == 1)
-                                              ? Color.fromARGB(255, 154, 255, 223)
-                                              : (element.ticketStatus == 2)
-                                                  ? Color.fromARGB(255, 154, 209, 255)
-                                                  : (element.ticketStatus == 3)
-                                                      ? const Color.fromARGB(255, 2, 47, 84)
-                                                      : (element.ticketStatus == 4)
-                                                          ? Colors.blue
-                                                          : Colors.red),
-                                ),
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: () {
-                                      if (element.ticketStatus == 0) {
-                                        Navigator.push<void>(
-                                          context,
-                                          MaterialPageRoute<void>(
-                                            builder: (BuildContext context) => EditTickket(
-                                              callBack: (value) {
-                                                if (value != null) {
-                                                  setState(() {
-                                                    element.title = value.title;
-                                                    element.categoryId = value.categoryId;
-                                                    element.category?.name = value.categoryName;
-                                                    element.attachmentUrl = value.attachmentUrl;
-                                                    element.priority = value.priority;
-                                                    element.description = value.description;
-                                                  });
-                                                }
-                                              },
-                                              request: RequestCreateTicketModel(id: element.id, title: element.title, 
-                                              //categoryId: element.categoryId, categoryName: element.category?.name, 
-                                              attachmentUrl: element.attachmentUrl, priority: element.priority, description: element.description),
-                                            ),
-                                          ),
-                                        );
-                                      } else {
-                                        Navigator.push<void>(
-                                          context,
-                                          MaterialPageRoute<void>(
-                                            builder: (BuildContext context) => ViewTicketScreen(
-                                              tiket: element
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    child: Center(
-                                      child: Text(
-                                        "View",
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                (element.ticketStatus == 0)
-                                    ? Expanded(
-                                        child: ElevatedButton(
-                                        onPressed: () async {
-                                          var response = await showNoti(context);
-                                          if (response) {
-                                            var check = await TicketProvider.cancelTicket(element.id ?? -1);
-                                            if (check == true) {
-                                              setState(() {
-                                                listTicket.remove(element);
-                                              });
-                                            }
-                                          }
-                                        },
-                                        child: Text("Cancel"),
-                                      ))
-                                    : (element.ticketStatus == 3)
-                                        ? Expanded(
-                                            child: ElevatedButton(
-                                            onPressed: () async {
-                                              var response = await showNoti(context);
-                                              if (response) {
-                                                var check = await TicketProvider.closeTicket(element.id ?? -1);
-                                                if (check == true) {
-                                                  setState(() {
-                                                    listTicket.remove(element);
-                                                  });
-                                                }
-                                              }
-                                            },
-                                            child: Text("Close"),
-                                          ))
-                                        : Container()
-                              ],
+                        } else {
+                          Navigator.push<void>(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  ViewTicketScreen(
+                                ticket: element,
+                              ),
                             ),
-                          )
-                        ],
+                          );
+                        }
+                      },
+                      child: TicketItem(
+                        ticket: element,
+                        onTap: (ticket) {
+                          // onTap logic specific to the TicketItem
+                        },
                       ),
                     );
-                  }).toList()),
-                  // duration: 1000,
-                  // reBounceDepth: 10.0,
-                )),
-              ],
-            ),
+                  },
+                ),
+              ),
+            ],
           );
         },
       ),

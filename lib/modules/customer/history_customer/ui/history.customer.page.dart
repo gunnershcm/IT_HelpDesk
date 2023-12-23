@@ -2,7 +2,7 @@
 
 import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/customer/history_customer/bloc/history.customer.bloc.dart';
 import 'package:dich_vu_it/modules/customer/notification/notification.page.dart';
 import 'package:dich_vu_it/provider/noti.provider.dart';
@@ -52,7 +52,8 @@ class _HistoryCustomerScreenState extends State<HistoryCustomerScreen> {
         ),
         title: Text(
           "History",
-          style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
         ),
         actions: [
           InkWell(
@@ -77,7 +78,9 @@ class _HistoryCustomerScreenState extends State<HistoryCustomerScreen> {
                   Container(
                     width: 15,
                     height: 15,
-                    decoration: BoxDecoration(color: const Color.fromARGB(255, 248, 88, 77), borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 248, 88, 77),
+                        borderRadius: BorderRadius.circular(10)),
                   ),
               ],
             ),
@@ -101,10 +104,13 @@ class _HistoryCustomerScreenState extends State<HistoryCustomerScreen> {
         builder: (context, state) {
           return NotificationListener<ScrollNotification>(
             onNotification: (scrollNotification) {
-              if (scrollNotification is ScrollEndNotification && _scrollController.position.extentAfter == 0) {
+              if (scrollNotification is ScrollEndNotification &&
+                  _scrollController.position.extentAfter == 0) {
                 numberPage += 1;
-                _bloc.add((GetAllListHistoryCustomer(page: numberPage, pageSize: 20)));
-              } else if (scrollNotification is ScrollEndNotification && _scrollController.position.extentBefore == 0) {
+                _bloc.add((GetAllListHistoryCustomer(
+                    page: numberPage, pageSize: 20)));
+              } else if (scrollNotification is ScrollEndNotification &&
+                  _scrollController.position.extentBefore == 0) {
                 // setState(() {
                 //   listTicket = [];
                 //   numberPage = 1;
@@ -144,7 +150,9 @@ class _HistoryCustomerScreenState extends State<HistoryCustomerScreen> {
                                     Expanded(
                                         child: Text(
                                       listTicket[index].title ?? "",
-                                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w500),
                                       overflow: TextOverflow.ellipsis,
                                     )),
                                   ],
@@ -159,7 +167,8 @@ class _HistoryCustomerScreenState extends State<HistoryCustomerScreen> {
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
 //<<<<<<< HEAD
@@ -170,7 +179,9 @@ class _HistoryCustomerScreenState extends State<HistoryCustomerScreen> {
                                       // style: TextStyle(fontSize: 10),
 //>>>>>>> 7513f188110bc95233e8488079e497af43086c08
                                     ),
-                                    (listTicket[index].completedTime != null && listTicket[index].ticketStatus == TicketStatus.closed.value)
+                                    (listTicket[index].completedTime != null &&
+                                            listTicket[index].ticketStatus ==
+                                                TicketStatus.closed.value)
                                         ? Text(
                                             "Finished :${DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(listTicket[index].completedTime!))}    ",
                                             style: TextStyle(fontSize: 10),
@@ -186,8 +197,13 @@ class _HistoryCustomerScreenState extends State<HistoryCustomerScreen> {
                         child: Column(
                           children: [
                             Text(
-                              getNameTicketStatus(listTicket[index].ticketStatus ?? -1),
-                              style: TextStyle(color: listTicket[index].ticketStatus == TicketStatus.cancelled.value ? Colors.red : Colors.blue),
+                              getNameTicketStatus(
+                                  listTicket[index].ticketStatus ?? -1),
+                              style: TextStyle(
+                                  color: listTicket[index].ticketStatus ==
+                                          TicketStatus.cancelled.value
+                                      ? Colors.red
+                                      : Colors.blue),
                             ),
                             Expanded(
                               child: InkWell(
@@ -195,7 +211,8 @@ class _HistoryCustomerScreenState extends State<HistoryCustomerScreen> {
                                   Navigator.push<void>(
                                     context,
                                     MaterialPageRoute<void>(
-                                      builder: (BuildContext context) => ViewDetailsTicketScreen(
+                                      builder: (BuildContext context) =>
+                                          ViewDetailsTicketScreen(
                                         tiket: listTicket[index],
                                       ),
                                     ),
@@ -204,7 +221,9 @@ class _HistoryCustomerScreenState extends State<HistoryCustomerScreen> {
                                 child: Center(
                                   child: Text(
                                     "View",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                               ),

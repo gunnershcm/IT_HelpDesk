@@ -4,7 +4,7 @@ import 'package:animation_list/animation_list.dart';
 import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/app/constant/noti.comfirm.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/home/ui/view.ticket.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,8 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
         title: const Center(
           child: Text(
             "List of assigned tickets       ",
-            style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+            style: TextStyle(
+                color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
           ),
         ),
       ),
@@ -71,7 +72,8 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                               Expanded(
                                   child: Text(
                                 element.title ?? "",
-                                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.w500),
                                 overflow: TextOverflow.ellipsis,
                               )),
                             ],
@@ -112,7 +114,8 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                                       : (element.ticketStatus == 2)
                                           ? Color.fromARGB(255, 154, 209, 255)
                                           : (element.ticketStatus == 3)
-                                              ? const Color.fromARGB(255, 2, 47, 84)
+                                              ? const Color.fromARGB(
+                                                  255, 2, 47, 84)
                                               : (element.ticketStatus == 4)
                                                   ? Colors.blue
                                                   : Colors.red)),
@@ -123,7 +126,8 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                               Navigator.push<void>(
                                 context,
                                 MaterialPageRoute<void>(
-                                  builder: (BuildContext context) => ViewTicketAssigScreen(
+                                  builder: (BuildContext context) =>
+                                      ViewTicketAssigScreen(
                                     tiket: element,
                                   ),
                                 ),
@@ -133,7 +137,8 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                           child: const Center(
                             child: Text(
                               "View",
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w500),
                             ),
                           ),
                         ),
@@ -147,7 +152,9 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                               onPressed: () async {
                                 var response = await showNoti(context);
                                 if (response) {
-                                  var check = await TicketProvider.resolvedTicket(element.id ?? -1);
+                                  var check =
+                                      await TicketProvider.resolvedTicket(
+                                          element.id ?? -1);
                                   if (check) {
                                     showToast(
                                       context: context,
@@ -161,7 +168,8 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                                   } else {
                                     showToast(
                                       context: context,
-                                      msg: "Cannot resovle ticket if all\nthe tasks are not completed",
+                                      msg:
+                                          "Cannot resovle ticket if all\nthe tasks are not completed",
                                       color: Colors.orange,
                                       icon: const Icon(Icons.warning),
                                     );
