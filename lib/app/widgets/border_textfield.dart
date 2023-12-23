@@ -51,7 +51,10 @@ class _BorderTextFieldState extends State<BorderTextField> {
           height: 40,
           decoration: BoxDecoration(
             color: MyColors.grey1,
-            border: Border.all(width: 1, color: (widget.validator == false) ? Colors.red : MyColors.grey2),
+            border: Border.all(
+                width: 1,
+                color:
+                    (widget.validator == false) ? Colors.red : MyColors.grey2),
             borderRadius: BorderRadius.circular(8),
           ),
           child: TextFormField(
@@ -62,7 +65,7 @@ class _BorderTextFieldState extends State<BorderTextField> {
             minLines: widget.minLine ?? 1,
             decoration: InputDecoration(
               hintText: widget.placeholder,
-              hintStyle: MyTextStyle.hintTextFiel,
+              hintStyle: MyTextStyle.hintTextField,
               border: InputBorder.none,
               contentPadding: const EdgeInsets.only(bottom: 13),
               suffixIcon: (widget.isPassword == true)

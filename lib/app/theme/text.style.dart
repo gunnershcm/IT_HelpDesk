@@ -18,7 +18,7 @@ class MyTextStyle {
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle hintTextFiel = const TextStyle(
+  static TextStyle hintTextField = const TextStyle(
     fontSize: 15,
     color: Color(0xff8391A1),
     fontStyle: FontStyle.normal,
@@ -34,7 +34,7 @@ class MyTextStyle {
 
   static TextStyle styleUnSelectMenu = const TextStyle(
     fontSize: 10,
-    color:Color.fromARGB(255, 153, 193, 254),
+    color: Color.fromARGB(255, 153, 193, 254),
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.w400,
     height: 1.4,
@@ -48,17 +48,14 @@ class MyTextStyle {
     height: 1.4,
   );
 
-
-
-
   //text style
-    static TextStyle title1 = const TextStyle(
+  static TextStyle title1 = const TextStyle(
     fontSize: 16,
     color: Colors.black,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.w700,
   );
-      static TextStyle content1 = const TextStyle(
+  static TextStyle content1 = const TextStyle(
     fontSize: 16,
     color: Colors.black,
     fontStyle: FontStyle.normal,
