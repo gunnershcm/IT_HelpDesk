@@ -1,6 +1,6 @@
 import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
-import 'package:dich_vu_it/app/widgets/scroll.tem.dart';
+import 'package:dich_vu_it/app/widgets/scroll.item.dart';
 import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
 import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/customer/notification/notification.page.dart';
@@ -176,30 +176,37 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
                     ScrollItem(
                       text: 'All',
                       onTap: () => onStatusSelected(null),
+                      isSelected: selectedStatus == null,
                     ),
                     ScrollItem(
                       text: 'Open',
                       onTap: () => onStatusSelected(0),
+                      isSelected: selectedStatus == 0,
                     ),
                     ScrollItem(
                       text: 'Assigned',
                       onTap: () => onStatusSelected(1),
+                      isSelected: selectedStatus == 1,
                     ),
                     ScrollItem(
                       text: 'In Progress',
                       onTap: () => onStatusSelected(2),
+                      isSelected: selectedStatus == 2,
                     ),
                     ScrollItem(
                       text: 'Resolved',
                       onTap: () => onStatusSelected(3),
+                      isSelected: selectedStatus == 3,
                     ),
                     ScrollItem(
                       text: 'Closed',
                       onTap: () => onStatusSelected(4),
+                      isSelected: selectedStatus == 4,
                     ),
                     ScrollItem(
                       text: 'Cancelled',
                       onTap: () => onStatusSelected(5),
+                      isSelected: selectedStatus == 5,
                     ),
                     // Add more ScrollItem widgets as needed
                   ],

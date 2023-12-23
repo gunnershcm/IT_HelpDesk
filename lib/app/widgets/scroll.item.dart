@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class ScrollItem extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
+  final bool isSelected;
 
   const ScrollItem({
     Key? key,
     required this.text,
     required this.onTap,
+    this.isSelected = false,
   }) : super(key: key);
 
   @override
@@ -21,9 +23,9 @@ class ScrollItem extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 8),
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           decoration: BoxDecoration(
-            color: Theme.of(context)
-                .colorScheme
-                .background, // Use the theme's background color
+            color: isSelected
+                ? Colors.blue // Use your desired selected color
+                : Theme.of(context).colorScheme.background,
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
@@ -37,9 +39,9 @@ class ScrollItem extends StatelessWidget {
           child: Center(
             child: Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
-                color: Colors.black,
+                color: isSelected ? Colors.white : Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),
