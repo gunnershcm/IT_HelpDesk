@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:dich_vu_it/app/constant/enum.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,7 +27,8 @@ class ViewDetailsTicketScreen extends StatelessWidget {
         ),
         title: const Text(
           "Ticket details",
-          style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
         ),
       ),
       body: Container(
@@ -84,12 +85,18 @@ class ViewDetailsTicketScreen extends StatelessWidget {
               ),
               FieldTextWidget(
                 title: 'Created Date',
-                content: (tiket.createdAt != null) ? DateFormat('HH:mm   dd-MM-yyyy').format(DateTime.parse(tiket.createdAt!)) : "",
+                content: (tiket.createdAt != null)
+                    ? DateFormat('HH:mm   dd-MM-yyyy')
+                        .format(DateTime.parse(tiket.createdAt!))
+                    : "",
               ),
               if (tiket.ticketStatus == 4 || tiket.ticketStatus == 5)
                 FieldTextWidget(
                   title: 'Complete Date',
-                  content: (tiket.completedTime != null) ? DateFormat('HH:mm   dd-MM-yyyy').format(DateTime.parse(tiket.completedTime!)) : "",
+                  content: (tiket.completedTime != null)
+                      ? DateFormat('HH:mm   dd-MM-yyyy')
+                          .format(DateTime.parse(tiket.completedTime!))
+                      : "",
                 ),
               (tiket.ticketStatus == 4)
                   ? Column(
@@ -113,7 +120,9 @@ class ViewDetailsTicketScreen extends StatelessWidget {
                                     onTap: () async {
                                       final Uri launchUri = Uri(
                                         scheme: 'tel',
-                                        path: tiket.assignment?.technicianPhone ?? "0987654321",
+                                        path:
+                                            tiket.assignment?.technicianPhone ??
+                                                "0987654321",
                                       );
                                       await launchUrl(launchUri);
                                     },
@@ -145,7 +154,8 @@ class FieldTextWidget extends StatelessWidget {
   final String title;
   final String content;
   final Widget? widget;
-  const FieldTextWidget({super.key, required this.title, required this.content, this.widget});
+  const FieldTextWidget(
+      {super.key, required this.title, required this.content, this.widget});
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +186,8 @@ class FieldTextWidget extends StatelessWidget {
               flex: 2,
               child: Text(
                 content,
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               )),
           (widget != null) ? widget! : SizedBox.shrink(),
         ],

@@ -10,14 +10,18 @@ class MyColors {
   static const white = Colors.white;
   static const blue = Color(0xff3a71ca);
 
+  static const open = Color(0xFFCCCCCC);
+  static const assigned = Color(0xFFFFD700);
+  static const inProgress = Color(0xFFFFA500);
+  static const resolved = Color(0xFF00FF00);
+  static const closed = Color(0xFF0000FF);
+  static const cancelled = Color(0xFFFF0000);
+
   //noti
   static const success = Color.fromARGB(255, 33, 243, 61);
   static const error = Color.fromARGB(255, 245, 169, 69);
 
-
-  static const greyUnselect =  Color.fromARGB(255, 150, 190, 254);
-
+  static const greyUnselect = Color.fromARGB(255, 150, 190, 254);
 
   static const pageColors = Color.fromARGB(255, 230, 230, 230);
-
 }

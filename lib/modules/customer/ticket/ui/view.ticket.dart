@@ -1,17 +1,17 @@
 // ignore_for_file: prefer_const_constructors, unrelated_type_equality_checks
 import 'package:dich_vu_it/app/constant/enum.dart';
 //import 'package:dich_vu_it/models/response/log.model.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/customer/ticket/ui/log.ticket.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ViewTicketScreen extends StatelessWidget {
-  final TicketResponseModel tiket;
+  final TicketResponseModel ticket;
   //final LogModel log;
-  //final int? tiketId;
-  const ViewTicketScreen({super.key, required this.tiket});
+  //final int? ticketId;
+  const ViewTicketScreen({super.key, required this.ticket});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,10 @@ class ViewTicketScreen extends StatelessWidget {
               ),
               title: const Text(
                 "Ticket details",
-                style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600),
               ),
             ),
             body: Column(
@@ -54,73 +57,83 @@ class ViewTicketScreen extends StatelessWidget {
                         children: [
                           FieldTextWidget(
                             title: 'Title',
-                            content: tiket.title ?? "",
+                            content: ticket.title ?? "",
                           ),
                           FieldTextWidget(
                             title: 'Ticket status',
-                            content: getNameTicketStatus(tiket.ticketStatus ?? -1),
+                            content:
+                                getNameTicketStatus(ticket.ticketStatus ?? -1),
                           ),
                           FieldTextWidget(
                             title: 'Category',
-                            content: tiket.category?.name ?? "",
+                            content: ticket.category?.name ?? "",
                           ),
                           FieldTextWidget(
                             title: 'Mode',
-                            content: tiket.mode?.name ?? "",
+                            content: ticket.mode?.name ?? "",
                           ),
                           FieldTextWidget(
                             title: 'Service',
-                            content: tiket.service?.type ?? "",
+                            content: ticket.service?.type ?? "",
                           ),
                           FieldTextWidget(
                             title: 'Priority',
-                            content: nameFromPriority(tiket.priority ?? -1),
+                            content: nameFromPriority(ticket.priority ?? -1),
                           ),
                           FieldTextWidget(
                             title: 'Impact',
-                            content: nameImpact(tiket.impact ?? -1),
+                            content: nameImpact(ticket.impact ?? -1),
                           ),
                           FieldTextWidget(
                             title: 'Impact Detail',
-                            content: tiket.impactDetail ?? "",
+                            content: ticket.impactDetail ?? "",
                           ),
                           FieldTextWidget(
                             title: 'Urgency',
-                            content: nameUrgency(tiket.urgency ?? -1),
+                            content: nameUrgency(ticket.urgency ?? -1),
                           ),
                           FieldTextWidget(
                             title: 'Description',
-                            content: tiket.description ?? "",
+                            content: ticket.description ?? "",
                           ),
                           FieldTextWidget(
                             title: 'Created Date',
-                            content: (tiket.createdAt != null) ? DateFormat('HH:mm   dd-MM-yyyy').format(DateTime.parse(tiket.createdAt!)) : "",
+                            content: (ticket.createdAt != null)
+                                ? DateFormat('HH:mm   dd-MM-yyyy')
+                                    .format(DateTime.parse(ticket.createdAt!))
+                                : "",
                           ),
-                          (tiket.ticketStatus == 4 || tiket.ticketStatus == 5)
+                          (ticket.ticketStatus == 4 || ticket.ticketStatus == 5)
                               ? FieldTextWidget(
                                   title: 'Complete Date',
-                                  content: (tiket.completedTime != null) ? DateFormat('HH:mm   dd-MM-yyyy').format(DateTime.parse(tiket.completedTime!)) : "",
+                                  content: (ticket.completedTime != null)
+                                      ? DateFormat('HH:mm   dd-MM-yyyy').format(
+                                          DateTime.parse(ticket.completedTime!))
+                                      : "",
                                 )
                               : SizedBox.shrink(),
                           FieldTextWidget(
                             title: 'Technician Namee',
-                            content: tiket.assignment?.technicianFullName ?? "",
+                            content:
+                                ticket.assignment?.technicianFullName ?? "",
                           ),
                           FieldTextWidget(
                             title: 'Technician Email',
-                            content: tiket.assignment?.technicianEmail ?? "",
+                            content: ticket.assignment?.technicianEmail ?? "",
                           ),
                           FieldTextWidget(
                             title: 'Technician Phone',
-                            content: tiket.assignment?.technicianPhone ?? "",
-                            widget: (tiket.assignment?.technicianPhone != null)
+                            content: ticket.assignment?.technicianPhone ?? "",
+                            widget: (ticket.assignment?.technicianPhone != null)
                                 ? Container(
                                     margin: EdgeInsets.only(left: 10),
                                     child: InkWell(
                                       onTap: () async {
                                         final Uri launchUri = Uri(
                                           scheme: 'tel',
-                                          path: tiket.assignment?.technicianPhone ?? "0987654321",
+                                          path: ticket.assignment
+                                                  ?.technicianPhone ??
+                                              "0987654321",
                                         );
                                         await launchUrl(launchUri);
                                       },
@@ -135,14 +148,14 @@ class ViewTicketScreen extends StatelessWidget {
                           ),
                           FieldTextWidget(
                             title: 'Team Assignment',
-                            content: tiket.assignment?.teamName ?? "",
+                            content: ticket.assignment?.teamName ?? "",
                           ),
                         ],
                       ),
                     ),
                   ),
                   LogTicket(
-                    tiket: tiket,
+                    ticket: ticket,
                   ),
                 ]))
               ],
@@ -154,7 +167,8 @@ class FieldTextWidget extends StatelessWidget {
   final String title;
   final String content;
   final Widget? widget;
-  const FieldTextWidget({super.key, required this.title, required this.content, this.widget});
+  const FieldTextWidget(
+      {super.key, required this.title, required this.content, this.widget});
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +202,8 @@ class FieldTextWidget extends StatelessWidget {
                   Expanded(
                     child: Text(
                       content,
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w400),
                     ),
                   ),
                   (widget != null) ? widget! : SizedBox.shrink(),

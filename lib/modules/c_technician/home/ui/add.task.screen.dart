@@ -6,7 +6,7 @@ import 'package:dich_vu_it/app/widgets/pick.date.dart';
 import 'package:dich_vu_it/app/widgets/textfiel.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
 import 'package:dich_vu_it/models/request/request.task.model.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/home/bloc/home.bloc.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
@@ -43,6 +43,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     super.initState();
     requestTaskModel.priority = 0;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +60,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         ),
         title: Text(
           "Create task",
-          style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
         ),
       ),
       body: BlocConsumer<HomeBloc, HomeState>(
@@ -93,7 +95,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             padding: const EdgeInsets.all(15),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(color: const Color.fromARGB(255, 229, 243, 254), borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 229, 243, 254),
+                borderRadius: BorderRadius.circular(10)),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,10 +130,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2(
-                        items: listPriority.entries.map((item) => DropdownMenuItem<int>(value: item.key, child: Text(item.value))).toList(),
+                        items: listPriority.entries
+                            .map((item) => DropdownMenuItem<int>(
+                                value: item.key, child: Text(item.value)))
+                            .toList(),
                         value: selectedPriority,
                         onChanged: (value) {
                           setState(() {
@@ -146,7 +155,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       isTime: true,
                       label: Text(
                         'Scheduled Start Time:',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500),
                       ),
                       dateDisplay: date1,
                       timeDisplay: time1,
@@ -173,7 +183,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       isTime: true,
                       label: Text(
                         'Scheduled End Time:',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500),
                       ),
                       dateDisplay: date2,
                       timeDisplay: time2,
@@ -213,7 +224,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           children: [
                             Expanded(
                               child: Text(
-                                (requestTaskModel.attachmentUrl != null) ? "File uploaded" : "Upload file",
+                                (requestTaskModel.attachmentUrl != null)
+                                    ? "File uploaded"
+                                    : "Upload file",
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -242,7 +255,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       Container(
                         width: 100,
                         height: 40,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.orange),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.orange),
                         child: InkWell(
                           onTap: () {
                             Navigator.pop(context);
@@ -250,7 +265,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           child: Center(
                             child: Text(
                               "Cancel",
-                              style: TextStyle(color: Colors.white, fontSize: 16),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
                             ),
                           ),
                         ),
@@ -259,18 +275,22 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       Container(
                         width: 100,
                         height: 40,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.blue),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.blue),
                         child: InkWell(
                           onTap: () {
                             requestTaskModel.title = title.text;
                             requestTaskModel.description = moTa.text;
                             print(requestTaskModel.toMap());
-                            bloc.add(CreateTaskCustomer(requestTaskModel: requestTaskModel));
+                            bloc.add(CreateTaskCustomer(
+                                requestTaskModel: requestTaskModel));
                           },
                           child: Center(
                             child: Text(
                               "Create",
-                              style: TextStyle(color: Colors.white, fontSize: 16),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
                             ),
                           ),
                         ),

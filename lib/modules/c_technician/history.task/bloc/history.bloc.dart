@@ -7,7 +7,7 @@ import 'package:dich_vu_it/app/constant/value.dart';
 import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
 import 'package:dich_vu_it/models/request/request.task.model.dart';
 import 'package:dich_vu_it/models/response/task.model.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/provider/session.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +28,8 @@ class HistoryTaskBloc extends Bloc<HistoryTaskEvent, HistoryTaskState> {
     emit(HistoryTaskLoading());
     try {
       if (event is GetAllListTaskInactiveEvent) {
-        var listSolution = await TicketProvider.getLitsTaskForTicketInacctive(idTicket: event.idTicket);
+        var listSolution = await TicketProvider.getLitsTaskForTicketInacctive(
+            idTicket: event.idTicket);
         emit(GetListTaskInactiveSuccessState(list: listSolution));
       }
     } catch (e) {

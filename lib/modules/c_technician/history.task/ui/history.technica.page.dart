@@ -4,7 +4,7 @@ import 'package:animation_list/animation_list.dart';
 import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/models/response/task.model.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,8 @@ class HistoryTaskPage extends StatefulWidget {
 class _HistoryTaskPageState extends State<HistoryTaskPage> {
   var bloc = HistoryTaskBloc();
   List<TaskModel> listTask = [];
-  TicketResponseModel? selectedTicket = TicketResponseModel(title: "All tickets");
+  TicketResponseModel? selectedTicket =
+      TicketResponseModel(title: "All tickets");
 
   @override
   void initState() {
@@ -56,7 +57,10 @@ class _HistoryTaskPageState extends State<HistoryTaskPage> {
             title: Center(
               child: Text(
                 "Task history",
-                style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600),
               ),
             ),
           ),
@@ -68,7 +72,9 @@ class _HistoryTaskPageState extends State<HistoryTaskPage> {
                   children: [
                     Expanded(
                       child: Container(
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
                         height: 40,
                         child: DropdownSearch<TicketResponseModel>(
                           popupProps: PopupPropsMultiSelection.menu(
@@ -80,12 +86,14 @@ class _HistoryTaskPageState extends State<HistoryTaskPage> {
                                 width: 300,
                                 height: 40,
                               ),
-                              contentPadding: const EdgeInsets.only(left: 14, bottom: 14),
+                              contentPadding:
+                                  const EdgeInsets.only(left: 14, bottom: 14),
                               focusedBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(0),
                                 ),
-                                borderSide: BorderSide(color: Colors.white, width: 0),
+                                borderSide:
+                                    BorderSide(color: Colors.white, width: 0),
                               ),
                               hintText: "",
                               hintMaxLines: 1,
@@ -93,17 +101,21 @@ class _HistoryTaskPageState extends State<HistoryTaskPage> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(10),
                                 ),
-                                borderSide: BorderSide(color: Colors.white, width: 0),
+                                borderSide:
+                                    BorderSide(color: Colors.white, width: 0),
                               ),
                             ),
                           ),
-                          asyncItems: (String? filter) => TicketProvider.getAllListTicketAssignDoneFillter(),
-                          itemAsString: (TicketResponseModel u) => "${u.title!} ${u.createdAt != null ? "(${(u.createdAt != null) ? DateFormat('HH:mm dd/MM/yyyy').format(DateTime.parse(u.createdAt!).toLocal()) : ""})" : ""}",
+                          asyncItems: (String? filter) => TicketProvider
+                              .getAllListTicketAssignDoneFillter(),
+                          itemAsString: (TicketResponseModel u) =>
+                              "${u.title!} ${u.createdAt != null ? "(${(u.createdAt != null) ? DateFormat('HH:mm dd/MM/yyyy').format(DateTime.parse(u.createdAt!).toLocal()) : ""})" : ""}",
                           selectedItem: selectedTicket,
                           onChanged: (value) {
                             setState(() {
                               selectedTicket = value!;
-                              bloc.add(GetAllListTaskInactiveEvent(idTicket: selectedTicket?.id));
+                              bloc.add(GetAllListTaskInactiveEvent(
+                                  idTicket: selectedTicket?.id));
                             });
                           },
                         ),
@@ -138,7 +150,8 @@ class _HistoryTaskPageState extends State<HistoryTaskPage> {
                                 Navigator.push<void>(
                                   context,
                                   MaterialPageRoute<void>(
-                                    builder: (BuildContext context) => InforTaskScreen(
+                                    builder: (BuildContext context) =>
+                                        InforTaskScreen(
                                       taskModel: element,
                                       callBack: (value) {
                                         if (value != null) {
@@ -155,12 +168,15 @@ class _HistoryTaskPageState extends State<HistoryTaskPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         child: Text(
                                           element.title ?? "",
-                                          style: TextStyle(color: Colors.black, fontSize: 20),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20),
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
@@ -170,7 +186,11 @@ class _HistoryTaskPageState extends State<HistoryTaskPage> {
                                       Container(
                                         width: 20,
                                         height: 20,
-                                        decoration: BoxDecoration(color: colorTaskStatus(element.taskStatus ?? 1), borderRadius: BorderRadius.circular(10)),
+                                        decoration: BoxDecoration(
+                                            color: colorTaskStatus(
+                                                element.taskStatus ?? 1),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
                                       )
                                     ],
                                   ),

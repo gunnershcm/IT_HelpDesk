@@ -7,7 +7,7 @@ import 'package:dich_vu_it/app/constant/value.dart';
 import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
 import 'package:dich_vu_it/models/request/request.task.model.dart';
 import 'package:dich_vu_it/models/response/task.model.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/provider/session.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,10 +31,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         var listTicket = await TicketProvider.getAllListTicketAssign();
         emit(GetListTicketAssignSuccessState(list: listTicket));
       } else if (event is GetAllListTaskActiveEvent) {
-        var listTask = await TicketProvider.getLitsTaskForTicketAcctive(idTicket: event.idTicket);
+        var listTask = await TicketProvider.getLitsTaskForTicketAcctive(
+            idTicket: event.idTicket);
         emit(GetListTaskActiveSuccessState(list: listTask));
       } else if (event is CreateTaskCustomer) {
-        if (event.requestTaskModel.title == "" || event.requestTaskModel.title == null) {
+        if (event.requestTaskModel.title == "" ||
+            event.requestTaskModel.title == null) {
           emit(HomeError(error: "Title not null"));
         } else if (event.requestTaskModel.ticketId == null) {
           emit(HomeError(error: "Ticket not null"));
@@ -47,7 +49,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         } else if (event.requestTaskModel.attachmentUrl == null) {
           emit(HomeError(error: "Attachment not null"));
         } else {
-          var response = await TicketProvider.createTicketTask(event.requestTaskModel);
+          var response =
+              await TicketProvider.createTicketTask(event.requestTaskModel);
           if (response) {
             emit(CareatedTaskSuccessState());
           } else {
@@ -55,7 +58,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           }
         }
       } else if (event is UpdateTaskTicketEvent) {
-         if (event.taskModel.priority == null) {
+        if (event.taskModel.priority == null) {
           emit(HomeError(error: "Priority not null"));
         } else if (event.taskModel.scheduledStartTime == null) {
           emit(HomeError(error: "Scheduled Start Time not null"));
