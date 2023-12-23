@@ -171,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           style: boldTextStyle(size: 14)),
                                       8.height,
                                       AppTextField(
-                                        decoration: loginInputDecoration(
+                                        decoration: textInputDecoration(
                                             hint: 'Enter your username here',
                                             prefixIcon: Icons.person),
                                         textFieldType: TextFieldType.USERNAME,
@@ -188,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           style: boldTextStyle(size: 14)),
                                       8.height,
                                       AppTextField(
-                                        decoration: loginInputDecoration(
+                                        decoration: textInputDecoration(
                                             hint: 'Enter your password here',
                                             prefixIcon: Icons.lock_outline),
                                         suffixIconColor: MyColors.blue,

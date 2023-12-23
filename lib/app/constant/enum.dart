@@ -27,7 +27,7 @@ String getNameTicketStatus(int status) {
     case 5:
       return "Cancelled";
     default:
-      return "";
+      return "Not Assigned";
   }
 }
 
@@ -84,7 +84,7 @@ String nameFromPriority(int status) {
     case 3:
       return "Critical";
     default:
-      return "";
+      return "Not Assigned";
   }
 }
 
@@ -103,11 +103,11 @@ String nameRole(int role) {
     case 4:
       return "Accountant";
     default:
-      return "";
+      return "Not Assigned";
   }
 }
 
-enum Gender { male, female, orther, preferNotToSay }
+enum Gender { male, female, other, preferNotToSay }
 
 String nameGender(int role) {
   switch (role) {
@@ -116,11 +116,11 @@ String nameGender(int role) {
     case 1:
       return "Female";
     case 2:
-      return "Orther";
+      return "Other";
     case 3:
       return "Prefer Not To Say";
     default:
-      return "";
+      return "Not Assigned";
   }
 }
 
@@ -137,7 +137,7 @@ String nameTaskStatus(int status) {
     case 4:
       return "Cancelled";
     default:
-      return "";
+      return "Not Assigned";
   }
 }
 
@@ -175,7 +175,7 @@ String nameImpact(int impact) {
     case 2:
       return "High";
     default:
-      return "";
+      return "Not Assigned";
   }
 }
 
@@ -190,7 +190,7 @@ String nameUrgency(int urgency) {
     case 3:
       return "Urgent";
     default:
-      return "";
+      return "Not Assigned";
   }
 }
 
@@ -212,7 +212,7 @@ String getPublicStatus(bool? status) {
     case false:
       return "Private";
     default:
-      return "";
+      return "Not Assigned";
   }
 }
 
@@ -226,7 +226,7 @@ bool isLike(int? value) {
       return false;
     default:
       return false;
-  } 
+  }
 }
 
 bool isDislike(int? value) {

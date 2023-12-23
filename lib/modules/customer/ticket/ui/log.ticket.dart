@@ -20,9 +20,11 @@ class _LogTicketState extends State<LogTicket> {
   void getData() async {
     var listdataNew =
         await TicketProvider.getLogByTicketId(widget.ticket.id ?? 0);
-    setState(() {
-      listdata = listdataNew;
-    });
+    if (mounted) {
+      setState(() {
+        listdata = listdataNew;
+      });
+    }
   }
 
   @override
