@@ -4,8 +4,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:dich_vu_it/app/constant/value.dart';
-import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/provider/location.provider.dart';
 import 'package:dich_vu_it/provider/session.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
@@ -35,7 +35,8 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
         } else if (event.request.serviceId == null) {
           emit(TicketError(error: "Service not null"));
         } else {
-          var checkCreateTiket = await TicketProvider.createTicket(event.request);
+          var checkCreateTiket =
+              await TicketProvider.createTicket(event.request);
           if (checkCreateTiket == true) {
             emit(CareateTicketSuccessState());
           } else {
@@ -50,7 +51,8 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
         } else if (event.request.serviceId == null) {
           emit(TicketError(error: "Service not null"));
         } else {
-          var checkCreateTiket = await TicketProvider.updateTicket(event.request);
+          var checkCreateTiket =
+              await TicketProvider.updateTicket(event.request);
           if (checkCreateTiket == true) {
             emit(UpdateTicketSuccessState());
           } else {

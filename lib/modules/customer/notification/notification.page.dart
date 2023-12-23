@@ -15,6 +15,7 @@ class NotificationPage extends StatefulWidget {
 class _NotificationPageState extends State<NotificationPage> {
   List<NotiModel> listNoti = [];
   bool statusData = false;
+
   getData() async {
     setState(() {
       statusData = false;
@@ -48,7 +49,8 @@ class _NotificationPageState extends State<NotificationPage> {
         ),
         title: const Text(
           "Notification",
-          style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
         ),
         actions: [
           InkWell(
@@ -56,38 +58,28 @@ class _NotificationPageState extends State<NotificationPage> {
               await NotiProvider.readAllNoti();
               getData();
             },
-            child: Container(
-              margin: const EdgeInsets.only(right: 10),
-              width: 100,
-              height: 35,
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(17)),
-              child: const Center(
-                child: Text(
-                  "See all",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                ),
+            child: const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Icon(
+                Icons.mark_email_read,
+                color: Colors.white,
               ),
             ),
           )
         ],
       ),
       body: (statusData)
-          ? Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              padding: const EdgeInsets.all(20),
-              child: ListView.separated(
-                itemCount: listNoti.length,
-                separatorBuilder: (BuildContext context, int index) => Container(
-                  margin: const EdgeInsets.all(15), 
-                  decoration: const BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Color.fromARGB(255, 122, 122, 122)))),
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    decoration: BoxDecoration(
+          ? ListView.builder(
+              itemCount: listNoti.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
-                      color: (listNoti[index].isRead == false) ? const Color.fromARGB(255, 229, 243, 254) : Colors.white,
                     ),
+                    elevation: 3,
                     child: InkWell(
                       onTap: () async {
                         NotiProvider.readNoti(listNoti[index].id ?? -1);
@@ -104,39 +96,61 @@ class _NotificationPageState extends State<NotificationPage> {
                         });
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(15),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
                                 Expanded(
                                   child: Text(
                                     listNoti[index].title ?? "",
-                                    style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20),
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18,
+                                    ),
+                                    maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                const SizedBox(width: 20),
-                                Text(formatDateTimeConversation(listNoti[index].createdAt ?? ""))
+                                Text(
+                                  formatDateTimeConversation(
+                                    listNoti[index].createdAt ?? "",
+                                  ),
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
                               ],
                             ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: Text(
-                                  listNoti[index].body ?? "",
-                                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 17),
-                                  overflow: TextOverflow.ellipsis,
-                                ))
-                              ],
-                            )
+                            const SizedBox(height: 8),
+                            Text(
+                              listNoti[index].body ?? "",
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 8),
+                            if (!(listNoti[index].isRead ?? false))
+                              Container(
+                                width: 10,
+                                height: 10,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: MyColors.blue,
+                                ),
+                              ),
                           ],
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             )
           : const Center(
               child: CircularProgressIndicator(

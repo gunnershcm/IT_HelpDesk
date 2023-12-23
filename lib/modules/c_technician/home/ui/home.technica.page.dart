@@ -4,7 +4,7 @@ import 'package:animation_list/animation_list.dart';
 import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/models/response/task.model.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/home/bloc/home.bloc.dart';
 import 'package:dich_vu_it/modules/c_technician/home/ui/add.task.screen.dart';
 import 'package:dich_vu_it/modules/customer/notification/notification.page.dart';
@@ -29,7 +29,8 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
   var bloc = HomeBloc();
   List<TicketResponseModel> listTiketAssign = [];
   List<TaskModel> listTask = [];
-  TicketResponseModel? selectedTicket = TicketResponseModel(title: "All tickets");
+  TicketResponseModel? selectedTicket =
+      TicketResponseModel(title: "All tickets");
   int countNoti = 0;
   void getNoti() async {
     var noti = await NotiProvider.getCountNoti();
@@ -77,7 +78,10 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
             title: Center(
               child: Text(
                 "IT_HelpDesk",
-                style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600),
               ),
             ),
             actions: [
@@ -86,7 +90,8 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                   await Navigator.push<void>(
                     context,
                     MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const NotificationPage(),
+                      builder: (BuildContext context) =>
+                          const NotificationPage(),
                     ),
                   );
                   getNoti();
@@ -103,7 +108,9 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                       Container(
                         width: 15,
                         height: 15,
-                        decoration: BoxDecoration(color: const Color.fromARGB(255, 248, 88, 77), borderRadius: BorderRadius.circular(10)),
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 248, 88, 77),
+                            borderRadius: BorderRadius.circular(10)),
                       ),
                   ],
                 ),
@@ -143,13 +150,17 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                       Container(
                         margin: EdgeInsets.only(left: 15),
                         width: 70,
-                        decoration: BoxDecoration(border: Border(left: BorderSide(width: 1, color: Colors.grey))),
+                        decoration: BoxDecoration(
+                            border: Border(
+                                left:
+                                    BorderSide(width: 1, color: Colors.grey))),
                         child: TextButton(
                             onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute<void>(
-                                  builder: (BuildContext context) => ListTicketAssign(
+                                  builder: (BuildContext context) =>
+                                      ListTicketAssign(
                                     listTiket: listTiketAssign,
                                   ),
                                 ),
@@ -167,7 +178,9 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                   children: [
                     Expanded(
                       child: Container(
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
                         height: 40,
                         child: DropdownSearch<TicketResponseModel>(
                           popupProps: PopupPropsMultiSelection.menu(
@@ -180,12 +193,14 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                                 width: 300,
                                 height: 30,
                               ),
-                              contentPadding: const EdgeInsets.only(left: 14, bottom: 14),
+                              contentPadding:
+                                  const EdgeInsets.only(left: 14, bottom: 14),
                               focusedBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(0),
                                 ),
-                                borderSide: BorderSide(color: Colors.white, width: 0),
+                                borderSide:
+                                    BorderSide(color: Colors.white, width: 0),
                               ),
                               hintText: "",
                               hintMaxLines: 1,
@@ -193,17 +208,21 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(10),
                                 ),
-                                borderSide: BorderSide(color: Colors.white, width: 0),
+                                borderSide:
+                                    BorderSide(color: Colors.white, width: 0),
                               ),
                             ),
                           ),
-                          asyncItems: (String? filter) => TicketProvider.getAllListTicketAssignFillter(),
-                          itemAsString: (TicketResponseModel u) => "${u.title!} ${u.createdAt != null ? "(${(u.createdAt != null) ? DateFormat('HH:mm dd/MM/yyyy').format(DateTime.parse(u.createdAt!).toLocal()) : ""})" : ""}",
+                          asyncItems: (String? filter) =>
+                              TicketProvider.getAllListTicketAssignFillter(),
+                          itemAsString: (TicketResponseModel u) =>
+                              "${u.title!} ${u.createdAt != null ? "(${(u.createdAt != null) ? DateFormat('HH:mm dd/MM/yyyy').format(DateTime.parse(u.createdAt!).toLocal()) : ""})" : ""}",
                           selectedItem: selectedTicket,
                           onChanged: (value) {
                             setState(() {
                               selectedTicket = value!;
-                              bloc.add(GetAllListTaskActiveEvent(idTicket: selectedTicket?.id));
+                              bloc.add(GetAllListTaskActiveEvent(
+                                  idTicket: selectedTicket?.id));
                             });
                           },
                         ),
@@ -213,7 +232,9 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                       margin: EdgeInsets.only(left: 10),
                       width: 100,
                       height: 40,
-                      decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(10)),
+                      decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(10)),
                       child: InkWell(
                         onTap: () {
                           Navigator.push<void>(
@@ -222,7 +243,8 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                               builder: (BuildContext context) => AddTaskScreen(
                                 callBack: (value) {
                                   if (value == true) {
-                                    bloc.add(GetAllListTaskActiveEvent(idTicket: selectedTicket?.id));
+                                    bloc.add(GetAllListTaskActiveEvent(
+                                        idTicket: selectedTicket?.id));
                                   }
                                 },
                               ),
@@ -265,7 +287,8 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                                 Navigator.push<void>(
                                   context,
                                   MaterialPageRoute<void>(
-                                    builder: (BuildContext context) => InforTaskScreen(
+                                    builder: (BuildContext context) =>
+                                        InforTaskScreen(
                                       taskModel: element,
                                       callBack: (value) {
                                         if (value != null) {
@@ -282,12 +305,15 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         child: Text(
                                           element.title ?? "",
-                                          style: TextStyle(color: Colors.black, fontSize: 20),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                         ),
@@ -298,7 +324,11 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                                       Container(
                                         width: 20,
                                         height: 20,
-                                        decoration: BoxDecoration(color: colorTaskStatus(element.taskStatus ?? 1), borderRadius: BorderRadius.circular(10)),
+                                        decoration: BoxDecoration(
+                                            color: colorTaskStatus(
+                                                element.taskStatus ?? 1),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
                                       )
                                     ],
                                   ),

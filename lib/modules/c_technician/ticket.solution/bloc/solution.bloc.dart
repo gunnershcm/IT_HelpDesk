@@ -5,11 +5,11 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:dich_vu_it/app/constant/value.dart';
 import 'package:dich_vu_it/models/request/request.create.solution.model.dart';
-import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
+import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
 import 'package:dich_vu_it/models/request/request.task.model.dart';
 import 'package:dich_vu_it/models/response/task.model.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/provider/session.provider.dart';
 import 'package:dich_vu_it/provider/solution.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
@@ -60,7 +60,8 @@ class TicketSolutionBloc
         } else if (event.solutionModel.ownerId == null) {
           emit(TicketSolutionError(error: "Owner not null"));
         } else {
-          var response = await SolutionProvider.updateTicketSolution(event.solutionModel);
+          var response =
+              await SolutionProvider.updateTicketSolution(event.solutionModel);
           if (response) {
             emit(EditSolutionSuccessState());
           } else {

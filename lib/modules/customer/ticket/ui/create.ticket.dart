@@ -2,7 +2,7 @@
 import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
-import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
+import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
 import 'package:dich_vu_it/models/response/service.response.model.dart';
 import 'package:dich_vu_it/modules/customer/ticket/bloc/ticket.bloc.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
@@ -27,7 +27,7 @@ class _CreateTickketState extends State<CreateTickket> {
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController attachmentUrl = TextEditingController();
-   TextEditingController street = TextEditingController();
+  TextEditingController street = TextEditingController();
   //CategoryResponseModel? selectedItem;
   ServiceResponseModel? serviceModel;
 
@@ -40,7 +40,7 @@ class _CreateTickketState extends State<CreateTickket> {
 
   List<String> listType = ["Offline", "Online"];
   String? selectedType = "";
-  
+
   int selectedPriority = 0;
   List<Map<String, dynamic>> cities = [];
   List<Map<String, dynamic>> districts = [];
@@ -58,27 +58,29 @@ class _CreateTickketState extends State<CreateTickket> {
   }
 
   Future<void> _loadCities() async {
-    List<Map<String, dynamic>> fetchedCities = await LocationProvider.fetchCities();
+    List<Map<String, dynamic>> fetchedCities =
+        await LocationProvider.fetchCities();
     setState(() {
       cities = fetchedCities; // Cập nhật dữ liệu thành phố trong CreateTicket
     });
   }
 
   Future<void> _loadDistricts(dynamic cityCode) async {
-    List<Map<String, dynamic>> fetchedDistrictes = await LocationProvider.fetchDistricts(cityCode);
+    List<Map<String, dynamic>> fetchedDistrictes =
+        await LocationProvider.fetchDistricts(cityCode);
     setState(() {
-      districts = fetchedDistrictes; // Cập nhật dữ liệu thành phố trong CreateTicket
+      districts =
+          fetchedDistrictes; // Cập nhật dữ liệu thành phố trong CreateTicket
     });
   }
 
   Future<void> _loadWards(dynamic districtCode) async {
-    List<Map<String, dynamic>> fetchedWards =await LocationProvider.fetchWards(districtCode);
+    List<Map<String, dynamic>> fetchedWards =
+        await LocationProvider.fetchWards(districtCode);
     setState(() {
       wards = fetchedWards; // Cập nhật dữ liệu thành phố trong CreateTicket
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -221,8 +223,7 @@ class _CreateTickketState extends State<CreateTickket> {
                           borderRadius: BorderRadius.circular(10)),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton2(
-                          items: 
-                          listType.map((String value) {
+                          items: listType.map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(
@@ -235,7 +236,6 @@ class _CreateTickketState extends State<CreateTickket> {
                               requestCreateTicketModel.type = value as String;
                             });
                           },
-                          
                         ),
                       ),
                     ),
@@ -333,7 +333,7 @@ class _CreateTickketState extends State<CreateTickket> {
                         child: DropdownButton<int>(
                           value: selectedDistrict,
                           hint: Text('Chọn quận/huyện'),
-                          onChanged: (int? newValue) async{
+                          onChanged: (int? newValue) async {
                             setState(() {
                               selectedDistrict = newValue;
                               selectedWard = null;
@@ -511,7 +511,8 @@ class _CreateTickketState extends State<CreateTickket> {
                               requestCreateTicketModel.street = street.text;
                               //requestCreateTicketModel.type = selectedType;
                               requestCreateTicketModel.city = selectedCity;
-                              requestCreateTicketModel.district = selectedDistrict;
+                              requestCreateTicketModel.district =
+                                  selectedDistrict;
                               requestCreateTicketModel.ward = selectedWard;
                               _bloc.add(CreateTicketEvent(
                                   request: requestCreateTicketModel));

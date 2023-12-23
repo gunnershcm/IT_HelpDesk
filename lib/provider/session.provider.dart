@@ -20,18 +20,21 @@ class SessionProvider {
   }
 
   // <<<< Login >>>>
-  static Future<UserLoginResponseModel?> login({required String email, required String password}) async {
+  static Future<UserLoginResponseModel?> login(
+      {required String email, required String password}) async {
     UserLoginResponseModel? userLoginResponseModel;
     try {
       var url = "$baseUrl/v1/itsds/auth/login";
       Map<String, String> header = await getHeader();
       var responseBody = {'username': email, 'password': password};
       var body = json.encode(responseBody);
-      var response = await http.post(Uri.parse(url.toString()), headers: header, body: body);
+      var response = await http.post(Uri.parse(url.toString()),
+          headers: header, body: body);
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(response.body);
         if (bodyConvert['isError'] == false) {
-          return userLoginResponseModel = UserLoginResponseModel.fromMap(bodyConvert['result']);
+          return userLoginResponseModel =
+              UserLoginResponseModel.fromMap(bodyConvert['result']);
         }
       }
     } catch (e) {
@@ -55,7 +58,8 @@ class SessionProvider {
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(decodedData);
         if (bodyConvert['isError'] == false) {
-          return userProfileResponseModel = UserProfileResponseModel.fromMap(bodyConvert['result']);
+          return userProfileResponseModel =
+              UserProfileResponseModel.fromMap(bodyConvert['result']);
         }
       }
     } catch (e) {
@@ -72,7 +76,8 @@ class SessionProvider {
       Map<String, String> header = await getHeader();
       header.addAll({'Authorization': 'Bearer $token'});
       var body = {"avatarUrl": urlImage};
-      var response = await http.patch(Uri.parse(url.toString()), headers: header, body: jsonEncode(body));
+      var response = await http.patch(Uri.parse(url.toString()),
+          headers: header, body: jsonEncode(body));
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(response.body);
         if (bodyConvert['isError'] == false) {
@@ -87,7 +92,8 @@ class SessionProvider {
     return false;
   }
 
-  static Future<bool> updateProfile(UserProfileResponseModel responseModel) async {
+  static Future<bool> updateProfile(
+      UserProfileResponseModel responseModel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     try {
@@ -95,9 +101,9 @@ class SessionProvider {
       Map<String, String> header = await getHeader();
       header.addAll({'Authorization': 'Bearer $token'});
       var body = json.encode(responseModel.toMap());
-      var response = await http.patch(Uri.parse(url.toString()), headers: header, body: body);
+      var response = await http.patch(Uri.parse(url.toString()),
+          headers: header, body: body);
       if (response.statusCode == 200) {
-
         var bodyConvert = jsonDecode(response.body);
         if (bodyConvert['isError'] == false) {
           return true;
@@ -111,17 +117,25 @@ class SessionProvider {
     }
     return false;
   }
-  
-  static Future<bool> changePassword({required String currentPass, required String newPass, required String confirmPass}) async {
+
+  static Future<bool> changePassword(
+      {required String currentPass,
+      required String newPass,
+      required String confirmPass}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     try {
       var url = "$baseUrl/v1/itsds/auth/change-password";
       Map<String, String> header = await getHeader();
       header.addAll({'Authorization': 'Bearer $token'});
-      var body = {"currentPassword": currentPass, "newPassword": newPass, "confirmNewPassword": confirmPass};
+      var body = {
+        "currentPassword": currentPass,
+        "newPassword": newPass,
+        "confirmNewPassword": confirmPass
+      };
       var bodyConvert = json.encode(body);
-      var response = await http.patch(Uri.parse(url.toString()), headers: header, body: bodyConvert);
+      var response = await http.patch(Uri.parse(url.toString()),
+          headers: header, body: bodyConvert);
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(response.body);
         if (bodyConvert['isError'] == false) {
@@ -148,9 +162,9 @@ class SessionProvider {
       header.addAll({'Authorization': 'Bearer $token'});
       var body = {"token": tokenfirebase ?? ""};
       var bodyConvert = json.encode(body);
-      var response = await http.patch(Uri.parse(url.toString()), headers: header, body: bodyConvert);
+      var response = await http.post(Uri.parse(url.toString()),
+          headers: header, body: bodyConvert);
       if (response.statusCode == 200) {
-
         var bodyConvert = jsonDecode(response.body);
         if (bodyConvert['isError'] == false) {
           return true;

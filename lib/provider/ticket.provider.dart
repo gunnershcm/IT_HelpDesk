@@ -1,13 +1,13 @@
 // ignore_for_file: depend_on_referenced_packages, empty_catches
 import 'dart:convert';
 import 'package:dich_vu_it/app/constant/value.dart';
-import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
+import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
 import 'package:dich_vu_it/models/request/request.task.model.dart';
 import 'package:dich_vu_it/models/response/category.response.model.dart';
 import 'package:dich_vu_it/models/response/log.model.dart';
 import 'package:dich_vu_it/models/response/service.response.model.dart';
 import 'package:dich_vu_it/models/response/task.model.dart';
-import 'package:dich_vu_it/models/response/tiket.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/models/response/user.profile.response.model.dart';
 import 'package:dich_vu_it/provider/session.provider.dart';
 import 'package:http/http.dart' as http;
@@ -50,8 +50,6 @@ class TicketProvider {
     // listData = listDataFake;
     return listData;
   }
-
-
 
   // <<<< Get all ticket at screen history >>>>
   static Future<List<TicketResponseModel>> getAllListTicketHistory() async {
@@ -181,7 +179,6 @@ class TicketProvider {
       return true;
     }
   }
-
 
   //update ticket
   static Future<bool> updateTicket(
@@ -365,7 +362,6 @@ class TicketProvider {
     return listData;
   }
 
-
   // <<<< Get all ticket assign done filtter >>>>
   static Future<List<TicketResponseModel>>
       getAllListTicketAssignDoneFillter() async {
@@ -508,7 +504,6 @@ class TicketProvider {
     } catch (e) {}
     return listData;
   }
-
 
   static Future<List<LogModel>> getLogByTicketId(int? idTicket) async {
     List<LogModel> listData = [];

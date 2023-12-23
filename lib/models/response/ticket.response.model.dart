@@ -67,7 +67,6 @@ class TicketResponseModel {
     this.mode,
     this.assignment,
   });
-  
 
   TicketResponseModel copyWith({
     int? id,
@@ -167,9 +166,11 @@ class TicketResponseModel {
   factory TicketResponseModel.fromMap(Map<String, dynamic> map) {
     return TicketResponseModel(
       id: map['id'] != null ? map['id'] as int : null,
-      requesterId: map['requesterId'] != null ? map['requesterId'] as int : null,
+      requesterId:
+          map['requesterId'] != null ? map['requesterId'] as int : null,
       title: map['title'] != null ? map['title'] as String : null,
-      description: map['description'] != null ? map['description'] as String : null,
+      description:
+          map['description'] != null ? map['description'] as String : null,
       type: map['type'] != null ? map['type'] as String : null,
       street: map['street'] != null ? map['street'] as String : null,
       ward: map['ward'] != null ? map['ward'] as int : null,
@@ -178,28 +179,48 @@ class TicketResponseModel {
       modeId: map['modeId'] != null ? map['modeId'] as int : null,
       serviceId: map['serviceId'] != null ? map['serviceId'] as int : null,
       categoryId: map['categoryId'] != null ? map['categoryId'] as int : null,
-      ticketStatus: map['ticketStatus'] != null ? map['ticketStatus'] as int : null,
+      ticketStatus:
+          map['ticketStatus'] != null ? map['ticketStatus'] as int : null,
       priority: map['priority'] != null ? map['priority'] as int : null,
       impact: map['impact'] != null ? map['impact'] as int : null,
-      impactDetail: map['impactDetail'] != null ? map['impactDetail'] as String : null,
+      impactDetail:
+          map['impactDetail'] != null ? map['impactDetail'] as String : null,
       urgency: map['urgency'] != null ? map['urgency'] as int : null,
       //attachmentUrl: map['attachmentUrl'] != null ? map['attachmentUrl'] as String : null,
-      scheduledStartTime: map['scheduledStartTime'] != null ? map['scheduledStartTime'] as String : null,
-      scheduledEndTime: map['scheduledEndTime'] != null ? map['scheduledEndTime'] as String : null,
+      scheduledStartTime: map['scheduledStartTime'] != null
+          ? map['scheduledStartTime'] as String
+          : null,
+      scheduledEndTime: map['scheduledEndTime'] != null
+          ? map['scheduledEndTime'] as String
+          : null,
       dueTime: map['dueTime'] != null ? map['dueTime'] as String : null,
-      completedTime: map['completedTime'] != null ? map['completedTime'] as String : null,
+      completedTime:
+          map['completedTime'] != null ? map['completedTime'] as String : null,
       createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
-      requester: map['requester'] != null ? UserProfileResponseModel.fromMap(map['requester'] as Map<String,dynamic>) : null,
-      service: map['service'] != null ? ServiceResponseModel.fromMap(map['service'] as Map<String,dynamic>) : null,
-      category: map['category'] != null ? CategoryResponseModel.fromMap(map['category'] as Map<String,dynamic>) : null,
-      mode: map['mode'] != null ? ModeResponseModel.fromMap(map['mode'] as Map<String,dynamic>) : null,
-      assignment: map['assignment'] != null ? AssigmentModel.fromMap(map['assignment'] as Map<String,dynamic>) : null,
+      requester: map['requester'] != null
+          ? UserProfileResponseModel.fromMap(
+              map['requester'] as Map<String, dynamic>)
+          : null,
+      service: map['service'] != null
+          ? ServiceResponseModel.fromMap(map['service'] as Map<String, dynamic>)
+          : null,
+      category: map['category'] != null
+          ? CategoryResponseModel.fromMap(
+              map['category'] as Map<String, dynamic>)
+          : null,
+      mode: map['mode'] != null
+          ? ModeResponseModel.fromMap(map['mode'] as Map<String, dynamic>)
+          : null,
+      assignment: map['assignment'] != null
+          ? AssigmentModel.fromMap(map['assignment'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory TicketResponseModel.fromJson(String source) => TicketResponseModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory TicketResponseModel.fromJson(String source) =>
+      TicketResponseModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -209,67 +230,66 @@ class TicketResponseModel {
   @override
   bool operator ==(covariant TicketResponseModel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.requesterId == requesterId &&
-      other.title == title &&
-      other.description == description &&
-      other.type == type &&
-      other.street == street &&
-      other.ward == ward &&
-      other.district == district &&
-      other.city == city &&
-      other.modeId == modeId &&
-      other.serviceId == serviceId &&
-      other.categoryId == categoryId &&
-      other.ticketStatus == ticketStatus &&
-      other.priority == priority &&
-      other.impact == impact &&
-      other.impactDetail == impactDetail &&
-      other.urgency == urgency &&
-      other.attachmentUrl == attachmentUrl &&
-      other.scheduledStartTime == scheduledStartTime &&
-      other.scheduledEndTime == scheduledEndTime &&
-      other.dueTime == dueTime &&
-      other.completedTime == completedTime &&
-      other.createdAt == createdAt &&
-      other.requester == requester &&
-      other.service == service &&
-      other.category == category &&
-      other.mode == mode &&
-      other.assignment == assignment;
+
+    return other.id == id &&
+        other.requesterId == requesterId &&
+        other.title == title &&
+        other.description == description &&
+        other.type == type &&
+        other.street == street &&
+        other.ward == ward &&
+        other.district == district &&
+        other.city == city &&
+        other.modeId == modeId &&
+        other.serviceId == serviceId &&
+        other.categoryId == categoryId &&
+        other.ticketStatus == ticketStatus &&
+        other.priority == priority &&
+        other.impact == impact &&
+        other.impactDetail == impactDetail &&
+        other.urgency == urgency &&
+        other.attachmentUrl == attachmentUrl &&
+        other.scheduledStartTime == scheduledStartTime &&
+        other.scheduledEndTime == scheduledEndTime &&
+        other.dueTime == dueTime &&
+        other.completedTime == completedTime &&
+        other.createdAt == createdAt &&
+        other.requester == requester &&
+        other.service == service &&
+        other.category == category &&
+        other.mode == mode &&
+        other.assignment == assignment;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      requesterId.hashCode ^
-      title.hashCode ^
-      description.hashCode ^
-      type.hashCode ^
-      street.hashCode ^
-      ward.hashCode ^
-      district.hashCode ^
-      city.hashCode ^
-      modeId.hashCode ^
-      serviceId.hashCode ^
-      categoryId.hashCode ^
-      ticketStatus.hashCode ^
-      priority.hashCode ^
-      impact.hashCode ^
-      impactDetail.hashCode ^
-      urgency.hashCode ^
-      attachmentUrl.hashCode ^
-      scheduledStartTime.hashCode ^
-      scheduledEndTime.hashCode ^
-      dueTime.hashCode ^
-      completedTime.hashCode ^
-      createdAt.hashCode ^
-      requester.hashCode ^
-      service.hashCode ^
-      category.hashCode ^
-      mode.hashCode ^
-      assignment.hashCode;
+        requesterId.hashCode ^
+        title.hashCode ^
+        description.hashCode ^
+        type.hashCode ^
+        street.hashCode ^
+        ward.hashCode ^
+        district.hashCode ^
+        city.hashCode ^
+        modeId.hashCode ^
+        serviceId.hashCode ^
+        categoryId.hashCode ^
+        ticketStatus.hashCode ^
+        priority.hashCode ^
+        impact.hashCode ^
+        impactDetail.hashCode ^
+        urgency.hashCode ^
+        attachmentUrl.hashCode ^
+        scheduledStartTime.hashCode ^
+        scheduledEndTime.hashCode ^
+        dueTime.hashCode ^
+        completedTime.hashCode ^
+        createdAt.hashCode ^
+        requester.hashCode ^
+        service.hashCode ^
+        category.hashCode ^
+        mode.hashCode ^
+        assignment.hashCode;
   }
 }
