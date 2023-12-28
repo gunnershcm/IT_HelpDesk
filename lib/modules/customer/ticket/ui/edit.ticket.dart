@@ -1,8 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
-import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
-import 'package:dich_vu_it/models/response/category.response.model.dart';
+import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
 import 'package:dich_vu_it/models/response/service.response.model.dart';
 import 'package:dich_vu_it/modules/customer/ticket/bloc/ticket.bloc.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';

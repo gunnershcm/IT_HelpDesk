@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-InputDecoration loginInputDecoration(
+InputDecoration textInputDecoration(
     {IconData? prefixIcon,
     String? hint,
     Color? bgColor,
@@ -18,7 +18,7 @@ InputDecoration loginInputDecoration(
         borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(color: borderColor ?? MyColors.blue)),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(16)),
+      borderRadius: const BorderRadius.all(Radius.circular(16)),
       borderSide: BorderSide(color: Colors.grey.withOpacity(0.2)),
     ),
     fillColor: bgColor ?? MyColors.white.withOpacity(0.4),
@@ -64,7 +64,7 @@ Widget waCommonCachedNetworkImage(
             radius: radius);
       },
       placeholder: (_, s) {
-        if (!usePlaceholderIfUrlEmpty) return SizedBox();
+        if (!usePlaceholderIfUrlEmpty) return const SizedBox();
         return placeHolderWidget(
             height: height,
             width: width,
@@ -101,7 +101,7 @@ Widget waStatisticsWidget(
     {String? title, String? amount, Color? color, String? image}) {
   return Container(
     decoration: boxDecorationRoundedWithShadow(12),
-    padding: EdgeInsets.all(16),
+    padding: const EdgeInsets.all(16),
     child: Row(
       children: [
         Container(
@@ -109,7 +109,7 @@ Widget waStatisticsWidget(
               backgroundColor: color!.withOpacity(0.1)),
           height: 45,
           width: 45,
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: Image.asset(image!, fit: BoxFit.cover, height: 20, width: 20),
         ),
         8.width,

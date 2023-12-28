@@ -1,7 +1,7 @@
 import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/scroll.item.dart';
-import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
+import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
 import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/customer/notification/notification.page.dart';
 import 'package:dich_vu_it/modules/customer/ticket/bloc/ticket.bloc.dart';
@@ -26,6 +26,7 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
   int? selectedStatus;
   int countNoti = 0;
   late String query = '';
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void getNoti() async {
     var noti = await NotiProvider.getCountNoti();
@@ -65,13 +66,20 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey, // Add the key to the Scaffold
       backgroundColor: const Color.fromARGB(255, 229, 243, 254),
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        leading: const Icon(
-          Icons.person,
-          size: 30,
-          color: Colors.white,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.menu,
+            size: 30,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            // Open the Drawer when the menu button is pressed
+            _scaffoldKey.currentState!.openDrawer();
+          },
         ),
         title: const Text(
           "IT_HelpDesk",
@@ -114,6 +122,59 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
           ),
           const SizedBox(width: 10),
         ],
+      ),
+      drawer: Drawer(
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+          color: Colors.blue,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.close,
+                  size: 30,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  setState(() {
+                    // Close the Drawer when the close button is pressed
+                    _scaffoldKey.currentState!.openEndDrawer();
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              ListTile(
+                title: const Text(
+                  'Menu Item 1',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                ),
+                onTap: () {
+                  // Handle the action for Menu Item 1
+                  // For example, navigate to a different screen
+                },
+              ),
+              const SizedBox(height: 16),
+              ListTile(
+                title: const Text(
+                  'Menu Item 2',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                ),
+                onTap: () {
+                  // Handle the action for Menu Item 2
+                  // For example, navigate to a different screen
+                },
+              ),
+              // Add more menu items as needed
+            ],
+          ),
+        ),
       ),
       body: BlocConsumer<TicketBloc, TicketState>(
         bloc: _bloc,
@@ -219,39 +280,14 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
                     final element = filteredList[index];
                     return GestureDetector(
                       onTap: () {
-                        if (element.ticketStatus == 0) {
-                          Navigator.push<void>(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) => EditTicket(
-                                callBack: (value) {
-                                  if (value != null) {
-                                    setState(() {
-                                      // Update ticket details
-                                    });
-                                  }
-                                },
-                                request: RequestCreateTicketModel(
-                                  id: element.id,
-                                  title: element.title,
-                                  attachmentUrl: element.attachmentUrl,
-                                  priority: element.priority,
-                                  description: element.description,
-                                ),
-                              ),
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => ViewTicketScreen(
+                              ticket: element,
                             ),
-                          );
-                        } else {
-                          Navigator.push<void>(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) =>
-                                  ViewTicketScreen(
-                                ticket: element,
-                              ),
-                            ),
-                          );
-                        }
+                          ),
+                        );
                       },
                       child: TicketItem(
                         ticket: element,

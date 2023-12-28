@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:dich_vu_it/app/constant/value.dart';
-import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
+import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
 import 'package:dich_vu_it/models/request/request.task.model.dart';
 import 'package:dich_vu_it/models/response/task.model.dart';
 import 'package:dich_vu_it/models/response/ticket.response.model.dart';

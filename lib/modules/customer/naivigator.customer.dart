@@ -37,10 +37,10 @@ class _NavigatorMainCustomerState extends State<NavigatorMainCustomer> {
                 if (value == 0) {
                   body = const TicketCustomerScreen();
                 } else if (value == 1) {
-                  body = const HistoryCustomerScreen();
+                  body = const TicketSolutionPage();
                 } else if (value == 2) {
-                  body = const TicketSolutionPage() ;
-                }else if (value == 3) {
+                  body = const HistoryCustomerScreen();
+                } else if (value == 3) {
                   body = const ListChatScreen();
                 } else if (value == 4) {
                   body = const ProfileScreen();
@@ -52,23 +52,33 @@ class _NavigatorMainCustomerState extends State<NavigatorMainCustomer> {
             unselectedLabelStyle: MyTextStyle.styleUnSelectMenu,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.confirmation_number, color: (sttPage == 0) ? MyColors.blue : MyColors.greyUnselect),
+                icon: Icon(Icons.confirmation_number,
+                    color:
+                        (sttPage == 0) ? MyColors.blue : MyColors.greyUnselect),
                 label: 'Ticket',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.history, color: (sttPage == 1) ? MyColors.blue : MyColors.greyUnselect),
-                label: 'History',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.wb_incandescent_outlined, color: (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),
+                icon: Icon(Icons.wb_incandescent_outlined,
+                    color:
+                        (sttPage == 1) ? MyColors.blue : MyColors.greyUnselect),
                 label: 'Solution',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.message, color: (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),
+                icon: Icon(Icons.history,
+                    color:
+                        (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),
+                label: 'History',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.message,
+                    color:
+                        (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),
                 label: 'Chat',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person, color: (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),
+                icon: Icon(Icons.person,
+                    color:
+                        (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),
                 label: 'Profile',
               ),
             ],

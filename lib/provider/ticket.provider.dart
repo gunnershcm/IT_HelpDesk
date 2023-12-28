@@ -1,7 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages, empty_catches
 import 'dart:convert';
 import 'package:dich_vu_it/app/constant/value.dart';
-import 'package:dich_vu_it/models/request/request.create.tikcket.model.dart';
+import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
 import 'package:dich_vu_it/models/request/request.task.model.dart';
 import 'package:dich_vu_it/models/response/category.response.model.dart';
 import 'package:dich_vu_it/models/response/log.model.dart';
