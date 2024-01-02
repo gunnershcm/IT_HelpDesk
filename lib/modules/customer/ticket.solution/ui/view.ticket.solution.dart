@@ -16,9 +16,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ViewSolutionDetail extends StatefulWidget {
   final TicketSolutionModel solution;
-  final Function callBack;
-  const ViewSolutionDetail(
-      {super.key, required this.solution, required this.callBack});
+  //final Function callBack;
+  const ViewSolutionDetail({super.key, required this.solution});
 
   @override
   State<ViewSolutionDetail> createState() => _ViewSolutionDetailState();
@@ -74,112 +73,168 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                     padding: const EdgeInsets.all(15),
                     child: SingleChildScrollView(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          FieldTextWidget(
-                            title: 'Title',
-                            content: solution.title ?? "",
+                          Text(
+                            solution.title ?? "",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          FieldTextWidget(
-                            title: 'Content',
-                            content: solution.content ?? "",
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              FieldTextWidget(
+                                  title: 'Status',
+                                  content:
+                                      getApproveStatus(solution.isApproved)),
+                              FieldTextWidget(
+                                  title: 'Visibility',
+                                  content: getPublicStatus(solution.isPublic)),
+                              FieldTextWidget(
+                                title: 'Content',
+                                content: solution.content ?? "",
+                              ),
+                              FieldTextWidget(
+                                title: 'Keyword',
+                                content: solution.keyword ?? "",
+                              ),
+                              FieldTextWidget(
+                                title: 'InternalComments',
+                                content: solution.internalComments ?? "",
+                              ),
+                              FieldTextWidget(
+                                  title: 'Attachment',
+                                  content: (solution.attachmentUrl != null &&
+                                          solution.attachmentUrl != "")
+                                      ? "File uploaded"
+                                      : "",
+                                  widget: (solution.attachmentUrl != null &&
+                                          solution.attachmentUrl != "")
+                                      ? Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              downloadFile(context,
+                                                  solution.attachmentUrl ?? "");
+                                            },
+                                            child: Icon(
+                                              Icons.download,
+                                              size: 25,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        )
+                                      : SizedBox.shrink()),
+                              FieldTextWidget(
+                                title: 'Created Date',
+                                content: (solution.createdAt != null)
+                                    ? DateFormat('HH:mm   dd-MM-yyyy').format(
+                                        DateTime.parse(solution.createdAt!))
+                                    : "",
+                              ),
+                              FieldTextWidget(
+                                title: 'Review Date',
+                                content: (solution.createdAt != null)
+                                    ? DateFormat('HH:mm   dd-MM-yyyy').format(
+                                        DateTime.parse(solution.reviewDate!))
+                                    : "",
+                              ),
+                              FieldTextWidget(
+                                title: 'Expired Date',
+                                content: (solution.createdAt != null)
+                                    ? DateFormat('HH:mm   dd-MM-yyyy').format(
+                                        DateTime.parse(solution.expiredDate!))
+                                    : "",
+                              ),
+                            ],
                           ),
-                          FieldTextWidget(
-                            title: 'Keyword',
-                            content: solution.keyword ?? "",
-                          ),
-                          FieldTextWidget(
-                            title: 'InternalComments',
-                            content: solution.internalComments ?? "",
-                          ),
-                          FieldTextWidget(
-                              title: 'Status',
-                              content: getApproveStatus(solution.isApproved)),
-                          FieldTextWidget(
-                              title: 'Visibility',
-                              content: getApproveStatus(solution.isPublic)),
-                          FieldTextWidget(
-                              title: 'Attachment',
-                              content: (solution.attachmentUrl != null &&
-                                      solution.attachmentUrl != "")
-                                  ? "File uploaded"
-                                  : "",
-                              widget: (solution.attachmentUrl != null &&
-                                      solution.attachmentUrl != "")
-                                  ? Container(
-                                      margin: EdgeInsets.only(left: 10),
-                                      child: InkWell(
-                                        onTap: () async {
-                                          downloadFile(context,
-                                              solution.attachmentUrl ?? "");
-                                        },
-                                        child: Icon(
-                                          Icons.download,
-                                          size: 25,
-                                          color: Colors.blue,
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "Owner Infomation",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                // Table with 2 rows and 2 columns
+                                IntrinsicHeight(
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            FieldTextWidget(
+                                              title: 'Owner Name',
+                                              content:
+                                                  "${solution.owner?.lastName ?? " "} ${solution.owner?.firstName ?? " "}",
+                                            ),
+                                            SizedBox(height: 10),
+                                            FieldTextWidget(
+                                              title: 'Owner Email',
+                                              content:
+                                                  solution.owner?.email ?? "",
+                                            ),
+                                            SizedBox(height: 10),
+                                            FieldTextWidget(
+                                              title: 'Owner Phone',
+                                              content:
+                                                  solution.owner?.phoneNumber ??
+                                                      "",
+                                              widget: (solution.owner
+                                                              ?.phoneNumber !=
+                                                          null &&
+                                                      solution.owner
+                                                              ?.phoneNumber !=
+                                                          "")
+                                                  ? Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 10),
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          final Uri launchUri =
+                                                              Uri(
+                                                            scheme: 'tel',
+                                                            path: solution.owner
+                                                                    ?.phoneNumber ??
+                                                                "0987654321",
+                                                          );
+                                                          await launchUrl(
+                                                              launchUri);
+                                                        },
+                                                        child: Icon(
+                                                          Icons.phone,
+                                                          size: 25,
+                                                          color: Colors.blue,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : SizedBox.shrink(),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    )
-                                  : SizedBox.shrink()),
-                          FieldTextWidget(
-                            title: 'Created Date',
-                            content: (solution.createdAt != null)
-                                ? DateFormat('HH:mm   dd-MM-yyyy')
-                                    .format(DateTime.parse(solution.createdAt!))
-                                : "",
-                          ),
-                          FieldTextWidget(
-                            title: 'Review Date',
-                            content: (solution.createdAt != null)
-                                ? DateFormat('HH:mm   dd-MM-yyyy')
-                                    .format(DateTime.parse(solution.reviewDate!))
-                                : "",
-                          ),
-                          FieldTextWidget(
-                            title: 'Expired Date',
-                            content: (solution.createdAt != null)
-                                ? DateFormat('HH:mm   dd-MM-yyyy')
-                                    .format(DateTime.parse(solution.expiredDate!))
-                                : "",
-                          ),
-                          FieldTextWidget(
-                            title: 'Owner Name',
-                            content:
-                                "${solution.owner?.lastName ?? " "} ${solution.owner?.firstName ?? " "}",
-                          ),
-                          FieldTextWidget(
-                            title: 'Owner Email',
-                            content: solution.owner?.email ?? "",
-                          ),
-                          FieldTextWidget(
-                            title: 'Owner Phone',
-                            content: solution.owner?.phoneNumber ?? "",
-                            widget: (solution.owner?.phoneNumber != null &&
-                                    solution.owner?.phoneNumber != "")
-                                ? Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        final Uri launchUri = Uri(
-                                          scheme: 'tel',
-                                          path: solution.owner?.phoneNumber ??
-                                              "0987654321",
-                                        );
-                                        await launchUrl(launchUri);
-                                      },
-                                      child: Icon(
-                                        Icons.phone,
-                                        size: 25,
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                  )
-                                : SizedBox.shrink(),
-                          ),
+                                    ],
+                                  ),
+                                ),
+                              ])
                         ],
                       ),
                     ),
                   ),
-                   Commentslotion(solution: solution,),
+                  Commentslotion(
+                    solution: solution,
+                  ),
                 ]))
               ],
             )));

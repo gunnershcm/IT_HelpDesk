@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 class RequestCreateTicketModel {
   int? id;
   String? title;
@@ -12,7 +14,7 @@ class RequestCreateTicketModel {
   int? ward;
   int? district;
   int? city;
-  String? attachmentUrl;
+  List<String>? attachmentUrl;
   RequestCreateTicketModel({
     this.id,
     this.title,
@@ -26,7 +28,7 @@ class RequestCreateTicketModel {
     this.city,
     this.attachmentUrl,
   });
-
+ 
 
   RequestCreateTicketModel copyWith({
     int? id,
@@ -39,7 +41,7 @@ class RequestCreateTicketModel {
     int? ward,
     int? district,
     int? city,
-    String? attachmentUrl,
+    List<String>? attachmentUrl,
   }) {
     return RequestCreateTicketModel(
       id: id ?? this.id,
@@ -84,7 +86,7 @@ class RequestCreateTicketModel {
       ward: map['ward'] != null ? map['ward'] as int : null,
       district: map['district'] != null ? map['district'] as int : null,
       city: map['city'] != null ? map['city'] as int : null,
-      attachmentUrl: map['attachmentUrl'] != null ? map['attachmentUrl'] as String : null,
+      attachmentUrl: map['attachmentUrl'] != null ? List<String>.from((map['attachmentUrl'] as List<String>)) : null,
     );
   }
 
@@ -112,7 +114,7 @@ class RequestCreateTicketModel {
       other.ward == ward &&
       other.district == district &&
       other.city == city &&
-      other.attachmentUrl == attachmentUrl;
+      listEquals(other.attachmentUrl, attachmentUrl);
   }
 
   @override

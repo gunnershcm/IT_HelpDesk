@@ -5,6 +5,7 @@ import 'package:dich_vu_it/modules/c_technician/profile/ui/profile.screen.dart';
 import 'package:dich_vu_it/modules/chat/chat.screen.list.dart';
 import 'package:dich_vu_it/modules/customer/history_customer/ui/history.customer.page.dart';
 import 'package:dich_vu_it/modules/customer/ticket.solution/ui/ticket.solution.tech.dart';
+import 'package:dich_vu_it/modules/customer/ticket/ui/create.ticket.dart';
 import 'package:flutter/material.dart';
 
 import 'ticket/ui/ticket.customer.screen.dart';
@@ -39,7 +40,7 @@ class _NavigatorMainCustomerState extends State<NavigatorMainCustomer> {
                 } else if (value == 1) {
                   body = const TicketSolutionPage();
                 } else if (value == 2) {
-                  body = const HistoryCustomerScreen();
+                  body = const CreateTickket();
                 } else if (value == 3) {
                   body = const ListChatScreen();
                 } else if (value == 4) {

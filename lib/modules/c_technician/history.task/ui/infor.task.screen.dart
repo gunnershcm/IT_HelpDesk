@@ -147,7 +147,7 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                           SizedBox(width: 10),
                           InkWell(
                               onTap: () async {
-                                downloadFile(context, taskModel.attachmentUrl ?? "");
+                                downloadFile(context, taskModel.attachmentUrl.toString() ?? "");
                               },
                               child: Icon(
                                 Icons.download,

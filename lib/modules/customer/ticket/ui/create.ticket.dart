@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:dich_vu_it/app/constant/enum.dart';
+import 'package:dich_vu_it/app/widgets/WAColors.dart';
+import 'package:dich_vu_it/app/widgets/WAWidgets.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
 import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
@@ -12,10 +14,12 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/src/material/dropdown.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class CreateTickket extends StatefulWidget {
-  final Function callBack;
-  const CreateTickket({super.key, required this.callBack});
+  //final Function callBack;
+  const CreateTickket({super.key});
 
   @override
   State<CreateTickket> createState() => _CreateTickketState();
@@ -85,22 +89,16 @@ class _CreateTickketState extends State<CreateTickket> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      backgroundColor: Color.fromARGB(255, 229, 243, 254),
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
+        leading: Row(),
+        title: Center(
+          child: Text(
+            "Create Ticket",
+            style: TextStyle(
+                color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
           ),
-        ),
-        title: Text(
-          "Create ticket",
-          style: TextStyle(
-              color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
         ),
       ),
       body: BlocConsumer<TicketBloc, TicketState>(
@@ -110,9 +108,9 @@ class _CreateTickketState extends State<CreateTickket> {
             onLoading(context);
             return;
           } else if (state is CareateTicketSuccessState) {
-            Navigator.pop(context);
-            Navigator.pop(context);
-            widget.callBack(true);
+            // Navigator.pop(context);
+            // Navigator.pop(context);
+            //widget.callBack(true);
             showToast(
               context: context,
               msg: "Create a new ticket successfully",
@@ -133,8 +131,7 @@ class _CreateTickketState extends State<CreateTickket> {
           return Container(
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 229, 243, 254),
-                  borderRadius: BorderRadius.circular(10)),
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,18 +143,15 @@ class _CreateTickketState extends State<CreateTickket> {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
+                      // decoration: BoxDecoration(
+                      //     color: Colors.white,
+                      //     borderRadius: BorderRadius.circular(10)),
                       child: TextFormField(
                         controller: title,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(10),
-                        ),
+                        decoration: waInputDecoration(hint: ''),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     const Text(
                       "Service",
                       style:
@@ -166,18 +160,25 @@ class _CreateTickketState extends State<CreateTickket> {
                     Container(
                         width: MediaQuery.of(context).size.width,
                         height: 48,
+                        // decoration: BoxDecoration(
+                        //     color: Colors.white,
+                        //     borderRadius: BorderRadius.circular(10)),
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
+                              border: Border.all(
+                                  color: Color.fromARGB(255, 225, 224, 224)),
+                              borderRadius: BorderRadius.circular(12),
+                              color: WAPrimaryColor.withOpacity(0.07)),
                         child: DropdownSearch<ServiceResponseModel>(
                           popupProps: PopupPropsMultiSelection.menu(
                             showSearchBox: true,
                           ),
                           dropdownDecoratorProps: DropDownDecoratorProps(
-                            dropdownSearchDecoration: InputDecoration(
+                            dropdownSearchDecoration:
+                                // waInputDecoration(hint: ''),
+                            InputDecoration(
                               constraints: const BoxConstraints.tightFor(
                                 width: 300,
-                                height: 40,
+                                height: 50,
                               ),
                               contentPadding:
                                   const EdgeInsets.only(left: 14, bottom: 14),
@@ -218,9 +219,14 @@ class _CreateTickketState extends State<CreateTickket> {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
+                      // decoration: BoxDecoration(
+                      //     color: Colors.white,
+                      //     borderRadius: BorderRadius.circular(10)),
+                       decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Color.fromARGB(255, 225, 224, 224)),
+                              borderRadius: BorderRadius.circular(12),
+                              color: WAPrimaryColor.withOpacity(0.07)),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton2(
                           items: listType.map((String value) {
@@ -406,7 +412,7 @@ class _CreateTickketState extends State<CreateTickket> {
                     ),
                     SizedBox(height: 20),
                     const Text(
-                      "Street",
+                      "Số nhà",
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     ),

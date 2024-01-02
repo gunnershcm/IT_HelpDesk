@@ -20,12 +20,11 @@ class TicketProvider {
     Map<String, String> header = {
       'Content-type': 'application/json',
     };
-
     return header;
   }
 
   // <<<< Get all ticket at screen ticket >>>>
-  static Future<List<TicketResponseModel>> getAllListTicket() async {
+  static Future<List<TicketResponseModel>> getAllListTicket() async { 
     List<TicketResponseModel> listData = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
@@ -50,7 +49,7 @@ class TicketProvider {
     // listData = listDataFake;
     return listData;
   }
-
+  
   // <<<< Get all ticket at screen history >>>>
   static Future<List<TicketResponseModel>> getAllListTicketHistory() async {
     List<TicketResponseModel> listData = [];

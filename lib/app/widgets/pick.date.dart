@@ -1,5 +1,6 @@
 // ignore_for_file: unused_element, prefer_const_constructors, must_be_immutable
 
+import 'package:dich_vu_it/app/widgets/WAColors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -15,7 +16,20 @@ class DatePickerBox1 extends StatefulWidget {
   String? requestDayAfter;
   String? requestDayBefore;
   Function? getFullTime;
-  DatePickerBox1({Key? key, this.label, this.flexLabel, this.flexDatePiker, this.selectedDateFunction, this.selectedTimeFunction, this.dateDisplay, this.timeDisplay, this.requestDayAfter, this.requestDayBefore, this.getFullTime, this.isTime}) : super(key: key);
+  DatePickerBox1(
+      {Key? key,
+      this.label,
+      this.flexLabel,
+      this.flexDatePiker,
+      this.selectedDateFunction,
+      this.selectedTimeFunction,
+      this.dateDisplay,
+      this.timeDisplay,
+      this.requestDayAfter,
+      this.requestDayBefore,
+      this.getFullTime,
+      this.isTime})
+      : super(key: key);
   @override
   State<DatePickerBox1> createState() => DatePickerBox1State();
 }
@@ -27,7 +41,8 @@ class DatePickerBox1State extends State<DatePickerBox1> {
   bool _decideWhichDayToEnable(DateTime day) {
     if (widget.requestDayAfter == null && widget.requestDayBefore == null) {
       return true;
-    } else if (widget.requestDayAfter != null && widget.requestDayBefore != null) {
+    } else if (widget.requestDayAfter != null &&
+        widget.requestDayBefore != null) {
       DateFormat dateFormat = DateFormat("dd-MM-yyyy");
       DateTime requestAfter = dateFormat.parse(widget.requestDayAfter!);
       DateTime requestBefore = dateFormat.parse(widget.requestDayBefore!);
@@ -66,7 +81,12 @@ class DatePickerBox1State extends State<DatePickerBox1> {
       dateDisplay = DateFormat("dd-MM-yyyy").format(selectedDate.toLocal());
       widget.selectedDateFunction!(dateDisplay);
     }
-    final DateTime? picked = await showDatePicker(context: context, initialDate: selectedDate, firstDate: DateTime(1960), lastDate: DateTime(2025), selectableDayPredicate: _decideWhichDayToEnable);
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1960),
+        lastDate: DateTime(2025),
+        selectableDayPredicate: _decideWhichDayToEnable);
     if (picked != null) {
       setState(() {
         selectedDate = picked;
@@ -116,6 +136,7 @@ class DatePickerBox1State extends State<DatePickerBox1> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.label != null) widget.label!,
+        const SizedBox(height: 15),
         Row(
           children: [
             Expanded(
@@ -124,16 +145,22 @@ class DatePickerBox1State extends State<DatePickerBox1> {
                 height: 50,
                 padding: EdgeInsets.only(left: 10),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
+                  border: Border.all(color: Color.fromARGB(255, 225, 224, 224)),
+                  borderRadius: BorderRadius.circular(12),
+                  color: WAPrimaryColor.withOpacity(0.07),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(dateDisplay ?? 'Day', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                    Text(dateDisplay ?? 'Day',
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold)),
                     SizedBox(height: 20.0),
                     dateDisplay == null
-                        ? IconButton(onPressed: () => _selectDate(context), icon: Icon(Icons.date_range), color: Colors.blue[400])
+                        ? IconButton(
+                            onPressed: () => _selectDate(context),
+                            icon: Icon(Icons.date_range),
+                            color: Colors.blue[400])
                         : IconButton(
                             onPressed: () {
                               dateDisplay = null;
@@ -154,16 +181,22 @@ class DatePickerBox1State extends State<DatePickerBox1> {
                       padding: EdgeInsets.only(left: 10),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        border: Border(left: BorderSide(width: 1, color: Colors.grey)),
+                        border: Border(
+                            left: BorderSide(width: 1, color: Colors.grey)),
                         //  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(timeDisplay ?? 'Hour', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                          Text(timeDisplay ?? 'Hour',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold)),
                           SizedBox(height: 20.0),
                           timeDisplay == null
-                              ? IconButton(onPressed: () => _selectTime(), icon: Icon(Icons.schedule), color: Colors.blue[400])
+                              ? IconButton(
+                                  onPressed: () => _selectTime(),
+                                  icon: Icon(Icons.schedule),
+                                  color: Colors.blue[400])
                               : IconButton(
                                   onPressed: () {
                                     timeDisplay = null;
@@ -185,7 +218,9 @@ class DatePickerBox1State extends State<DatePickerBox1> {
 
 String displayDateTimeStamp(String date) {
   DateTime time = DateTime.parse(date);
-  return DateFormat("yyyy-MM-dd").format(time.add(Duration(hours: 7))).toString();
+  return DateFormat("yyyy-MM-dd")
+      .format(time.add(Duration(hours: 7)))
+      .toString();
 }
 
 String displayTimeStamp(date) {
@@ -217,6 +252,7 @@ String dateReverse(date) {
 }
 
 String timeOfDayToString(TimeOfDay timeOfDay) {
-  final String formattedTime = '${timeOfDay.hour}:${timeOfDay.minute.toString().padLeft(2, '0')}';
+  final String formattedTime =
+      '${timeOfDay.hour}:${timeOfDay.minute.toString().padLeft(2, '0')}';
   return formattedTime;
 }

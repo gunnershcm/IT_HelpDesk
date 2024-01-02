@@ -213,7 +213,7 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                           margin: EdgeInsets.only(left: 10),
                           child: InkWell(
                             onTap: () async {
-                              downloadFile(context, tiket.attachmentUrl ?? "");
+                              downloadFile(context, tiket.attachmentUrl.toString() ?? "");
                             },
                             child: Icon(
                               Icons.download,

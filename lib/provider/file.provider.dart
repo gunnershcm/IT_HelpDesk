@@ -41,21 +41,25 @@ Future<String?> uploadFile(File file) async {
   }
 }
 
-Future<String?> handleUploadFile() async {
-  String? fileName;
+Future<List<String>?> handleUploadFile() async {
+  List<String>? fileNames = [];
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.image,
+    allowMultiple: true,
   );
   if (result != null) {
     try {
-      String path = result.files.first.path ?? "";
-      fileName = await uploadFile(File(path));
+      for (PlatformFile file in result.files) {
+      String path = file.path ?? "";
+      String? fileName = await uploadFile(File(path));
+      fileNames.add(fileName!);
+      }
     } catch (e) {
       print("Loi: $e");
     }
   } else {}
 
-  return fileName;
+  return fileNames;
 }
 
 Future<void> downloadFile(BuildContext context, String url) async {

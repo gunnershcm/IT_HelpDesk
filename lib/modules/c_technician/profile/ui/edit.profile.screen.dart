@@ -1,5 +1,7 @@
 import 'package:dich_vu_it/app/theme/colors.dart';
 import 'package:dich_vu_it/app/theme/text.style.dart';
+import 'package:dich_vu_it/app/widgets/WAColors.dart';
+import 'package:dich_vu_it/app/widgets/WAWidgets.dart';
 import 'package:dich_vu_it/app/widgets/border_textfield.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/pick.date.dart';
@@ -10,11 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class EditProfileScrren extends StatefulWidget {
   final UserProfileResponseModel userdata;
   final Function callBack;
-  const EditProfileScrren({super.key, required this.userdata, required this.callBack});
+  const EditProfileScrren(
+      {super.key, required this.userdata, required this.callBack});
 
   @override
   State<EditProfileScrren> createState() => _EditProfileScrrenState();
@@ -30,6 +34,13 @@ class _EditProfileScrrenState extends State<EditProfileScrren> {
   String? birth;
 
   int selectedGender = 0;
+  FocusNode firstNameFocusNode = FocusNode();
+  FocusNode lastNameFocusNode = FocusNode();
+  FocusNode emailFocusNode = FocusNode();
+  FocusNode phoneFocusNode = FocusNode();
+  FocusNode addressFocusNode = FocusNode();
+  FocusNode dobFocusNode = FocusNode();
+  FocusNode genderFocusNode = FocusNode();
 
   Map<int, String> listGender = {
     0: 'Male',
@@ -82,7 +93,8 @@ class _EditProfileScrrenState extends State<EditProfileScrren> {
     phoneController.text = userdata.phoneNumber ?? "";
     addressController.text = userdata.address ?? "";
     if (userdata.dateOfBirth != null && userdata.dateOfBirth != "") {
-      birth = DateFormat("dd-MM-yyyy").format(DateTime.parse(userdata.dateOfBirth!));
+      birth = DateFormat("dd-MM-yyyy")
+          .format(DateTime.parse(userdata.dateOfBirth!));
     }
     userdata.gender ??= 0;
     selectedGender = userdata.gender ?? 0;
@@ -139,73 +151,143 @@ class _EditProfileScrrenState extends State<EditProfileScrren> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    BorderTextField(
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "First Name",
+                        style: boldTextStyle(size: 16),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    AppTextField(
+                      decoration:
+                          waInputDecoration(hint: 'Enter your firstname here'),
+                      textFieldType: TextFieldType.USERNAME,
+                      keyboardType: TextInputType.text,
                       controller: firstNameController,
-                      title: "First Name",
-                      placeholder: 'Enter first name',
-                      onChangeText: (value) {
+                      focus: firstNameFocusNode,
+                      nextFocus: lastNameFocusNode,
+                      onChanged: (value) {
                         userdata.firstName = value;
                       },
                     ),
-                    const SizedBox(height: 15),
-                    BorderTextField(
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Last Name",
+                        style: boldTextStyle(size: 16),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    AppTextField(
+                      decoration:
+                          waInputDecoration(hint: 'Enter your lastname here'),
+                      textFieldType: TextFieldType.USERNAME,
+                      keyboardType: TextInputType.text,
                       controller: lastNameController,
-                      title: "Last Name",
-                      placeholder: 'Enter last name',
-                      onChangeText: (value) {
+                      focus: lastNameFocusNode,
+                      nextFocus: emailFocusNode,
+                      onChanged: (value) {
                         userdata.lastName = value;
                       },
                     ),
-                    const SizedBox(height: 15),
-                    BorderTextField(
-                      validator: validateEmailCheck,
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Email",
+                        style: boldTextStyle(size: 16),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    AppTextField(
+                      //validator: validateEmailCheck,
+                      decoration:
+                          waInputDecoration(hint: 'Enter your email here'),
+                      textFieldType: TextFieldType.EMAIL,
+                      keyboardType: TextInputType.text,
                       controller: emailController,
-                      title: "Email",
-                      placeholder: 'Enter Email',
-                      onChangeText: (value) {
+                      focus: emailFocusNode,
+                      nextFocus: phoneFocusNode,
+                      onChanged: (value) {
                         validateEmail(value);
                         userdata.email = value;
                       },
                     ),
-                    const SizedBox(height: 15),
-                    BorderTextField(
-                      validator: validatePhoneCheck,
-                      typeKey: TextInputType.phone,
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Phone",
+                        style: boldTextStyle(size: 16),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    AppTextField(
+                      //validator: validatePhoneCheck,
+                      decoration:
+                          waInputDecoration(hint: 'Enter your phone here'),
+                      textFieldType: TextFieldType.PHONE,
+                      keyboardType: TextInputType.text,
                       controller: phoneController,
-                      title: "Phone number",
-                      placeholder: 'Enter phone number',
-                      onChangeText: (value) {
+                      focus: phoneFocusNode,
+                      nextFocus: addressFocusNode,
+                      onChanged: (value) {
                         setState(() {
                           validatePhoneCheck = validatePhoneNumber(value);
                         });
                         userdata.phoneNumber = value;
                       },
                     ),
-                    const SizedBox(height: 15),
-                    BorderTextField(
-                      controller: TextEditingController(text: userdata.address ?? ""),
-                      title: "Address",
-                      placeholder: 'Enter address',
-                      onChangeText: (value) {
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Address",
+                        style: boldTextStyle(size: 16),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    AppTextField(
+                      decoration:
+                          waInputDecoration(hint: 'Enter your address here'),
+                      textFieldType: TextFieldType.NAME,
+                      keyboardType: TextInputType.text,
+                      controller:
+                          TextEditingController(text: userdata.address ?? ""),
+                      focus: addressFocusNode,
+                      nextFocus: dobFocusNode,
+                      onChanged: (value) {
                         userdata.address = value;
                       },
                     ),
                     const SizedBox(height: 15),
                     DatePickerBox1(
-                        isTime: false,
-                        label: Text(
-                          "Date Of Birth",
-                          style: MyTextStyle.titleTextfile,
-                        ),
-                        dateDisplay: birth,
-                        selectedDateFunction: (day) {
-                          birth = day;
-                          if (birth != null) {
-                            userdata.dateOfBirth = dateReverse(birth);
-                          } else {
-                            userdata.dateOfBirth = "";
-                          }
-                        }),
+                      isTime: false,
+                      label: Text(
+                        "Date Of Birth",
+                        style: MyTextStyle.titleTextfile,
+                      ),
+                      dateDisplay: birth,
+                      selectedDateFunction: (day) {
+                        birth = day;
+                        if (birth != null) {
+                          userdata.dateOfBirth = dateReverse(birth);
+                        } else {
+                          userdata.dateOfBirth = "";
+                        }
+                      },
+                      // decoration: BoxDecoration(
+                      //   border: Border.all(
+                      //     color: Colors.black, // Màu đen của viền
+                      //     width: 2.0, // Độ rộng của viền
+                      //   ),
+                      //   borderRadius: BorderRadius.all(
+                      //     Radius.circular(8.0), // Độ cong của góc viền
+                      //   ),
+                      // ),
+                    ),
                     const SizedBox(height: 15),
                     Row(
                       children: [
@@ -220,25 +302,34 @@ class _EditProfileScrrenState extends State<EditProfileScrren> {
                       children: [
                         Expanded(
                           child: Container(
-                            height: 40,
+                            height: 50,
                             padding: const EdgeInsets.only(left: 10, top: 5),
                             decoration: BoxDecoration(
-                              color: MyColors.grey1,
-                              border: Border.all(width: 1, color: MyColors.grey2),
-                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                  color: Color.fromARGB(255, 225, 224, 224)),
+                              borderRadius: BorderRadius.circular(12),
+                              color: WAPrimaryColor.withOpacity(0.07),
                             ),
                             child: DropdownButton2(
                               customButton: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    "${listGender[selectedGender]}",
-                                    style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
-                                  ),
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        "${listGender[selectedGender]}",
+                                        style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w400),
+                                      )),
                                   const Icon(Icons.arrow_drop_down),
                                 ],
                               ),
-                              items: listGender.entries.map((item) => DropdownMenuItem<int>(value: item.key, child: Text(item.value))).toList(),
+                              items: listGender.entries
+                                  .map((item) => DropdownMenuItem<int>(
+                                      value: item.key, child: Text(item.value)))
+                                  .toList(),
                               value: selectedGender,
                               onChanged: (value) {
                                 setState(() {
@@ -262,11 +353,15 @@ class _EditProfileScrrenState extends State<EditProfileScrren> {
                         Container(
                           padding: const EdgeInsets.all(15),
                           width: 170,
-                          decoration: BoxDecoration(color: MyColors.blue, borderRadius: BorderRadius.circular(5)),
+                          decoration: BoxDecoration(
+                              color: MyColors.blue,
+                              borderRadius: BorderRadius.circular(5)),
                           child: InkWell(
                             onTap: () {
-                              if(validateEmailCheck==true && validatePhoneCheck ==true) {
-                                _bloc.add(UpdateProfileEvent(userProfileResponseModel: userdata));
+                              if (validateEmailCheck == true &&
+                                  validatePhoneCheck == true) {
+                                _bloc.add(UpdateProfileEvent(
+                                    userProfileResponseModel: userdata));
                               }
                             },
                             child: Row(
