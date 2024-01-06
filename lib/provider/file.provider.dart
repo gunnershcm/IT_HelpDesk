@@ -9,29 +9,39 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'session.provider.dart';
 
-Future<String?> uploadFile(File file) async {
+Future<List<String>?> uploadFiles(List<File> files) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
+
     Map<String, String> headers = {
       'Authorization': 'Bearer $token',
-      'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+      'Content-Type':
+          'multipart/form-data; boundary=<calculated when request is sent>',
     };
+
     final request = http.MultipartRequest(
       "POST",
-      Uri.parse("$baseUrl/v1/itsds/storage/Upload"),
+      Uri.parse("$baseUrl/v1/itsds/storage/upload/multiple-files"),
     );
+
     request.headers.addAll(headers);
-    var data = await http.MultipartFile.fromPath(
-      'file',
-      file.path,
-    );
-    request.files.add(data);
+
+    for (File file in files) {
+      var data = await http.MultipartFile.fromPath(
+        'files[]', // Use 'files[]' to indicate multiple files
+        file.path,
+      );
+      request.files.add(data);
+    }
+
     var response = await request.send();
+    final responseBody = await response.stream.bytesToString();
+    var body = json.decode(responseBody);
+    print(response.statusCode);
+    print(body);
     if (response.statusCode == 200) {
-      final responseBody = await response.stream.bytesToString();
-      var body = json.decode(responseBody);
-      return body["result"];
+      return List<String>.from(body["result"]);
     } else {
       return null;
     }
@@ -41,21 +51,25 @@ Future<String?> uploadFile(File file) async {
   }
 }
 
-Future<String?> handleUploadFile() async {
-  String? fileName;
+Future<List<String>?> handleUploadFile() async {
+  List<String>? fileNames = [];
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.image,
+    allowMultiple: true,
   );
+
   if (result != null) {
     try {
-      String path = result.files.first.path ?? "";
-      fileName = await uploadFile(File(path));
+      List<File> files = result.files
+          .map((PlatformFile file) => File(file.path ?? ""))
+          .toList();
+      fileNames = await uploadFiles(files);
     } catch (e) {
       print("Loi: $e");
     }
-  } else {}
+  }
 
-  return fileName;
+  return fileNames;
 }
 
 Future<void> downloadFile(BuildContext context, String url) async {

@@ -47,7 +47,7 @@ class _EditTicketState extends State<EditTicket> {
     description.text = requestCreateTicketModel.description ?? "";
     selectedPriority = requestCreateTicketModel.priority ?? 0;
     //selectedItem = CategoryResponseModel(id: requestCreateTicketModel.categoryId, name: requestCreateTicketModel.categoryName);
-    attachmentUrl.text = requestCreateTicketModel.attachmentUrl ?? "";
+    //attachmentUrl.text = requestCreateTicketModel.attachmentUrl ?? "";
     //serviceModel = ServiceResponseModel(id: requestCreateTicketModel.
   }
 

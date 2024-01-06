@@ -7,6 +7,7 @@ import 'package:dich_vu_it/models/response/task.model.dart';
 import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/home/bloc/home.bloc.dart';
 import 'package:dich_vu_it/modules/c_technician/home/ui/add.task.screen.dart';
+import 'package:dich_vu_it/modules/c_technician/home/ui/task.detail.dart';
 import 'package:dich_vu_it/modules/customer/notification/notification.page.dart';
 import 'package:dich_vu_it/provider/noti.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
@@ -15,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import 'infor.task.screen.dart';
 import 'list.ticket.assign.dart';
 
 class HomeTechiacaPage extends StatefulWidget {
@@ -267,12 +267,12 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                       ? listTask.map((element) {
                           return Container(
                             width: MediaQuery.of(context).size.width,
-                            height: 130,
-                            padding: EdgeInsets.all(10),
+                            height: 110,
+                            padding: EdgeInsets.all(15),
                             margin: EdgeInsets.only(bottom: 15),
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(15),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.5),
@@ -288,15 +288,15 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                                   context,
                                   MaterialPageRoute<void>(
                                     builder: (BuildContext context) =>
-                                        InforTaskScreen(
-                                      taskModel: element,
-                                      callBack: (value) {
-                                        if (value != null) {
-                                          setState(() {
-                                            element = value;
-                                          });
-                                        }
-                                      },
+                                        ViewTaskScreen(
+                                      task: element,
+                                      // callBack: (value) {
+                                      //   if (value != null) {
+                                      //     setState(() { 
+                                      //       element = value;
+                                      //     });
+                                      //   }
+                                      // },
                                     ),
                                   ),
                                 );
@@ -357,11 +357,11 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Scheduled: ${DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(element.scheduledStartTime ?? ""))} >> ${DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(element.scheduledEndTime ?? ""))}",
-                                    style: TextStyle(),
-                                  ),
+                                  // SizedBox(height: 5),
+                                  // Text(
+                                  //   "Scheduled: ${DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(element.scheduledStartTime ?? ""))} >> ${DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(element.scheduledEndTime ?? ""))}",
+                                  //   style: TextStyle(),
+                                  // ),
                                 ],
                               ),
                             ),

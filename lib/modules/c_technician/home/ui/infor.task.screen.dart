@@ -35,6 +35,7 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
     2: 'High',
     3: 'Critical',
   };
+  
   int selectedPriority = 0;
   var date1;
   var time1;
@@ -263,18 +264,18 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                           taskModel.scheduledEndTime = null;
                         }
                       }),
-                  SizedBox(height: 20),
-                  TextFielWidget(
-                    title: 'Actual Start Time',
-                    controller: TextEditingController(text: (taskModel.actualStartTime != null) ? DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(taskModel.actualStartTime ?? "")) : ""),
-                    enabled: false,
-                  ),
-                  SizedBox(height: 20),
-                  TextFielWidget(
-                    title: 'Actual End Time',
-                    controller: TextEditingController(text: (taskModel.actualStartTime != null) ? DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(taskModel.actualEndTime ?? "")) : ""),
-                    enabled: false,
-                  ),
+                  // SizedBox(height: 20),
+                  // TextFielWidget(
+                  //   title: 'Actual Start Time',
+                  //   controller: TextEditingController(text: (taskModel.actualStartTime != null) ? DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(taskModel.actualStartTime ?? "")) : ""),
+                  //   enabled: false,
+                  // ),
+                  // SizedBox(height: 20),
+                  // TextFielWidget(
+                  //   title: 'Actual End Time',
+                  //   controller: TextEditingController(text: (taskModel.actualStartTime != null) ? DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(taskModel.actualEndTime ?? "")) : ""),
+                  //   enabled: false,
+                  // ),
                   SizedBox(height: 20),
                   const Text(
                     "Attachment",

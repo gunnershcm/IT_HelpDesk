@@ -6,6 +6,7 @@ import 'package:dich_vu_it/app/widgets/login_widget.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
 import 'package:dich_vu_it/modules/c_technician/naivigator.technician.dart';
 import 'package:dich_vu_it/modules/customer/naivigator.customer.dart';
+import 'package:dich_vu_it/modules/login/ui/forget_pasword.dart';
 import 'package:dich_vu_it/repository/authentication.repository.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -46,6 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
               return;
             } else if (state is LoginSecondState) {
               Navigator.pop(context);
+
               if (state.userProfileResponseModel.role == 1) {
                 Navigator.push<void>(
                   context,
@@ -84,6 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
               context
                   .read<AuthenticationRepository>()
                   .updateUer(state.userProfileResponseModel);
+
               if (state.userProfileResponseModel.role == 1) {
                 Navigator.push<void>(
                   context,
@@ -203,10 +206,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                         },
                                       ),
                                       16.height,
-                                      Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Text("Forgot password?",
-                                            style: primaryTextStyle()),
+
+                                      GestureDetector(
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Text("Forgot password?",
+                                              style: primaryTextStyle()),                                      
+                                        ),
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                   ForgetScreen()),
+                                          );
+                                        },
                                       ),
                                       30.height,
                                       AppButton(

@@ -213,7 +213,7 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                           margin: EdgeInsets.only(left: 10),
                           child: InkWell(
                             onTap: () async {
-                              downloadFile(context, tiket.attachmentUrl ?? "");
+                              downloadFile(context, tiket.attachmentUrl.toString() ?? "");
                             },
                             child: Icon(
                               Icons.download,
@@ -239,7 +239,7 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                 title: 'Description',
                 content: tiket.description ?? "",
               ),
-              FieldTextWidget(
+              FieldTextWidget(  
                 title: 'Created Date',
                 content: (tiket.createdAt != null)
                     ? DateFormat('HH:mm   dd-MM-yyyy')
