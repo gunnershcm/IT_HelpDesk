@@ -10,12 +10,14 @@ class TicketItem extends StatefulWidget {
   final List<TicketResponseModel> listTicket;
   final TicketResponseModel ticket;
   final Function(TicketResponseModel) onTap;
-  //final VoidCallback callback;
+  final Function callback;
+
   const TicketItem({
     Key? key,
     required this.ticket,
     required this.onTap,
     required this.listTicket,
+    required this.callback,
   }) : super(key: key);
 
   @override
@@ -26,7 +28,7 @@ class _TicketItemState extends State<TicketItem> {
   TicketResponseModel? ticket;
   Function(TicketResponseModel)? onTap;
   List<TicketResponseModel>? listTicket;
-  VoidCallback? callback;
+  Function? callback;
 
   @override
   void initState() {
@@ -34,7 +36,7 @@ class _TicketItemState extends State<TicketItem> {
     ticket = widget.ticket;
     onTap = widget.onTap;
     listTicket = widget.listTicket;
-    //callback = widget.callback;
+    callback = widget.callback;
   }
 
   @override
@@ -91,28 +93,7 @@ class _TicketItemState extends State<TicketItem> {
             ),
           ),
           const SizedBox(width: 10),
-          if (ticket!.ticketStatus == 0)
-            ElevatedButton(
-              onPressed: () async {
-                var response = await showNoti(context);
-                if (response) {
-                  var check = await TicketProvider.cancelTicket(
-                    ticket!.id ?? -1,
-                  );
-                  if (check == true) {
-                    // Do something when the ticket is canceled
-                  }
-                }
-              },
-              style: ElevatedButton.styleFrom(primary: Colors.red),
-              child: const Text(
-                "Cancel",
-                style: TextStyle(color: Colors.white),
-              ),
-            )
-          else if (ticket!.ticketStatus == 0 ||
-              ticket!.ticketStatus == 1 ||
-              ticket!.ticketStatus == 2)
+          if (ticket!.ticketStatus == 1 || ticket!.ticketStatus == 2)
             ElevatedButton(
               onPressed: () async {
                 var response = await showNoti(context);
@@ -129,8 +110,8 @@ class _TicketItemState extends State<TicketItem> {
                       icon: const Icon(Icons.done),
                     );
                     setState(() {
-                      widget.listTicket.remove(ticket);
-                      //callback!();
+                      ticket!.ticketStatus == 3;
+                      callback!(ticket);
                     });
                   } else {
                     showToast(
@@ -146,6 +127,25 @@ class _TicketItemState extends State<TicketItem> {
               style: ElevatedButton.styleFrom(primary: Colors.green),
               child: const Text(
                 "Resolved",
+                style: TextStyle(color: Colors.white),
+              ),
+            )
+          else if (ticket!.ticketStatus == 3)
+            ElevatedButton(
+              onPressed: () async {
+                var response = await showNoti(context);
+                if (response) {
+                  var check = await TicketProvider.resolvedTicketToProgress(
+                    ticket!.id ?? -1,
+                  );
+                  if (check == true) {
+                    // Do something when the ticket is closed
+                  }
+                }
+              },
+              style: ElevatedButton.styleFrom(primary: Colors.blue),
+              child: const Text(
+                "Progress",
                 style: TextStyle(color: Colors.white),
               ),
             )

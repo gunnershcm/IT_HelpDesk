@@ -45,6 +45,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             prefs.setString("password", event.password);
 
             var userLogin = await SessionProvider.getProfile();
+          
             await AuthService().signInWithEmailAndPassword(user.email?? "", event.password);
             await SessionProvider.postToken();
             emit(LoginSuccessState(userProfileResponseModel: userLogin ?? UserProfileResponseModel()));

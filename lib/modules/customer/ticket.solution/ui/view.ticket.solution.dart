@@ -58,7 +58,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
               ),
             ),
             body: Column(
-              children: [
+              children: [ 
                 TabBar(tabs: const [
                   Tab(
                     text: "Details",
@@ -66,7 +66,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                   Tab(
                     text: "Feedback",
                   ),
-                ]),
+                ]), 
                 Expanded(
                     child: TabBarView(children: [
                   Container(
@@ -85,13 +85,13 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              FieldTextWidget(
-                                  title: 'Status',
-                                  content:
-                                      getApproveStatus(solution.isApproved)),
-                              FieldTextWidget(
-                                  title: 'Visibility',
-                                  content: getPublicStatus(solution.isPublic)),
+                              // FieldTextWidget(
+                              //     title: 'Status',
+                              //     content:
+                              //         getApproveStatus(solution.isApproved)),
+                              // FieldTextWidget(
+                              //     title: 'Visibility',
+                              //     content: getPublicStatus(solution.isPublic)),
                               FieldTextWidget(
                                 title: 'Content',
                                 content: solution.content ?? "",

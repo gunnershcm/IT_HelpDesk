@@ -65,21 +65,21 @@ class _NavigatorMainCustomerState extends State<NavigatorMainCustomer> {
                 label: 'Solution',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.history,
+                icon: Icon(Icons.add_card_rounded,
                     color:
                         (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),
-                label: 'History',
+                label: 'Create',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.message,
                     color:
-                        (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),
+                        (sttPage == 3) ? MyColors.blue : MyColors.greyUnselect),
                 label: 'Chat',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person,
                     color:
-                        (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),
+                        (sttPage == 4) ? MyColors.blue : MyColors.greyUnselect),
                 label: 'Profile',
               ),
             ],

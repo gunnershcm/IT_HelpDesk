@@ -14,10 +14,10 @@ class ListTicketAssign extends StatefulWidget {
   final List<TicketResponseModel> listTiket;
   const ListTicketAssign({super.key, required this.listTiket});
 
-
   @override
   State<ListTicketAssign> createState() => _ListTicketAssignState();
 }
+
 
 class _ListTicketAssignState extends State<ListTicketAssign> {
   final _bloc = HomeBloc();
@@ -25,7 +25,8 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
   List<TicketResponseModel> filteredList = [];
   int? selectedStatus;
   late String query = '';
-  
+  bool updateList = false;
+
   @override
   void initState() {
     super.initState();
@@ -33,6 +34,12 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
     _bloc.add(GetListTicketAssignEvent());
   }
 
+  void updateTicketList(){
+   // _bloc.add(ClearDataEvent());
+    setState(() {
+      updateList = !updateList;
+    });
+  }
 
   void onStatusSelected(int? status) {
     setState(() {
@@ -73,7 +80,7 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
               )),
           title: const Center(
             child: Text(
-              "List of assigned tickets       ",
+              "List of assigned tickets",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 25,
@@ -147,11 +154,6 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                         onTap: () => onStatusSelected(null),
                         isSelected: selectedStatus == null,
                       ),
-                      // ScrollItem(
-                      //   text: 'Open',
-                      //   onTap: () => onStatusSelected(0),
-                      //   isSelected: selectedStatus == 0,
-                      // ),
                       ScrollItem(
                         text: 'Assigned',
                         onTap: () => onStatusSelected(1),
@@ -201,6 +203,7 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                         child: TicketItem(
                           listTicket: listTicket,
                           ticket: element,
+                          callback:  updateTicketList,
                           onTap: (ticket) {
                             // onTap logic specific to the TicketItem
                           },

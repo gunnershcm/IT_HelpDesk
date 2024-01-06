@@ -30,6 +30,7 @@ class SessionProvider {
       var body = json.encode(responseBody);
       var response = await http.post(Uri.parse(url.toString()),
           headers: header, body: body);
+      print(response.body);
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(response.body);
         if (bodyConvert['isError'] == false) {
@@ -55,6 +56,8 @@ class SessionProvider {
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.get(Uri.parse(url.toString()), headers: header);
       String decodedData = utf8.decode(response.bodyBytes);
+         print("objectobject: ${url}");
+             print("Bearer $token");
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(decodedData);
         if (bodyConvert['isError'] == false) {
@@ -178,4 +181,27 @@ class SessionProvider {
     }
     return false;
   }
+
+  static Future<bool> reset_password(String email) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    Map<String, String> header = await getHeader();
+    header.addAll({'Authorization': 'Bearer $token'});
+    var url = "$baseUrl/v1/itsds/auth/reset-password?email=$email";
+    var response = await http.post(Uri.parse(url.toString()),
+        headers: header);
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      var bodyConvert = jsonDecode(response.body);
+      if (bodyConvert['isError'] == false) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
 }

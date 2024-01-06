@@ -2,8 +2,14 @@
 
 import 'package:animation_list/animation_list.dart';
 import 'package:dich_vu_it/app/constant/enum.dart';
+import 'package:dich_vu_it/app/widgets/dislike_button.dart';
+import 'package:dich_vu_it/app/widgets/dislike_button_setting.dart';
+import 'package:dich_vu_it/app/widgets/like_button.dart';
+import 'package:dich_vu_it/app/widgets/like_button_setting.dart';
+//import 'package:dich_vu_it/app/widgets/like_button.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
+import 'package:dich_vu_it/modules/c_technician/history.task/bloc/component/ticket.solution.item.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/bloc/solution.bloc.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/create.ticket.solution.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/view.ticket.solution.dart';
@@ -26,12 +32,30 @@ class TicketSolutionPage extends StatefulWidget {
 class _TicketSolutionPageState extends State<TicketSolutionPage> {
   var bloc = TicketSolutionBloc();
   List<TicketSolutionModel> listSolution = [];
-  TicketSolutionModel? selectedSolution = TicketSolutionModel(title: "All solutions");
+  List<TicketSolutionModel> filteredList = [];
+  late String query = '';
+  TicketSolutionModel? selectedSolution =
+      TicketSolutionModel(title: "All solutions");
+  // bool isLiked = false;
+  // int likeCount = 20;
+  // double size = 20;
 
   @override
   void initState() {
     super.initState();
     bloc.add(GetAllSolutionEvent());
+  }
+
+  void filterList() {
+    setState(() {
+      filteredList = listSolution
+          .where((solution) =>
+              (solution.title!.toLowerCase().contains(query.toLowerCase()) ||
+                  solution.category!.name!
+                      .toLowerCase()
+                      .contains(query.toLowerCase())))
+          .toList();
+    });
   }
 
   @override
@@ -44,6 +68,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
           return;
         } else if (state is GetListSolutionState) {
           listSolution = state.list;
+          filterList();
           Navigator.pop(context);
         } else if (state is TicketSolutionError) {
           Navigator.pop(context);
@@ -57,8 +82,11 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
             leading: Row(),
             title: Center(
               child: Text(
-                "Solution",
-                style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+                "Solution ",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600),
               ),
             ),
             actions: [
@@ -91,156 +119,73 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
             padding: EdgeInsets.all(15),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
-                        height: 40,
-                        child: DropdownSearch<TicketSolutionModel>(
-                          popupProps: PopupPropsMultiSelection.menu(
-                            showSearchBox: true,
-                          ),
-                          dropdownDecoratorProps: DropDownDecoratorProps(
-                            dropdownSearchDecoration: InputDecoration(
-                              constraints: const BoxConstraints.tightFor(
-                                width: 300,
-                                height: 40,
-                              ),
-                              contentPadding: const EdgeInsets.only(left: 14, bottom: 14),
-                              focusedBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(0),
-                                ),
-                                borderSide: BorderSide(color: Colors.white, width: 0),
-                              ),
-                              hintText: "",
-                              hintMaxLines: 1,
-                              enabledBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                                borderSide: BorderSide(color: Colors.white, width: 0),
-                              ),
-                            ),
-                          ),
-                          asyncItems: (String? filter) => SolutionProvider.getAllListSolutionFillter(),
-                          itemAsString: (TicketSolutionModel u) => "${u.title!} ${u.createdAt != null ? "(${(u.createdAt != null) ? DateFormat('HH:mm dd/MM/yyyy').format(DateTime.parse(u.createdAt!).toLocal()) : ""})" : ""}",
-                          selectedItem: selectedSolution,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedSolution = value!;
-                              if (selectedSolution?.id != null && selectedSolution!.id! > 0) {
-                                bloc.add(FixListEvent(ticketSolutionModel: selectedSolution!));
-                              } else {
-                                bloc.add(GetAllSolutionEvent());
-                              }
-                            });
-                          },
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 16,
+                      bottom: 8,
+                      left: 16,
+                      right: 16), // Updated padding
+                  child: SizedBox(
+                    height: 40,
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          query = value;
+                          filterList();
+                        });
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: 'Search...',
+                        prefixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 10),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                          gapPadding: 5.0,
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-                SizedBox(height: 20),
+                //SizedBox(height: 20),
                 Expanded(
-                    child: AnimationList(
-                  children: listSolution.isNotEmpty
-                      ? listSolution.map((element) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 130,
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(bottom: 15),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  blurRadius: 8,
-                                  offset: Offset(3, 3),
-                                ),
-                              ],
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push<void>(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (BuildContext context) => ViewSolutionDetail(
-                                      solution: element,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          element.title ?? "",
-                                          style: TextStyle(color: Colors.black, fontSize: 20),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Container(
-                                        width: 20,
-                                        height: 20,
-                                        //decoration: BoxDecoration(color: colorTaskStatus(element.taskStatus ?? 1), borderRadius: BorderRadius.circular(10)),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text: "Status: ",
-                                          style: DefaultTextStyle.of(context).style,
-                                        ),
-                                        TextSpan(
-                                          text: "${getApproveStatus(element.isApproved)}",
-                                          style: element.isApproved == true ? TextStyle(color: Colors.green) : TextStyle(color: Colors.red),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text: "Visibility: ",
-                                          style: DefaultTextStyle.of(context).style,
-                                        ),
-                                        TextSpan(
-                                          text: "${getPublicStatus(element.isPublic)}",
-                                          style: element.isPublic == true ? TextStyle(color: Colors.green) : TextStyle(color: Colors.red),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Scheduled: ${DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(element.reviewDate ?? ""))} >> ${DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(element.expiredDate ?? ""))}",
-                                    style: TextStyle(),
-                                  ),
-                                ],
+                  child: ListView.builder(
+                    itemCount: filteredList.length,
+                    itemBuilder: (context, index) {
+                      final element = filteredList[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push<void>(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  ViewSolutionDetail(
+                                solution: element,
                               ),
                             ),
                           );
-                        }).toList()
-                      : [],
-                ))
+                        },
+                        child: TicketSolutionItem(
+                          solution: element,
+                          onTap: (ticket) {
+                            // onTap logic specific to the TicketItem
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
           ),

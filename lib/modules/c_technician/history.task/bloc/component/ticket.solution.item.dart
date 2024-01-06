@@ -56,39 +56,39 @@ class TicketSolutionItem extends StatelessWidget {
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
-                // RichText(
-                //   text: TextSpan(
-                //     children: [
-                //       TextSpan(
-                //         text: "Status: ",
-                //         style: DefaultTextStyle.of(context).style,
-                //       ),
-                //       TextSpan(
-                //         text: "${getApproveStatus(solution.isApproved)}",
-                //         style: solution.isApproved == true
-                //             ? TextStyle(color: Colors.green)
-                //             : TextStyle(color: Colors.red),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // SizedBox(height: 5),
-                // RichText(
-                //   text: TextSpan(
-                //     children: [
-                //       TextSpan(
-                //         text: "Visibility: ",
-                //         style: DefaultTextStyle.of(context).style,
-                //       ),
-                //       TextSpan(
-                //         text: "${getPublicStatus(solution.isPublic)}",
-                //         style: solution.isPublic == true
-                //             ? TextStyle(color: Colors.green)
-                //             : TextStyle(color: Colors.red),
-                //       ),
-                //     ],
-                //   ),
-                // ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Status: ",
+                        style: DefaultTextStyle.of(context).style,
+                      ),
+                      TextSpan(
+                        text: "${getApproveStatus(solution.isApproved)}",
+                        style: solution.isApproved == true
+                            ? TextStyle(color: Colors.green)
+                            : TextStyle(color: Colors.red),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 5),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Visibility: ",
+                        style: DefaultTextStyle.of(context).style,
+                      ),
+                      TextSpan(
+                        text: "${getPublicStatus(solution.isPublic)}",
+                        style: solution.isPublic == true
+                            ? TextStyle(color: Colors.green)
+                            : TextStyle(color: Colors.red),
+                      ),
+                    ],
+                  ),
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

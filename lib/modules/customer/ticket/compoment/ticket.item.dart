@@ -69,7 +69,7 @@ class TicketItem extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          if (ticket.ticketStatus == 0)
+          if (ticket.ticketStatus == 1)
             ElevatedButton(
               onPressed: () async {
                 var response = await showNoti(context);

@@ -239,7 +239,7 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                 title: 'Description',
                 content: tiket.description ?? "",
               ),
-              FieldTextWidget(
+              FieldTextWidget(  
                 title: 'Created Date',
                 content: (tiket.createdAt != null)
                     ? DateFormat('HH:mm   dd-MM-yyyy')
