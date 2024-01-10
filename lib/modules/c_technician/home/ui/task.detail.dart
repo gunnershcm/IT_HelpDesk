@@ -163,8 +163,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                               margin: EdgeInsets.only(left: 10),
                               child: InkWell(
                                 onTap: () async {
-                                  downloadFile(
-                                      context, task.attachmentUrl.toString());
+                                  downloadFile(context, List<String>.from(task.attachmentUrl ?? []));
                                 },
                                 child: Icon(
                                   Icons.download,

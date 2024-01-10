@@ -3,6 +3,7 @@ import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
 import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
 import 'package:dich_vu_it/models/response/service.response.model.dart';
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/customer/ticket/bloc/ticket.bloc.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
@@ -12,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditTicket extends StatefulWidget {
-  final RequestCreateTicketModel request;
+  final TicketResponseModel request;
   final Function callBack;
   const EditTicket({super.key, required this.callBack, required this.request});
 
@@ -21,8 +22,8 @@ class EditTicket extends StatefulWidget {
 }
 
 class _EditTicketState extends State<EditTicket> {
-  RequestCreateTicketModel requestCreateTicketModel =
-      RequestCreateTicketModel();
+  TicketResponseModel requestCreateTicketModel =
+      TicketResponseModel();
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController attachmentUrl = TextEditingController();
@@ -45,7 +46,7 @@ class _EditTicketState extends State<EditTicket> {
     requestCreateTicketModel = widget.request;
     title.text = requestCreateTicketModel.title ?? "";
     description.text = requestCreateTicketModel.description ?? "";
-    selectedPriority = requestCreateTicketModel.priority ?? 0;
+    //selectedPriority = requestCreateTicketModel.priority ?? 0;
     //selectedItem = CategoryResponseModel(id: requestCreateTicketModel.categoryId, name: requestCreateTicketModel.categoryName);
     //attachmentUrl.text = requestCreateTicketModel.attachmentUrl ?? "";
     //serviceModel = ServiceResponseModel(id: requestCreateTicketModel.
@@ -176,58 +177,58 @@ class _EditTicketState extends State<EditTicket> {
                       },
                     )),
                 SizedBox(height: 20),
-                const Text(
-                  "Type",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton2(
-                      items: listType.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                              value), // Hiển thị giá trị là văn bản của mục
-                        );
-                      }).toList(),
-                      value: requestCreateTicketModel.type,
-                      onChanged: (value) {
-                        setState(() {
-                          requestCreateTicketModel.type = value as String;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                const Text(
-                  "Priority",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton2(
-                      items: listPriority.entries
-                          .map((item) => DropdownMenuItem<int>(
-                              value: item.key, child: Text(item.value)))
-                          .toList(),
-                      value: selectedPriority,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedPriority = value as int;
-                        });
-                      },
-                    ),
-                  ),
-                ),
+                // const Text(
+                //   "Type",
+                //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                // ),
+                // Container(
+                //   width: MediaQuery.of(context).size.width,
+                //   decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.circular(10)),
+                //   child: DropdownButtonHideUnderline(
+                //     child: DropdownButton2(
+                //       items: listType.map((String value) {
+                //         return DropdownMenuItem<String>(
+                //           value: value,
+                //           child: Text(
+                //               value), // Hiển thị giá trị là văn bản của mục
+                //         );
+                //       }).toList(),
+                //       value: requestCreateTicketModel.type,
+                //       onChanged: (value) {
+                //         setState(() {
+                //           requestCreateTicketModel.type = value as String;
+                //         });
+                //       },
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(height: 20),
+                // const Text(
+                //   "Priority",
+                //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                // ),
+                // Container(
+                //   width: MediaQuery.of(context).size.width,
+                //   decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.circular(10)),
+                //   child: DropdownButtonHideUnderline(
+                //     child: DropdownButton2(
+                //       items: listPriority.entries
+                //           .map((item) => DropdownMenuItem<int>(
+                //               value: item.key, child: Text(item.value)))
+                //           .toList(),
+                //       value: selectedPriority,
+                //       onChanged: (value) {
+                //         setState(() {
+                //           selectedPriority = value as int;
+                //         });
+                //       },
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 20),
                 const Text(
                   "Description",
@@ -265,7 +266,7 @@ class _EditTicketState extends State<EditTicket> {
                         children: [
                           Expanded(
                             child: Text(
-                              (requestCreateTicketModel.attachmentUrl != null)
+                              (requestCreateTicketModel.attachmentUrls != null)
                                   ? "File uploaded"
                                   : "Upload file",
                               overflow: TextOverflow.ellipsis,
@@ -276,7 +277,7 @@ class _EditTicketState extends State<EditTicket> {
                               onTap: () async {
                                 var fileName = await handleUploadFile();
                                 setState(() {
-                                  requestCreateTicketModel.attachmentUrl =
+                                  requestCreateTicketModel.attachmentUrls =
                                       fileName;
                                 });
                               },
@@ -325,7 +326,7 @@ class _EditTicketState extends State<EditTicket> {
                           requestCreateTicketModel.description =
                               description.text;
                           //requestCreateTicketModel.categoryId = selectedItem?.id;
-                          requestCreateTicketModel.priority = selectedPriority;
+                          //requestCreateTicketModel.priority = selectedPriority;
                           _bloc.add(UpdtaeTicketEvent(
                               request: requestCreateTicketModel));
                         },

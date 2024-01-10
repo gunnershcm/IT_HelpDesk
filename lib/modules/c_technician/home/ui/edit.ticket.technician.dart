@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, must_be_immutable
 
+import 'package:dich_vu_it/app/widgets/WAColors.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
 import 'package:dich_vu_it/models/response/ticket.response.model.dart';
@@ -27,20 +28,23 @@ class _EditTicketTechnicianScreenState
     2: 'High',
   };
   int? selectedImpact;
-  Map<int, String> listUrgency = {
+  Map<int, String> listPriority = {
     0: 'Low',
     1: 'Medium',
     2: 'High',
-    3: 'Urgent',
+    3: 'Critical',
   };
-  int? selectedUrgency;
+  int selectedPriority = 0;
+
+  List<String> listType = ["Offline", "Online"];
+  String? selectedType = "";
 
   @override
   void initState() {
     super.initState();
     selectedImpact = widget.tiket.impact;
     description.text = widget.tiket.impactDetail ?? "";
-    selectedUrgency = widget.tiket.urgency;
+    selectedPriority = widget.tiket.priority ?? 0;
   }
 
   @override
@@ -113,7 +117,7 @@ class _EditTicketTechnicianScreenState
             ),
             SizedBox(height: 20),
             const Text(
-              "Urgency",
+              "Priority",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
             Container(
@@ -122,20 +126,51 @@ class _EditTicketTechnicianScreenState
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton2(
-                  items: listUrgency.entries
+                  items: listPriority.entries
                       .map((item) => DropdownMenuItem<int>(
                           value: item.key, child: Text(item.value)))
                       .toList(),
-                  value: selectedUrgency,
+                  value: selectedPriority,
                   onChanged: (value) {
                     setState(() {
-                      selectedUrgency = value as int;
+                      selectedPriority = value as int;
+                      //tiket.priority = selectedPriority;
                     });
                   },
                 ),
               ),
             ),
             SizedBox(height: 20),
+            const Text(
+              "Type",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            ),
+            // Container(
+            //   width: MediaQuery.of(context).size.width,
+            //   // decoration: BoxDecoration(
+            //   //     color: Colors.white,
+            //   //     borderRadius: BorderRadius.circular(10)),
+            //   decoration: BoxDecoration(
+            //       border: Border.all(color: Color.fromARGB(255, 225, 224, 224)),
+            //       borderRadius: BorderRadius.circular(12),
+            //       color: WAPrimaryColor.withOpacity(0.07)),
+            //   child: DropdownButtonHideUnderline(
+            //     child: DropdownButton2(
+            //       items: listType.map((String value) {
+            //         return DropdownMenuItem<String>(
+            //           value: value,
+            //           child: Text(value), // Hiển thị giá trị là văn bản của mục
+            //         );
+            //       }).toList(),
+            //       value: requestCreateTicketModel.type,
+            //       onChanged: (value) {
+            //         setState(() {
+            //           requestCreateTicketModel.type = value as String;
+            //         });
+            //       },
+            //     ),
+            //   ),
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -152,7 +187,6 @@ class _EditTicketTechnicianScreenState
                         idTicket: widget.tiket.id ?? 0,
                         impact: selectedImpact ?? 0,
                         impactDetail: description.text,
-                        urgency: selectedUrgency ?? 0,
                       );
                       if (response) {
                         showToast(
@@ -163,7 +197,7 @@ class _EditTicketTechnicianScreenState
                         );
                         var valueCallBack = widget.tiket;
                         valueCallBack.impact = selectedImpact;
-                        valueCallBack.urgency = selectedUrgency;
+                        //valueCallBack.urgency = selectedUrgency;
                         valueCallBack.impactDetail = description.text;
                         widget.callBack(valueCallBack);
                       } else {

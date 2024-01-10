@@ -5,13 +5,13 @@ class AssigmentModel {
   int? id;
   String? technicianFullName;
   String? technicianEmail;
-  String? technicianPhone;
+  String? technicianPhoneNumber;
   String? teamName;
   AssigmentModel({
     this.id,
     this.technicianFullName,
     this.technicianEmail,
-    this.technicianPhone,
+    this.technicianPhoneNumber,
     this.teamName,
   });
 
@@ -19,14 +19,14 @@ class AssigmentModel {
     int? id,
     String? technicianFullName,
     String? technicianEmail,
-    String? technicianPhone,
+    String? technicianPhoneNumber,
     String? teamName,
   }) {
     return AssigmentModel(
       id: id ?? this.id,
       technicianFullName: technicianFullName ?? this.technicianFullName,
       technicianEmail: technicianEmail ?? this.technicianEmail,
-      technicianPhone: technicianPhone ?? this.technicianPhone,
+      technicianPhoneNumber: technicianPhoneNumber ?? this.technicianPhoneNumber,
       teamName: teamName ?? this.teamName,
     );
   }
@@ -36,7 +36,7 @@ class AssigmentModel {
       'id': id,
       'technicianFullName': technicianFullName,
       'technicianEmail': technicianEmail,
-      'technicianPhone': technicianPhone,
+      'technicianPhoneNumber': technicianPhoneNumber,
       'teamName': teamName,
     };
   }
@@ -46,7 +46,7 @@ class AssigmentModel {
       id: map['id'] != null ? map['id'] as int : null,
       technicianFullName: map['technicianFullName'] != null ? map['technicianFullName'] as String : null,
       technicianEmail: map['technicianEmail'] != null ? map['technicianEmail'] as String : null,
-      technicianPhone: map['technicianPhone'] != null ? map['technicianPhone'] as String : null,
+      technicianPhoneNumber: map['technicianPhoneNumber'] != null ? map['technicianPhoneNumber'] as String : null,
       teamName: map['teamName'] != null ? map['teamName'] as String : null,
     );
   }
@@ -57,7 +57,7 @@ class AssigmentModel {
 
   @override
   String toString() {
-    return 'AssigmentModel(id: $id, technicianFullName: $technicianFullName, technicianEmail: $technicianEmail, technicianPhone: $technicianPhone, teamName: $teamName)';
+    return 'AssigmentModel(id: $id, technicianFullName: $technicianFullName, technicianEmail: $technicianEmail, technicianPhoneNumber: $technicianPhoneNumber, teamName: $teamName)';
   }
 
   @override
@@ -68,7 +68,7 @@ class AssigmentModel {
       other.id == id &&
       other.technicianFullName == technicianFullName &&
       other.technicianEmail == technicianEmail &&
-      other.technicianPhone == technicianPhone &&
+      other.technicianPhoneNumber == technicianPhoneNumber &&
       other.teamName == teamName;
   }
 
@@ -77,7 +77,7 @@ class AssigmentModel {
     return id.hashCode ^
       technicianFullName.hashCode ^
       technicianEmail.hashCode ^
-      technicianPhone.hashCode ^
+      technicianPhoneNumber.hashCode ^
       teamName.hashCode;
   }
 }

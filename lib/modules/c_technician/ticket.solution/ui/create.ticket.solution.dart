@@ -31,7 +31,6 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
   TextEditingController title = TextEditingController();
   TextEditingController content = TextEditingController();
   TextEditingController keyword = TextEditingController();
-  TextEditingController internalComments = TextEditingController();
   CategoryResponseModel? selectedItemCategory;
   UserProfileResponseModel? selectedItemOwner;
   //TicketSolutionModel? selectedItemApprove;
@@ -220,65 +219,34 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
                     title: 'Keyword',
                     controller: keyword,
                   ),
-                  SizedBox(height: 20),
-                  TextFielWidget(
-                    title: 'Internal Comments',
-                    controller: internalComments,
-                  ),
-                  SizedBox(height: 20),
-                  const Text(
-                    "Visibility",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton2(
-                        items: listStatus.entries
-                            .map((item) => DropdownMenuItem<bool>(
-                                value: item.key, child: Text(item.value)))
-                            .toList(),
-                        value: selectedStatus,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedStatus = value as bool;
-                            requestSolutionModel.isPublic = selectedStatus;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  DatePickerBox1(
-                      requestDayBefore: date2,
-                      isTime: true,
-                      label: Text(
-                        'Review Date:',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w500),
-                      ),
-                      dateDisplay: date1,
-                      timeDisplay: time1,
-                      selectedDateFunction: (day) {
-                        if (day == null) {
-                          requestSolutionModel.reviewDate = null;
-                        }
-                      },
-                      selectedTimeFunction: (time) {
-                        if (time == null) {
-                          requestSolutionModel.reviewDate = null;
-                        }
-                      },
-                      getFullTime: (time) {
-                        if (time != "") {
-                          requestSolutionModel.reviewDate = time;
-                        } else {
-                          requestSolutionModel.reviewDate = null;
-                        }
-                      }),
+                  SizedBox(height: 20),               
+                  // SizedBox(height: 20),
+                  // const Text(
+                  //   "Visibility",
+                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  // ),
+                  // Container(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   decoration: BoxDecoration(
+                  //       color: Colors.white,
+                  //       borderRadius: BorderRadius.circular(10)),
+                  //   child: DropdownButtonHideUnderline(
+                  //     child: DropdownButton2(
+                  //       items: listStatus.entries
+                  //           .map((item) => DropdownMenuItem<bool>(
+                  //               value: item.key, child: Text(item.value)))
+                  //           .toList(),
+                  //       value: selectedStatus,
+                  //       onChanged: (value) {
+                  //         setState(() {
+                  //           selectedStatus = value as bool;
+                  //           requestSolutionModel.isPublic = selectedStatus;
+                  //         });
+                  //       },
+                  //     ),
+                  //   ),
+                  // ),
+                  
                   SizedBox(height: 20),
                   DatePickerBox1(
                       requestDayBefore: date1,
@@ -326,7 +294,7 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
                           children: [
                             Expanded(
                               child: Text(
-                                (requestSolutionModel.attachmentUrl != null)
+                                (requestSolutionModel.attachmentUrls != null)
                                     ? "File uploaded"
                                     : "Upload file",
                                 overflow: TextOverflow.ellipsis,
@@ -337,7 +305,7 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
                                 onTap: () async {
                                   var fileName = await handleUploadFile();
                                   setState(() {
-                                    requestSolutionModel.attachmentUrl =
+                                    requestSolutionModel.attachmentUrls =
                                         fileName;
                                   });
                                 },
@@ -387,11 +355,9 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
                             requestSolutionModel.content = content.text;
                             requestSolutionModel.categoryId =
                                 selectedItemCategory?.id;
-                            // requestSolutionModel.keyword = keyword.text;
-                            // requestSolutionModel.internalComments = internalComments.text;
-                            // requestSolutionModel.isPublic = selectedStatus;
-                            // requestSolutionModel.ownerId =
-                            //     selectedItemOwner?.id;
+                             requestSolutionModel.keyword = keyword.text;
+                             //requestSolutionModel.isPublic = selectedStatus;
+                             requestSolutionModel.ownerId = selectedItemOwner?.id;
                             print(requestSolutionModel.toMap());
                             bloc.add(CreateSolutionEvent(
                                 requestSolutionModel: requestSolutionModel));

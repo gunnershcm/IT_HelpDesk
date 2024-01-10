@@ -34,6 +34,8 @@ class TicketProvider {
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.get(Uri.parse(url.toString()), headers: header);
       String decodedData = utf8.decode(response.bodyBytes);
+      print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(decodedData);
         if (bodyConvert['isError'] == false) {
@@ -181,7 +183,7 @@ class TicketProvider {
 
   //update ticket
   static Future<bool> updateTicket(
-      RequestCreateTicketModel requestCreateTicketModel) async {
+      TicketResponseModel requestCreateTicketModel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     Map<String, String> header = await getHeader();
@@ -299,8 +301,7 @@ class TicketProvider {
   static Future<bool> patchTechnicianTicket(
       {required int idTicket,
       required int impact,
-      required String impactDetail,
-      required int urgency}) async {
+      required String impactDetail,}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     Map<String, String> header = await getHeader();
@@ -310,7 +311,6 @@ class TicketProvider {
     var body = {
       "impact": impact,
       "impactDetail": impactDetail,
-      "urgency": urgency
     };
     var response = await http.patch(
       Uri.parse(url.toString()),
@@ -518,7 +518,7 @@ class TicketProvider {
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.get(Uri.parse(url.toString()), headers: header);
       String decodedData = utf8.decode(response.bodyBytes);
-       print(response.statusCode);
+      print(response.statusCode);
       print(response.body);
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(decodedData);

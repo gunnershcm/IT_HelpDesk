@@ -8,53 +8,29 @@ class RequestCreateTicketModel {
   String? title;
   String? description;
   int? serviceId;
-  String? type;
-  String? street;
-  int? priority;
-  int? ward;
-  int? district;
-  int? city;
-  List<String>? attachmentUrl;
+  List<String>? attachmentUrls;
   RequestCreateTicketModel({
     this.id,
     this.title,
     this.description,
     this.serviceId,
-    this.type,
-    this.street,
-    this.priority,
-    this.ward,
-    this.district,
-    this.city,
-    this.attachmentUrl,
+    this.attachmentUrls,
   });
- 
+  
 
   RequestCreateTicketModel copyWith({
     int? id,
     String? title,
     String? description,
     int? serviceId,
-    String? type,
-    String? street,
-    int? priority,
-    int? ward,
-    int? district,
-    int? city,
-    List<String>? attachmentUrl,
+    List<String>? attachmentUrls,
   }) {
     return RequestCreateTicketModel(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
       serviceId: serviceId ?? this.serviceId,
-      type: type ?? this.type,
-      street: street ?? this.street,
-      priority: priority ?? this.priority,
-      ward: ward ?? this.ward,
-      district: district ?? this.district,
-      city: city ?? this.city,
-      attachmentUrl: attachmentUrl ?? this.attachmentUrl,
+      attachmentUrls: attachmentUrls ?? this.attachmentUrls,
     );
   }
 
@@ -64,13 +40,7 @@ class RequestCreateTicketModel {
       'title': title,
       'description': description,
       'serviceId': serviceId,
-      'type': type,
-      'street': street,
-      'priority': priority,
-      'ward': ward,
-      'district': district,
-      'city': city,
-      'attachmentUrl': attachmentUrl,
+      'attachmentUrls': attachmentUrls,
     };
   }
 
@@ -80,13 +50,7 @@ class RequestCreateTicketModel {
       title: map['title'] != null ? map['title'] as String : null,
       description: map['description'] != null ? map['description'] as String : null,
       serviceId: map['serviceId'] != null ? map['serviceId'] as int : null,
-      type: map['type'] != null ? map['type'] as String : null,
-      street: map['street'] != null ? map['street'] as String : null,
-      priority: map['priority'] != null ? map['priority'] as int : null,
-      ward: map['ward'] != null ? map['ward'] as int : null,
-      district: map['district'] != null ? map['district'] as int : null,
-      city: map['city'] != null ? map['city'] as int : null,
-      attachmentUrl: map['attachmentUrl'] != null ? List<String>.from((map['attachmentUrl'] as List<String>)) : null,
+      attachmentUrls: map['attachmentUrls'] != null ? List<String>.from(map['attachmentUrls']) : null,
     );
   }
 
@@ -96,7 +60,7 @@ class RequestCreateTicketModel {
 
   @override
   String toString() {
-    return 'RequestCreateTicketModel(id: $id, title: $title, description: $description, serviceId: $serviceId, type: $type, street: $street, priority: $priority, ward: $ward, district: $district, city: $city, attachmentUrl: $attachmentUrl)';
+    return 'RequestCreateTicketModel(id: $id, title: $title, description: $description, serviceId: $serviceId, attachmentUrls: $attachmentUrls)';
   }
 
   @override
@@ -108,13 +72,7 @@ class RequestCreateTicketModel {
       other.title == title &&
       other.description == description &&
       other.serviceId == serviceId &&
-      other.type == type &&
-      other.street == street &&
-      other.priority == priority &&
-      other.ward == ward &&
-      other.district == district &&
-      other.city == city &&
-      listEquals(other.attachmentUrl, attachmentUrl);
+      listEquals(other.attachmentUrls, attachmentUrls);
   }
 
   @override
@@ -123,12 +81,6 @@ class RequestCreateTicketModel {
       title.hashCode ^
       description.hashCode ^
       serviceId.hashCode ^
-      type.hashCode ^
-      street.hashCode ^
-      priority.hashCode ^
-      ward.hashCode ^
-      district.hashCode ^
-      city.hashCode ^
-      attachmentUrl.hashCode;
+      attachmentUrls.hashCode;
   }
 }

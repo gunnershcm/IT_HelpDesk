@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dich_vu_it/app/widgets/WAColors.dart';
 import 'package:dich_vu_it/app/widgets/WAWidgets.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
@@ -41,6 +42,7 @@ class _CreateTickketState extends State<CreateTickket> {
   List<String> listType = ["Offline", "Online"];
   String? selectedType = "";
 
+  bool _deleteIconVisible = false;
   int selectedPriority = 0;
   List<Map<String, dynamic>> cities = [];
   List<Map<String, dynamic>> districts = [];
@@ -101,8 +103,8 @@ class _CreateTickketState extends State<CreateTickket> {
         bloc: _bloc,
         listener: (context, state) async {
           if (state is TicketLoading) {
-              //onLoading(context);
-             return;
+            //onLoading(context);
+            return;
           } else if (state is CareateTicketSuccessState) {
             //Navigator.pop(context);
             // Navigator.pop(context);
@@ -157,24 +159,23 @@ class _CreateTickketState extends State<CreateTickket> {
                     ),
                     Container(
                         width: MediaQuery.of(context).size.width,
-                        height: 48,                     
+                        height: 48,
                         decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Color.fromARGB(255, 225, 224, 224)),
-                              borderRadius: BorderRadius.circular(12),
-                              color: WAPrimaryColor.withOpacity(0.07)),
-                        child: DropdownSearch<ServiceResponseModel>(                                                 
-                          popupProps: PopupPropsMultiSelection.menu(                       
+                            border: Border.all(
+                                color: Color.fromARGB(255, 225, 224, 224)),
+                            borderRadius: BorderRadius.circular(12),
+                            color: WAPrimaryColor.withOpacity(0.07)),
+                        child: DropdownSearch<ServiceResponseModel>(
+                          popupProps: PopupPropsMultiSelection.menu(
                             showSearchBox: true,
                           ),
-                          dropdownDecoratorProps: DropDownDecoratorProps(                       
+                          dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration:
                                 // waInputDecoration(hint: ''),
-                            InputDecoration(
+                                InputDecoration(
                               constraints: const BoxConstraints.tightFor(
                                 width: 300,
                                 height: 50,
-                                
                               ),
                               contentPadding:
                                   const EdgeInsets.only(left: 14, bottom: 14),
@@ -423,7 +424,7 @@ class _CreateTickketState extends State<CreateTickket> {
                     //     ),
                     //   ),
                     // ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 30),
                     const Text(
                       "Attachment",
                       style:
@@ -432,45 +433,122 @@ class _CreateTickketState extends State<CreateTickket> {
                     Row(
                       children: [
                         Expanded(
-                            child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Color.fromARGB(255, 225, 224, 224)),
-                              borderRadius: BorderRadius.circular(12),
-                              color: WAPrimaryColor.withOpacity(0.07)),
-                          padding: EdgeInsets.only(left: 10),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  (requestCreateTicketModel.attachmentUrl !=
+                          child: Container(
+                            height: 80,
+                            padding: EdgeInsets.only(left: 10),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Wrap(
+                                    spacing: 16.0,
+                                    runSpacing: 8.0,
+                                    children: [
+                                      if (requestCreateTicketModel
+                                              .attachmentUrls !=
                                           null)
-                                      ? "File uploaded"
-                                      : "Upload file",
-                                  overflow: TextOverflow.ellipsis,
+                                        for (int index = 0;
+                                            index <
+                                                requestCreateTicketModel
+                                                    .attachmentUrls!.length;
+                                            index++)
+                                          Stack(
+                                            children: [
+                                              Container(
+                                                height: 60,
+                                                width: 60,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      requestCreateTicketModel
+                                                              .attachmentUrls![
+                                                          index],
+                                                  placeholder: (context, url) =>
+                                                      CircularProgressIndicator(),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(Icons.error),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 0,
+                                                right: 0,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      requestCreateTicketModel
+                                                          .attachmentUrls!
+                                                          .removeAt(index);
+                                                    });
+                                                  },
+                                                  child: AnimatedOpacity(
+                                                    opacity: _deleteIconVisible
+                                                        ? 1.0
+                                                        : 0.0,
+                                                    duration: Duration(
+                                                        milliseconds: 300),
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(4),
+                                                      color: Colors.red,
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        color: Colors.white,
+                                                        size: 16,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 10),
-                              InkWell(
-                                  onTap: () async {
-                                    var fileName = await handleUploadFile();
-                                    setState(() {
-                                      requestCreateTicketModel.attachmentUrl =
-                                          fileName;
-                                    });
-                                  },
-                                  child: Icon(
-                                    Icons.upload,
-                                    color: Colors.blue,
-                                  )),
-                              SizedBox(width: 10),
-                            ],
+                                if (requestCreateTicketModel.attachmentUrls ==
+                                    null)
+                                  Expanded(
+                                    child: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: InkWell(
+                                        onTap: () async {
+                                          var fileNames =
+                                              await handleUploadFile();
+                                          print(fileNames);
+                                          if (fileNames != null) {
+                                            setState(() {
+                                              requestCreateTicketModel
+                                                  .attachmentUrls = fileNames;
+                                            });
+                                            print("a");
+                                            print(fileNames);
+                                            print("abcxyz ${requestCreateTicketModel.attachmentUrls}");
+                                            print("b");
+                                          } else {
+                                            // Handle the case where fileNames is null (upload failed)
+                                            print("File upload failed");
+                                          }
+                                        },
+                                        child: Icon(
+                                          Icons.upload,
+                                          size: 30,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                SizedBox(width: 10),
+                              ],
+                            ),
                           ),
-                        ))
+                        ),
                       ],
                     ),
-                    SizedBox(height: 20),
+
+                    SizedBox(height: 40),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -493,7 +571,7 @@ class _CreateTickketState extends State<CreateTickket> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 20),
+                        SizedBox(width: 30),
                         Container(
                           width: 100,
                           height: 40,
@@ -501,13 +579,12 @@ class _CreateTickketState extends State<CreateTickket> {
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.blue),
                           child: InkWell(
-                            onTap: () {
+                            onTap: () async {
                               requestCreateTicketModel.title = title.text;
                               requestCreateTicketModel.description =
                                   description.text;
                               requestCreateTicketModel.serviceId =
-                                  serviceModel?.id;
-                                  
+                                  serviceModel?.id;                       
                               // requestCreateTicketModel.priority =
                               //     selectedPriority;
                               // requestCreateTicketModel.street = street.text;
@@ -516,8 +593,12 @@ class _CreateTickketState extends State<CreateTickket> {
                               // requestCreateTicketModel.district =
                               //     selectedDistrict;
                               // requestCreateTicketModel.ward = selectedWard;
+                              //requestCreateTicketModel.attachmentUrl = attachmentUrl;
+                              //requestCreateTicketModel.attachmentUrl = ;   
+                              print("call api ${requestCreateTicketModel.attachmentUrls}");                          
                               _bloc.add(CreateTicketEvent(
                                   request: requestCreateTicketModel));
+                              
                             },
                             child: Center(
                               child: Text(

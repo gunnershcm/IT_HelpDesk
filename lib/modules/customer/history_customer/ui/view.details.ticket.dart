@@ -72,10 +72,7 @@ class ViewDetailsTicketScreen extends StatelessWidget {
                           title: 'Impact Detail',
                           content: tiket.impactDetail ?? "",
                         ),
-                        FieldTextWidget(
-                          title: 'Urgency',
-                          content: nameUrgency(tiket.urgency ?? -1),
-                        ),
+                        
                       ],
                     )
                   : SizedBox.shrink(),
@@ -112,8 +109,8 @@ class ViewDetailsTicketScreen extends StatelessWidget {
                         ),
                         FieldTextWidget(
                           title: 'Technician Phone',
-                          content: tiket.assignment?.technicianPhone ?? "",
-                          widget: (tiket.assignment?.technicianPhone != null)
+                          content: tiket.assignment?.technicianPhoneNumber ?? "",
+                          widget: (tiket.assignment?.technicianPhoneNumber != null)
                               ? Container(
                                   margin: EdgeInsets.only(left: 10),
                                   child: InkWell(
@@ -121,7 +118,7 @@ class ViewDetailsTicketScreen extends StatelessWidget {
                                       final Uri launchUri = Uri(
                                         scheme: 'tel',
                                         path:
-                                            tiket.assignment?.technicianPhone ??
+                                            tiket.assignment?.technicianPhoneNumber ??
                                                 "0987654321",
                                       );
                                       await launchUrl(launchUri);
