@@ -8,49 +8,37 @@ class RequestCreateSolutionModel {
   String? content;
   int? categoryId;
   int? ownerId;
-  String? reviewDate;
   String? expiredDate;
   String? keyword;
-  String? internalComments;
-  bool? isPublic;
-  List<String>? attachmentUrl;
+  List<String>? attachmentUrls;
   RequestCreateSolutionModel({
     this.title,
     this.content,
     this.categoryId,
     this.ownerId,
-    this.reviewDate,
     this.expiredDate,
     this.keyword,
-    this.internalComments,
-    this.isPublic,
-    this.attachmentUrl,
+    this.attachmentUrls,
   });
-
+  
 
   RequestCreateSolutionModel copyWith({
     String? title,
     String? content,
     int? categoryId,
     int? ownerId,
-    String? reviewDate,
     String? expiredDate,
     String? keyword,
-    String? internalComments,
-    bool? isPublic,
-    List<String>? attachmentUrl,
+    List<String>? attachmentUrls,
   }) {
     return RequestCreateSolutionModel(
       title: title ?? this.title,
       content: content ?? this.content,
       categoryId: categoryId ?? this.categoryId,
       ownerId: ownerId ?? this.ownerId,
-      reviewDate: reviewDate ?? this.reviewDate,
       expiredDate: expiredDate ?? this.expiredDate,
       keyword: keyword ?? this.keyword,
-      internalComments: internalComments ?? this.internalComments,
-      isPublic: isPublic ?? this.isPublic,
-      attachmentUrl: attachmentUrl ?? this.attachmentUrl,
+      attachmentUrls: attachmentUrls ?? this.attachmentUrls,
     );
   }
 
@@ -60,12 +48,9 @@ class RequestCreateSolutionModel {
       'content': content,
       'categoryId': categoryId,
       'ownerId': ownerId,
-      'reviewDate': reviewDate,
       'expiredDate': expiredDate,
       'keyword': keyword,
-      'internalComments': internalComments,
-      'isPublic': isPublic,
-      'attachmentUrl': attachmentUrl,
+      'attachmentUrls': attachmentUrls,
     };
   }
 
@@ -75,12 +60,9 @@ class RequestCreateSolutionModel {
       content: map['content'] != null ? map['content'] as String : null,
       categoryId: map['categoryId'] != null ? map['categoryId'] as int : null,
       ownerId: map['ownerId'] != null ? map['ownerId'] as int : null,
-      reviewDate: map['reviewDate'] != null ? map['reviewDate'] as String : null,
       expiredDate: map['expiredDate'] != null ? map['expiredDate'] as String : null,
       keyword: map['keyword'] != null ? map['keyword'] as String : null,
-      internalComments: map['internalComments'] != null ? map['internalComments'] as String : null,
-      isPublic: map['isPublic'] != null ? map['isPublic'] as bool : null,
-      attachmentUrl: map['attachmentUrl'] != null ? List<String>.from((map['attachmentUrl'] as List<String>)) : null,
+      attachmentUrls: map['attachmentUrls'] != null ? List<String>.from(map['attachmentUrls']) : null,
     );
   }
 
@@ -90,7 +72,7 @@ class RequestCreateSolutionModel {
 
   @override
   String toString() {
-    return 'RequestCreateSolutionModel(title: $title, content: $content, categoryId: $categoryId, ownerId: $ownerId, reviewDate: $reviewDate, expiredDate: $expiredDate, keyword: $keyword, internalComments: $internalComments, isPublic: $isPublic, attachmentUrl: $attachmentUrl)';
+    return 'RequestCreateSolutionModel(title: $title, content: $content, categoryId: $categoryId, ownerId: $ownerId, expiredDate: $expiredDate, keyword: $keyword, attachmentUrls: $attachmentUrls)';
   }
 
   @override
@@ -102,12 +84,9 @@ class RequestCreateSolutionModel {
       other.content == content &&
       other.categoryId == categoryId &&
       other.ownerId == ownerId &&
-      other.reviewDate == reviewDate &&
       other.expiredDate == expiredDate &&
       other.keyword == keyword &&
-      other.internalComments == internalComments &&
-      other.isPublic == isPublic &&
-      listEquals(other.attachmentUrl, attachmentUrl);
+      listEquals(other.attachmentUrls, attachmentUrls);
   }
 
   @override
@@ -116,11 +95,8 @@ class RequestCreateSolutionModel {
       content.hashCode ^
       categoryId.hashCode ^
       ownerId.hashCode ^
-      reviewDate.hashCode ^
       expiredDate.hashCode ^
       keyword.hashCode ^
-      internalComments.hashCode ^
-      isPublic.hashCode ^
-      attachmentUrl.hashCode;
+      attachmentUrls.hashCode;
   }
 }

@@ -104,6 +104,56 @@ class SolutionProvider {
     return false;
   }
 
+  // static Future<bool> change_public(int? idSolution) async {
+  //   try {
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     String? token = prefs.getString(myToken);
+  //     var url =
+  //         "$baseUrl/v1/itsds/solution/change-public?solutionId=$idSolution";
+  //     Map<String, String> header = await getHeader();
+  //     header.addAll({'Authorization': 'Bearer $token'});
+  //     var response = await http.put(Uri.parse(url.toString()), headers: header);
+  //     String decodedData = utf8.decode(response.bodyBytes);
+  //     print(response.body);
+  //     print(response.statusCode);
+  //     if (response.statusCode == 200) {
+  //       var bodyConvert = jsonDecode(decodedData);
+  //       if (bodyConvert['isError'] == false) {
+  //         return true;
+  //       } else {
+  //         return false;
+  //       }
+  //     } else {
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     print("Loi: $e");
+  //   }
+  //   return false;
+  // }
+
+  static Future<bool> change_public(int? idSolution) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    Map<String, String> header = await getHeader();
+    header.addAll({'Authorization': 'Bearer $token'});
+    var url = "$baseUrl/v1/itsds/solution/change-public?solutionId=$idSolution";
+    var response = await http.patch(Uri.parse(url.toString()),
+        headers: header);
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      var bodyConvert = jsonDecode(response.body);
+      if (bodyConvert['isError'] == false) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
   static Future<List<TicketSolutionModel>> getAllListSolution() async {
     List<TicketSolutionModel> listData = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();

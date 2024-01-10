@@ -53,18 +53,11 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
     title.text = solutionModel.title ?? "";
     content.text = solutionModel.content ?? "";
     keyword.text = solutionModel.keyword ?? "";
-    internalComments.text = solutionModel.internalComments ?? "";
-    date1 = DateFormat('dd-MM-yyyy')
-        .format(DateTime.parse(solutionModel.reviewDate ?? ""));
-    time1 = DateFormat('HH:mm')
-        .format(DateTime.parse(solutionModel.reviewDate ?? ""));
     date2 = DateFormat('dd-MM-yyyy')
         .format(DateTime.parse(solutionModel.expiredDate ?? ""));
     time2 = DateFormat('HH:mm')
         .format(DateTime.parse(solutionModel.expiredDate ?? ""));
-     //selectedItemCategory = 
-    selectedStatus = solutionModel.isPublic;
-
+    
   }
 
   @override
@@ -118,7 +111,7 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
           return Container(
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 229, 243, 254),
+                  color: Color.fromARGB(255, 215, 232, 245),
                   borderRadius: BorderRadius.circular(10)),
               child: SingleChildScrollView(
                 child: Column(
@@ -283,108 +276,107 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    const Text(
-                      "Internal Comment",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextFormField(
-                        controller: internalComments,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(10),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    const Text(
-                      "Visibility",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2(
-                          items: listStatus.entries
-                              .map((item) => DropdownMenuItem<bool>(
-                                  value: item.key, child: Text(item.value)))
-                              .toList(),
-                          value: selectedStatus,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedStatus = value as bool;
-                              solutionModel.isPublic = selectedStatus;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
+                    // SizedBox(height: 20),
+                    // const Text(
+                    //   "Internal Comment",
+                    //   style:
+                    //       TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    // ),
+                    // Container(
+                    //   width: MediaQuery.of(context).size.width,
+                    //   decoration: BoxDecoration(
+                    //       color: Colors.white,
+                    //       borderRadius: BorderRadius.circular(10)),
+                    //   child: TextFormField(
+                    //     controller: internalComments,
+                    //     decoration: InputDecoration(
+                    //       border: InputBorder.none,
+                    //       contentPadding: EdgeInsets.all(10),
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(height: 20),
+                    // const Text(
+                    //   "Visibility",
+                    //   style:
+                    //       TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    // ),
+                    // Container(
+                    //   width: MediaQuery.of(context).size.width,
+                    //   decoration: BoxDecoration(
+                    //       color: Colors.white,
+                    //       borderRadius: BorderRadius.circular(10)),
+                    //   child: DropdownButtonHideUnderline(
+                    //     child: DropdownButton2(
+                    //       items: listStatus.entries
+                    //           .map((item) => DropdownMenuItem<bool>(
+                    //               value: item.key, child: Text(item.value)))
+                    //           .toList(),
+                    //       value: selectedStatus,
+                    //       onChanged: (value) {
+                    //         setState(() {
+                    //           selectedStatus = value as bool;
+                    //           solutionModel.isPublic = selectedStatus;
+                    //         });
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(height: 20),
+                    // DatePickerBox1(
+                    //     requestDayBefore: date2,
+                    //     isTime: true,
+                    //     label: Text(
+                    //       'Review Date:',
+                    //       style: TextStyle(
+                    //           fontSize: 18, fontWeight: FontWeight.w500),
+                    //     ),
+                    //     dateDisplay: date1,
+                    //     timeDisplay: time1,
+                    //     selectedDateFunction: (day) {
+                    //       if (day == null) {
+                    //         solutionModel.reviewDate = null;
+                    //       }
+                    //     },
+                    //     selectedTimeFunction: (time) {
+                    //       if (time == null) {
+                    //         solutionModel.reviewDate = null;
+                    //       }
+                    //     },
+                    //     getFullTime: (time) {
+                    //       if (time != "") {
+                    //         solutionModel.reviewDate = time;
+                    //       } else {
+                    //         solutionModel.reviewDate = null;
+                    //       }
+                    //     }),
                     SizedBox(height: 20),
                     DatePickerBox1(
-                        requestDayBefore: date2,
-                        isTime: true,
-                        label: Text(
-                          'Review Date:',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
-                        ),
-                        dateDisplay: date1,
-                        timeDisplay: time1,
-                        selectedDateFunction: (day) {
-                          if (day == null) {
-                            solutionModel.reviewDate = null;
-                          }
-                        },
-                        selectedTimeFunction: (time) {
-                          if (time == null) {
-                            solutionModel.reviewDate = null;
-                          }
-                        },
-                        getFullTime: (time) {
-                          if (time != "") {
-                            solutionModel.reviewDate = time;
-                          } else {
-                            solutionModel.reviewDate = null;
-                          }
-                        }),
-                    SizedBox(height: 20),
-                    DatePickerBox1(
-                        requestDayBefore: date1,
-                        isTime: true,
-                        label: Text(
-                          'Expired Date:',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
-                        ),
-                        dateDisplay: date2,
-                        timeDisplay: time2,
-                        selectedDateFunction: (day) {
-                          if (day == null) {
-                            solutionModel.expiredDate = null;
-                          }
-                        },
-                        selectedTimeFunction: (time) {
-                          if (time == null) {
-                            solutionModel.expiredDate = null;
-                          }
-                        },
-                        getFullTime: (time) {
-                          if (time != "") {
-                            solutionModel.expiredDate = time;
-                          } else {
-                            solutionModel.expiredDate = null;
-                          }
-                        }),
+                      requestDayBefore: date2,
+                      isTime: true,
+                      label: Text(
+                        'Expired Date:',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                      ),
+                      dateDisplay: date2,
+                      timeDisplay: time2,
+                      selectedDateFunction: (day) {
+                        if (day == null) {
+                          solutionModel.expiredDate = null;
+                        }
+                      },
+                      selectedTimeFunction: (time) {
+                        if (time == null) {
+                          solutionModel.expiredDate = null;
+                        }
+                      },
+                      getFullTime: (time) {
+                        if (time != "") {
+                          solutionModel.expiredDate = time;
+                        } else {
+                          solutionModel.expiredDate = null;
+                        }
+                      }),
                     SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -16,10 +16,7 @@ class TicketResponseModel {
   String? title;
   String? description;
   String? type;
-  String? street;
-  int? ward;
-  int? district;
-  int? city;
+  String? address;
   int? modeId;
   int? serviceId;
   int? categoryId;
@@ -27,11 +24,9 @@ class TicketResponseModel {
   int? priority;
   int? impact;
   String? impactDetail;
-  int? urgency;
-  List<String>? attachmentUrl;
+  List<String>? attachmentUrls;
   String? scheduledStartTime;
   String? scheduledEndTime;
-  String? dueTime;
   String? completedTime;
   String? createdAt;
   UserProfileResponseModel? requester;
@@ -45,10 +40,7 @@ class TicketResponseModel {
     this.title,
     this.description,
     this.type,
-    this.street,
-    this.ward,
-    this.district,
-    this.city,
+    this.address,
     this.modeId,
     this.serviceId,
     this.categoryId,
@@ -56,11 +48,9 @@ class TicketResponseModel {
     this.priority,
     this.impact,
     this.impactDetail,
-    this.urgency,
-    this.attachmentUrl,
+    this.attachmentUrls,
     this.scheduledStartTime,
     this.scheduledEndTime,
-    this.dueTime,
     this.completedTime,
     this.createdAt,
     this.requester,
@@ -77,10 +67,7 @@ class TicketResponseModel {
     String? title,
     String? description,
     String? type,
-    String? street,
-    int? ward,
-    int? district,
-    int? city,
+    String? address,
     int? modeId,
     int? serviceId,
     int? categoryId,
@@ -88,11 +75,9 @@ class TicketResponseModel {
     int? priority,
     int? impact,
     String? impactDetail,
-    int? urgency,
-    List<String>? attachmentUrl,
+    List<String>? attachmentUrls,
     String? scheduledStartTime,
     String? scheduledEndTime,
-    String? dueTime,
     String? completedTime,
     String? createdAt,
     UserProfileResponseModel? requester,
@@ -107,10 +92,7 @@ class TicketResponseModel {
       title: title ?? this.title,
       description: description ?? this.description,
       type: type ?? this.type,
-      street: street ?? this.street,
-      ward: ward ?? this.ward,
-      district: district ?? this.district,
-      city: city ?? this.city,
+      address: address ?? this.address,
       modeId: modeId ?? this.modeId,
       serviceId: serviceId ?? this.serviceId,
       categoryId: categoryId ?? this.categoryId,
@@ -118,11 +100,9 @@ class TicketResponseModel {
       priority: priority ?? this.priority,
       impact: impact ?? this.impact,
       impactDetail: impactDetail ?? this.impactDetail,
-      urgency: urgency ?? this.urgency,
-      attachmentUrl: attachmentUrl ?? this.attachmentUrl,
+      attachmentUrls: attachmentUrls ?? this.attachmentUrls,
       scheduledStartTime: scheduledStartTime ?? this.scheduledStartTime,
       scheduledEndTime: scheduledEndTime ?? this.scheduledEndTime,
-      dueTime: dueTime ?? this.dueTime,
       completedTime: completedTime ?? this.completedTime,
       createdAt: createdAt ?? this.createdAt,
       requester: requester ?? this.requester,
@@ -140,10 +120,7 @@ class TicketResponseModel {
       'title': title,
       'description': description,
       'type': type,
-      'street': street,
-      'ward': ward,
-      'district': district,
-      'city': city,
+      'address': address,
       'modeId': modeId,
       'serviceId': serviceId,
       'categoryId': categoryId,
@@ -151,11 +128,9 @@ class TicketResponseModel {
       'priority': priority,
       'impact': impact,
       'impactDetail': impactDetail,
-      'urgency': urgency,
-      'attachmentUrl': attachmentUrl,
+      'attachmentUrls': attachmentUrls,
       'scheduledStartTime': scheduledStartTime,
       'scheduledEndTime': scheduledEndTime,
-      'dueTime': dueTime,
       'completedTime': completedTime,
       'createdAt': createdAt,
       'requester': requester?.toMap(),
@@ -173,10 +148,7 @@ class TicketResponseModel {
       title: map['title'] != null ? map['title'] as String : null,
       description: map['description'] != null ? map['description'] as String : null,
       type: map['type'] != null ? map['type'] as String : null,
-      street: map['street'] != null ? map['street'] as String : null,
-      ward: map['ward'] != null ? map['ward'] as int : null,
-      district: map['district'] != null ? map['district'] as int : null,
-      city: map['city'] != null ? map['city'] as int : null,
+      address: map['address'] != null ? map['address'] as String : null,
       modeId: map['modeId'] != null ? map['modeId'] as int : null,
       serviceId: map['serviceId'] != null ? map['serviceId'] as int : null,
       categoryId: map['categoryId'] != null ? map['categoryId'] as int : null,
@@ -184,15 +156,13 @@ class TicketResponseModel {
       priority: map['priority'] != null ? map['priority'] as int : null,
       impact: map['impact'] != null ? map['impact'] as int : null,
       impactDetail: map['impactDetail'] != null ? map['impactDetail'] as String : null,
-      urgency: map['urgency'] != null ? map['urgency'] as int : null,
-      attachmentUrl: map['attachmentUrl'] != null ? List<String>.from((map['attachmentUrl'] as List<String>)) : null,
+      attachmentUrls: map['attachmentUrls'] != null ? List<String>.from(map['attachmentUrls']) : null ,
       scheduledStartTime: map['scheduledStartTime'] != null ? map['scheduledStartTime'] as String : null,
       scheduledEndTime: map['scheduledEndTime'] != null ? map['scheduledEndTime'] as String : null,
-      dueTime: map['dueTime'] != null ? map['dueTime'] as String : null,
       completedTime: map['completedTime'] != null ? map['completedTime'] as String : null,
       createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
       requester: map['requester'] != null ? UserProfileResponseModel.fromMap(map['requester'] as Map<String,dynamic>) : null,
-       service: map['service'] != null ? ServiceResponseModel.fromMap(map['service'] as Map<String,dynamic>) : null,
+      service: map['service'] != null ? ServiceResponseModel.fromMap(map['service'] as Map<String,dynamic>) : null,
       category: map['category'] != null ? CategoryResponseModel.fromMap(map['category'] as Map<String,dynamic>) : null,
       mode: map['mode'] != null ? ModeResponseModel.fromMap(map['mode'] as Map<String,dynamic>) : null,
       assignment: map['assignment'] != null ? AssigmentModel.fromMap(map['assignment'] as Map<String,dynamic>) : null,
@@ -205,7 +175,7 @@ class TicketResponseModel {
 
   @override
   String toString() {
-    return 'TicketResponseModel(id: $id, requesterId: $requesterId, title: $title, description: $description, type: $type, street: $street, ward: $ward, district: $district, city: $city, modeId: $modeId, serviceId: $serviceId, categoryId: $categoryId, ticketStatus: $ticketStatus, priority: $priority, impact: $impact, impactDetail: $impactDetail, urgency: $urgency, attachmentUrl: $attachmentUrl, scheduledStartTime: $scheduledStartTime, scheduledEndTime: $scheduledEndTime, dueTime: $dueTime, completedTime: $completedTime, createdAt: $createdAt, requester: $requester, service: $service, category: $category, mode: $mode, assignment: $assignment)';
+    return 'TicketResponseModel(id: $id, requesterId: $requesterId, title: $title, description: $description, type: $type, address: $address, modeId: $modeId, serviceId: $serviceId, categoryId: $categoryId, ticketStatus: $ticketStatus, priority: $priority, impact: $impact, impactDetail: $impactDetail, attachmentUrls: $attachmentUrls, scheduledStartTime: $scheduledStartTime, scheduledEndTime: $scheduledEndTime, completedTime: $completedTime, createdAt: $createdAt, requester: $requester, service: $service, category: $category, mode: $mode, assignment: $assignment)';
   }
 
   @override
@@ -218,10 +188,7 @@ class TicketResponseModel {
       other.title == title &&
       other.description == description &&
       other.type == type &&
-      other.street == street &&
-      other.ward == ward &&
-      other.district == district &&
-      other.city == city &&
+      other.address == address &&
       other.modeId == modeId &&
       other.serviceId == serviceId &&
       other.categoryId == categoryId &&
@@ -229,11 +196,9 @@ class TicketResponseModel {
       other.priority == priority &&
       other.impact == impact &&
       other.impactDetail == impactDetail &&
-      other.urgency == urgency &&
-      listEquals(other.attachmentUrl, attachmentUrl) &&
+      listEquals(other.attachmentUrls, attachmentUrls) &&
       other.scheduledStartTime == scheduledStartTime &&
       other.scheduledEndTime == scheduledEndTime &&
-      other.dueTime == dueTime &&
       other.completedTime == completedTime &&
       other.createdAt == createdAt &&
       other.requester == requester &&
@@ -250,10 +215,7 @@ class TicketResponseModel {
       title.hashCode ^
       description.hashCode ^
       type.hashCode ^
-      street.hashCode ^
-      ward.hashCode ^
-      district.hashCode ^
-      city.hashCode ^
+      address.hashCode ^
       modeId.hashCode ^
       serviceId.hashCode ^
       categoryId.hashCode ^
@@ -261,11 +223,9 @@ class TicketResponseModel {
       priority.hashCode ^
       impact.hashCode ^
       impactDetail.hashCode ^
-      urgency.hashCode ^
-      attachmentUrl.hashCode ^
+      attachmentUrls.hashCode ^
       scheduledStartTime.hashCode ^
       scheduledEndTime.hashCode ^
-      dueTime.hashCode ^
       completedTime.hashCode ^
       createdAt.hashCode ^
       requester.hashCode ^

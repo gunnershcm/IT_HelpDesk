@@ -58,7 +58,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
               ),
             ),
             body: Column(
-              children: [ 
+              children: [
                 TabBar(tabs: const [
                   Tab(
                     text: "Details",
@@ -66,7 +66,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                   Tab(
                     text: "Feedback",
                   ),
-                ]), 
+                ]),
                 Expanded(
                     child: TabBarView(children: [
                   Container(
@@ -104,29 +104,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                 title: 'InternalComments',
                                 content: solution.internalComments ?? "",
                               ),
-                              FieldTextWidget(
-                                  title: 'Attachment',
-                                  content: (solution.attachmentUrl != null &&
-                                          solution.attachmentUrl != "")
-                                      ? "File uploaded"
-                                      : "",
-                                  widget: (solution.attachmentUrl != null &&
-                                          solution.attachmentUrl != "")
-                                      ? Container(
-                                          margin: EdgeInsets.only(left: 10),
-                                          child: InkWell(
-                                            onTap: () async {
-                                              downloadFile(context,
-                                                  solution.attachmentUrl ?? "");
-                                            },
-                                            child: Icon(
-                                              Icons.download,
-                                              size: 25,
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                        )
-                                      : SizedBox.shrink()),
+
                               FieldTextWidget(
                                 title: 'Created Date',
                                 content: (solution.createdAt != null)
@@ -134,19 +112,89 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                         DateTime.parse(solution.createdAt!))
                                     : "",
                               ),
-                              FieldTextWidget(
-                                title: 'Review Date',
-                                content: (solution.createdAt != null)
-                                    ? DateFormat('HH:mm   dd-MM-yyyy').format(
-                                        DateTime.parse(solution.reviewDate!))
-                                    : "",
-                              ),
+
                               FieldTextWidget(
                                 title: 'Expired Date',
                                 content: (solution.createdAt != null)
                                     ? DateFormat('HH:mm   dd-MM-yyyy').format(
                                         DateTime.parse(solution.expiredDate!))
                                     : "",
+                              ),
+                              const Text(
+                                "Attachment",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xFF909090),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      height: 80,
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Wrap(
+                                              spacing: 16.0,
+                                              runSpacing: 8.0,
+                                              children: [
+                                                if (solution.attachmentUrls !=
+                                                    null)
+                                                  for (var url in solution
+                                                      .attachmentUrls!)
+                                                    Container(
+                                                      height: 60,
+                                                      width: 60,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                      ),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: url,
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            CircularProgressIndicator(),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(Icons.error),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(width: 20),
+                                          Visibility(
+                                            visible: solution.attachmentUrls !=
+                                                    null &&
+                                                solution
+                                                    .attachmentUrls!.isNotEmpty,
+                                            child: InkWell(
+                                              onTap: () async {
+                                                downloadFile(
+                                                  context,
+                                                  List<String>.from(
+                                                      solution.attachmentUrls ??
+                                                          []),
+                                                );
+                                              },
+                                              child: Icon(
+                                                Icons.download,
+                                                size: 40,
+                                                color: Colors.blue,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 10),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

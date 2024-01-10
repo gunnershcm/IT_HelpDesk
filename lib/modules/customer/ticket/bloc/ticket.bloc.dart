@@ -34,9 +34,11 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
           emit(TicketError(error: "Title not null"));
         } else if (event.request.serviceId == null) {
           emit(TicketError(error: "Service not null"));
+        } else if (event.request.attachmentUrls == null) {
+          emit(TicketError(error: "Attachment not null"));
         } else {
           var checkCreateTiket =
-              await TicketProvider.createTicket(event.request);
+              await TicketProvider.createTicket(event.request);           
           if (checkCreateTiket == true) {
             emit(CareateTicketSuccessState());
           } else {

@@ -72,23 +72,23 @@ class TicketSolutionItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 5),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Visibility: ",
-                        style: DefaultTextStyle.of(context).style,
-                      ),
-                      TextSpan(
-                        text: "${getPublicStatus(solution.isPublic)}",
-                        style: solution.isPublic == true
-                            ? TextStyle(color: Colors.green)
-                            : TextStyle(color: Colors.red),
-                      ),
-                    ],
-                  ),
-                ),
+                // SizedBox(height: 5),
+                // RichText(
+                //   text: TextSpan(
+                //     children: [
+                //       TextSpan(
+                //         text: "Visibility: ",
+                //         style: DefaultTextStyle.of(context).style,
+                //       ),
+                //       TextSpan(
+                //         text: "${getPublicStatus(solution.isPublic)}",
+                //         style: solution.isPublic == true
+                //             ? TextStyle(color: Colors.green)
+                //             : TextStyle(color: Colors.red),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
