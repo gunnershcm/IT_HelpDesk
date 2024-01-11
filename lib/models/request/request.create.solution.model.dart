@@ -1,53 +1,44 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 class RequestCreateSolutionModel {
   String? title;
   String? content;
   int? categoryId;
   int? ownerId;
-  String? reviewDate;
   String? expiredDate;
   String? keyword;
-  String? internalComments;
-  bool? isPublic;
-  String? attachmentUrl;
-
-  RequestCreateSolutionModel(
-      {this.title,
-      this.content,
-      this.categoryId,
-      this.ownerId,
-      this.reviewDate,
-      this.expiredDate,
-      this.keyword,
-      this.internalComments,
-      this.isPublic,
-      this.attachmentUrl});
+  List<String>? attachmentUrls;
+  RequestCreateSolutionModel({
+    this.title,
+    this.content,
+    this.categoryId,
+    this.ownerId,
+    this.expiredDate,
+    this.keyword,
+    this.attachmentUrls,
+  });
+  
 
   RequestCreateSolutionModel copyWith({
     String? title,
     String? content,
     int? categoryId,
     int? ownerId,
-    String? reviewDate,
     String? expiredDate,
     String? keyword,
-    String? internalComments,
-    bool? isPublic,
-    String? attachmentUrl,
+    List<String>? attachmentUrls,
   }) {
     return RequestCreateSolutionModel(
       title: title ?? this.title,
       content: content ?? this.content,
       categoryId: categoryId ?? this.categoryId,
       ownerId: ownerId ?? this.ownerId,
-      reviewDate: reviewDate ?? this.reviewDate,
       expiredDate: expiredDate ?? this.expiredDate,
       keyword: keyword ?? this.keyword,
-      internalComments: internalComments ?? this.internalComments,
-      isPublic: isPublic ?? this.isPublic,
-      attachmentUrl: attachmentUrl ?? this.attachmentUrl,
+      attachmentUrls: attachmentUrls ?? this.attachmentUrls,
     );
   }
 
@@ -57,12 +48,9 @@ class RequestCreateSolutionModel {
       'content': content,
       'categoryId': categoryId,
       'ownerId': ownerId,
-      'reviewDate': reviewDate,
       'expiredDate': expiredDate,
       'keyword': keyword,
-      'internalComments': internalComments,
-      'isPublic': isPublic,
-      'attachmentUrl': attachmentUrl,
+      'attachmentUrls': attachmentUrls,
     };
   }
 
@@ -72,56 +60,43 @@ class RequestCreateSolutionModel {
       content: map['content'] != null ? map['content'] as String : null,
       categoryId: map['categoryId'] != null ? map['categoryId'] as int : null,
       ownerId: map['ownerId'] != null ? map['ownerId'] as int : null,
-      reviewDate:
-          map['reviewDate'] != null ? map['reviewDate'] as String : null,
-      expiredDate:
-          map['expiredDate'] != null ? map['expiredDate'] as String : null,
+      expiredDate: map['expiredDate'] != null ? map['expiredDate'] as String : null,
       keyword: map['keyword'] != null ? map['keyword'] as String : null,
-      internalComments: map['internalComments'] != null ? map['internalComments'] as String : null,
-      isPublic: map['isPublic'] != null ? map['isPublic'] as bool : null,
-      attachmentUrl:
-          map['attachmentUrl'] != null ? map['attachmentUrl'] as String : null,
+      attachmentUrls: map['attachmentUrls'] != null ? List<String>.from(map['attachmentUrls']) : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory RequestCreateSolutionModel.fromJson(String source) =>
-      RequestCreateSolutionModel.fromMap(
-          json.decode(source) as Map<String, dynamic>);
+  factory RequestCreateSolutionModel.fromJson(String source) => RequestCreateSolutionModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'RequestCreateSolutionModel(title: $title, content: $content, categoryId: $categoryId, ownerId: $ownerId, reviewDate: $reviewDate, schedexpiredDateuledEndTime: $expiredDate,keyword: $keyword, internalComments: $internalComments,isPublic: $isPublic,  attachmentUrl: $attachmentUrl)';
+    return 'RequestCreateSolutionModel(title: $title, content: $content, categoryId: $categoryId, ownerId: $ownerId, expiredDate: $expiredDate, keyword: $keyword, attachmentUrls: $attachmentUrls)';
   }
 
   @override
   bool operator ==(covariant RequestCreateSolutionModel other) {
     if (identical(this, other)) return true;
-
-    return other.title == title &&
-        other.content == content &&
-        other.categoryId == categoryId &&
-        other.ownerId == ownerId &&
-        other.reviewDate == reviewDate &&
-        other.expiredDate == expiredDate &&
-        other.keyword == keyword &&
-        other.internalComments == internalComments &&
-        other.isPublic == isPublic &&
-        other.attachmentUrl == attachmentUrl;
+  
+    return 
+      other.title == title &&
+      other.content == content &&
+      other.categoryId == categoryId &&
+      other.ownerId == ownerId &&
+      other.expiredDate == expiredDate &&
+      other.keyword == keyword &&
+      listEquals(other.attachmentUrls, attachmentUrls);
   }
 
   @override
   int get hashCode {
     return title.hashCode ^
-        content.hashCode ^
-        categoryId.hashCode ^
-        ownerId.hashCode ^
-        reviewDate.hashCode ^
-        expiredDate.hashCode ^
-        keyword.hashCode ^
-        internalComments.hashCode ^
-        isPublic.hashCode ^
-        attachmentUrl.hashCode;
+      content.hashCode ^
+      categoryId.hashCode ^
+      ownerId.hashCode ^
+      expiredDate.hashCode ^
+      keyword.hashCode ^
+      attachmentUrls.hashCode;
   }
 }

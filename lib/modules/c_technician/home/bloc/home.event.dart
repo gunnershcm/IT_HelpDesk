@@ -15,6 +15,8 @@ class GetAllListTaskActiveEvent extends HomeEvent {
 
 class GetListTicketAssignEvent extends HomeEvent {}
 
+class ClearDataEvent extends HomeEvent{}
+
 class CreateTaskCustomer extends HomeEvent {
   final RequestTaskModel requestTaskModel;
 

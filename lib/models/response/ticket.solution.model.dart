@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:dich_vu_it/models/response/category.response.model.dart';
 
 import 'user.profile.response.model.dart';
@@ -16,9 +18,8 @@ class TicketSolutionModel {
   String? expiredDate;
   String? keyword;
   String? internalComments;
-  String? attachmentUrl;
+  List<String>? attachmentUrls;
   bool? isApproved;
-  bool? isPublic;
   String? createdAt;
   String? modifiedAt;
   int? countLike;
@@ -27,7 +28,6 @@ class TicketSolutionModel {
   UserProfileResponseModel? owner;
   UserProfileResponseModel? createdBy;
   CategoryResponseModel? category;
-  
   TicketSolutionModel({
     this.id,
     this.title,
@@ -39,9 +39,8 @@ class TicketSolutionModel {
     this.expiredDate,
     this.keyword,
     this.internalComments,
-    this.attachmentUrl,
+    this.attachmentUrls,
     this.isApproved,
-    this.isPublic,
     this.createdAt,
     this.modifiedAt,
     this.countLike,
@@ -51,8 +50,7 @@ class TicketSolutionModel {
     this.createdBy,
     this.category,
   });
-  
-  
+ 
 
   TicketSolutionModel copyWith({
     int? id,
@@ -65,9 +63,8 @@ class TicketSolutionModel {
     String? expiredDate,
     String? keyword,
     String? internalComments,
-    String? attachmentUrl,
+    List<String>? attachmentUrls,
     bool? isApproved,
-    bool? isPublic,
     String? createdAt,
     String? modifiedAt,
     int? countLike,
@@ -88,9 +85,8 @@ class TicketSolutionModel {
       expiredDate: expiredDate ?? this.expiredDate,
       keyword: keyword ?? this.keyword,
       internalComments: internalComments ?? this.internalComments,
-      attachmentUrl: attachmentUrl ?? this.attachmentUrl,
+      attachmentUrls: attachmentUrls ?? this.attachmentUrls,
       isApproved: isApproved ?? this.isApproved,
-      isPublic: isPublic ?? this.isPublic,
       createdAt: createdAt ?? this.createdAt,
       modifiedAt: modifiedAt ?? this.modifiedAt,
       countLike: countLike ?? this.countLike,
@@ -114,9 +110,8 @@ class TicketSolutionModel {
       'expiredDate': expiredDate,
       'keyword': keyword,
       'internalComments': internalComments,
-      'attachmentUrl': attachmentUrl,
+      'attachmentUrls': attachmentUrls,
       'isApproved': isApproved,
-      'isPublic': isPublic,
       'createdAt': createdAt,
       'modifiedAt': modifiedAt,
       'countLike': countLike,
@@ -140,9 +135,8 @@ class TicketSolutionModel {
       expiredDate: map['expiredDate'] != null ? map['expiredDate'] as String : null,
       keyword: map['keyword'] != null ? map['keyword'] as String : null,
       internalComments: map['internalComments'] != null ? map['internalComments'] as String : null,
-      attachmentUrl: map['attachmentUrl'] != null ? map['attachmentUrl'] as String : null,
+      attachmentUrls: map['attachmentUrls'] != null ? List<String>.from(map['attachmentUrls']) : null ,
       isApproved: map['isApproved'] != null ? map['isApproved'] as bool : null,
-      isPublic: map['isPublic'] != null ? map['isPublic'] as bool : null,
       createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
       modifiedAt: map['modifiedAt'] != null ? map['modifiedAt'] as String : null,
       countLike: map['countLike'] != null ? map['countLike'] as int : null,
@@ -160,7 +154,7 @@ class TicketSolutionModel {
 
   @override
   String toString() {
-    return 'TicketSolutionModel(id: $id, title: $title, content: $content, categoryId: $categoryId, ownerId: $ownerId, createdById: $createdById, reviewDate: $reviewDate, expiredDate: $expiredDate, keyword: $keyword, internalComments: $internalComments, attachmentUrl: $attachmentUrl, isApproved: $isApproved, isPublic: $isPublic, createdAt: $createdAt, modifiedAt: $modifiedAt, countLike: $countLike, countDislike: $countDislike, currentReactionUser: $currentReactionUser, owner: $owner, createdBy: $createdBy, category: $category)';
+    return 'TicketSolutionModel(id: $id, title: $title, content: $content, categoryId: $categoryId, ownerId: $ownerId, createdById: $createdById, reviewDate: $reviewDate, expiredDate: $expiredDate, keyword: $keyword, internalComments: $internalComments, attachmentUrls: $attachmentUrls, isApproved: $isApproved, createdAt: $createdAt, modifiedAt: $modifiedAt, countLike: $countLike, countDislike: $countDislike, currentReactionUser: $currentReactionUser, owner: $owner, createdBy: $createdBy, category: $category)';
   }
 
   @override
@@ -178,9 +172,8 @@ class TicketSolutionModel {
       other.expiredDate == expiredDate &&
       other.keyword == keyword &&
       other.internalComments == internalComments &&
-      other.attachmentUrl == attachmentUrl &&
+      listEquals(other.attachmentUrls, attachmentUrls) &&
       other.isApproved == isApproved &&
-      other.isPublic == isPublic &&
       other.createdAt == createdAt &&
       other.modifiedAt == modifiedAt &&
       other.countLike == countLike &&
@@ -203,9 +196,8 @@ class TicketSolutionModel {
       expiredDate.hashCode ^
       keyword.hashCode ^
       internalComments.hashCode ^
-      attachmentUrl.hashCode ^
+      attachmentUrls.hashCode ^
       isApproved.hashCode ^
-      isPublic.hashCode ^
       createdAt.hashCode ^
       modifiedAt.hashCode ^
       countLike.hashCode ^

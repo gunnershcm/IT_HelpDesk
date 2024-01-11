@@ -1,19 +1,43 @@
 import 'package:dich_vu_it/app/constant/noti.comfirm.dart';
 import 'package:dich_vu_it/app/theme/colors.dart';
+import 'package:dich_vu_it/app/widgets/toast.dart';
 import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class TicketItem extends StatelessWidget {
+class TicketItem extends StatefulWidget {
+  final List<TicketResponseModel> listTicket;
   final TicketResponseModel ticket;
   final Function(TicketResponseModel) onTap;
+  final Function callback;
 
   const TicketItem({
     Key? key,
     required this.ticket,
     required this.onTap,
+    required this.listTicket,
+    required this.callback,
   }) : super(key: key);
+
+  @override
+  State<TicketItem> createState() => _TicketItemState();
+}
+
+class _TicketItemState extends State<TicketItem> {
+  TicketResponseModel? ticket;
+  Function(TicketResponseModel)? onTap;
+  List<TicketResponseModel>? listTicket;
+  Function? callback;
+
+  @override
+  void initState() {
+    super.initState();
+    ticket = widget.ticket;
+    onTap = widget.onTap;
+    listTicket = widget.listTicket;
+    callback = widget.callback;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +66,7 @@ class TicketItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  ticket.title ?? "",
+                  ticket!.title ?? "",
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -51,7 +75,7 @@ class TicketItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  ticket.category?.name ?? "",
+                  ticket!.category?.name ?? "",
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
@@ -59,7 +83,7 @@ class TicketItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  "Created At: ${(ticket.createdAt != null) ? DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(ticket.createdAt!).toLocal()) : ""}",
+                  "Created At: ${(ticket!.createdAt != null) ? DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(ticket!.createdAt!).toLocal()) : ""}",
                   style: const TextStyle(
                     fontSize: 12,
                     color: Colors.grey,
@@ -69,41 +93,59 @@ class TicketItem extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          if (ticket.ticketStatus == 1)
+          if (ticket!.ticketStatus == 1 || ticket!.ticketStatus == 2)
             ElevatedButton(
               onPressed: () async {
                 var response = await showNoti(context);
                 if (response) {
-                  var check = await TicketProvider.cancelTicket(
-                    ticket.id ?? -1,
+                  var check = await TicketProvider.resolvedTicket(
+                    ticket!.id ?? -1,
                   );
                   if (check == true) {
-                    // Do something when the ticket is canceled
+                    // Do something when the ticket is closed
+                    showToast(
+                      context: context,
+                      msg: "Update successfully",
+                      color: Colors.green,
+                      icon: const Icon(Icons.done),
+                    );
+                    setState(() {
+                      ticket!.ticketStatus == 3;
+                      callback!(ticket);
+                    });
+                  } else {
+                    showToast(
+                      context: context,
+                      msg:
+                          "Cannot resovle ticket if all\nthe tasks are not completed",
+                      color: Colors.orange,
+                      icon: const Icon(Icons.warning),
+                    );
                   }
                 }
               },
-              style: ElevatedButton.styleFrom(primary: Colors.red),
+              style: ElevatedButton.styleFrom(primary: Colors.green),
               child: const Text(
-                "Cancel",
+                "Resolved",
                 style: TextStyle(color: Colors.white),
               ),
             )
-          else if (ticket.ticketStatus == 3)
+          else if (ticket!.ticketStatus == 3)
             ElevatedButton(
               onPressed: () async {
                 var response = await showNoti(context);
                 if (response) {
-                  var check = await TicketProvider.closeTicket(
-                    ticket.id ?? -1,
+                  var check = await TicketProvider.resolvedTicketToProgress(
+                    ticket!.id ?? -1,
                   );
                   if (check == true) {
                     // Do something when the ticket is closed
                   }
                 }
               },
-              style: ElevatedButton.styleFrom(primary: Colors.green),
+              style: ElevatedButton.styleFrom(primary: Colors.blue),
               child: const Text(
-                "Close",
+                "Progress",
                 style: TextStyle(color: Colors.white),
               ),
             )
@@ -117,7 +159,7 @@ class TicketItem extends StatelessWidget {
   Widget _buildStatusIcon() {
     IconData icon;
     Color color;
-    switch (ticket.ticketStatus) {
+    switch (ticket!.ticketStatus) {
       case 0:
         icon = Icons.access_time;
         color = MyColors.open;

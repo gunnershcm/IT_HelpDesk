@@ -6,6 +6,8 @@ import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/app/constant/value.dart';
 import 'package:dich_vu_it/app/theme/colors.dart';
 import 'package:dich_vu_it/app/theme/text.style.dart';
+import 'package:dich_vu_it/app/widgets/WAColors.dart';
+import 'package:dich_vu_it/app/widgets/WAWidgets.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
 import 'package:dich_vu_it/models/response/user.profile.response.model.dart';
@@ -18,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'change.pass.screen.dart';
@@ -73,11 +76,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
           builder: (context, state) {
             return Container(
-              padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+              padding: const EdgeInsets.only(
+                  top: 20, left: 20, right: 20, bottom: 20),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              decoration: const BoxDecoration(color:Color.fromARGB(255, 229, 243, 254)),
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/wa_bg.jpg'),
+                      fit: BoxFit.cover)),
               child: SingleChildScrollView(
+                //scrollDirection: Axis.vertical,
+                //physics: clampingscrollphysics(),
                 child: Column(
                   children: [
                     const SizedBox(height: 30),
@@ -94,13 +103,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             child: InkWell(
                               onTap: () async {
-                                FilePickerResult? result = await FilePicker.platform.pickFiles();
+                                FilePickerResult? result =
+                                    await FilePicker.platform.pickFiles();
                                 if (result != null) {
                                   String fileName = result.files.first.name;
                                   String path = result.files.first.path ?? "";
-                                  await FirebaseStorage.instance.ref('file/$fileName').putFile(File(path));
+                                  await FirebaseStorage.instance
+                                      .ref('file/$fileName')
+                                      .putFile(File(path));
                                   print("fileName: $fileName");
-                                  _bloc.add(UpdateAvatarEvent(url: "https://firebasestorage.googleapis.com/v0/b/itsds-v1.appspot.com/o/file%2F$fileName?alt=media"));
+                                  _bloc.add(UpdateAvatarEvent(
+                                      url:
+                                          "https://firebasestorage.googleapis.com/v0/b/itsds-v1.appspot.com/o/file%2F$fileName?alt=media"));
                                 }
                               },
                               child: Column(
@@ -112,7 +126,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Container(
                                           width: 40,
                                           height: 40,
-                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: MyColors.black),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              color: MyColors.black),
                                           // margin: const EdgeInsets.only(top: 170),
                                           child: const Icon(
                                             Icons.photo_camera,
@@ -140,12 +157,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             child: InkWell(
                               onTap: () async {
-                                FilePickerResult? result = await FilePicker.platform.pickFiles();
+                                FilePickerResult? result =
+                                    await FilePicker.platform.pickFiles();
                                 if (result != null) {
                                   String fileName = result.files.first.name;
                                   String path = result.files.first.path ?? "";
-                                  await FirebaseStorage.instance.ref('file/$fileName').putFile(File(path));
-                                  _bloc.add(UpdateAvatarEvent(url: "https://firebasestorage.googleapis.com/v0/b/itsds-v1.appspot.com/o/file%2F$fileName?alt=media"));
+                                  await FirebaseStorage.instance
+                                      .ref('file/$fileName')
+                                      .putFile(File(path));
+                                  _bloc.add(UpdateAvatarEvent(
+                                      url:
+                                          "https://firebasestorage.googleapis.com/v0/b/itsds-v1.appspot.com/o/file%2F$fileName?alt=media"));
                                 }
                               },
                               child: Column(
@@ -157,7 +179,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Container(
                                           width: 40,
                                           height: 40,
-                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: MyColors.black),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              color: MyColors.black),
                                           // margin: const EdgeInsets.only(top: 170),
                                           child: const Icon(
                                             Icons.photo_camera,
@@ -188,120 +213,158 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
-                    TitleDataUer(titile: "Username", content: userLogin.username ?? ""),
-                    TitleDataUer(titile: "Email", content: userLogin.email ?? ""),
-                    TitleDataUer(titile: "Phone", content: userLogin.phoneNumber ?? ""),
-                    TitleDataUer(titile: "Date Of Birth", content: (userLogin.dateOfBirth != null && userLogin.dateOfBirth != "") ? DateFormat('dd/MM/yyyy').format(DateTime.parse(userLogin.dateOfBirth!)) : ""),
-                    TitleDataUer(titile: "Gender", content: nameGender(userLogin.gender ?? -1)),
-                    TitleDataUer(titile: "Address", content: userLogin.address ?? ""),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Stack(
+                      alignment: AlignmentDirectional.topCenter,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(15),
-                          width: 100,
-                          decoration: BoxDecoration(color: MyColors.blue, borderRadius: BorderRadius.circular(5)),
-                          child: InkWell(
-                            onTap: () async {
-                              await Navigator.push<void>(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) => EditProfileScrren(
-                                    userdata: userLogin,
-                                    callBack: (value) {},
+                        Container( 
+                          margin: const EdgeInsets.only(top: 20),
+                          padding: const EdgeInsets.only(
+                              top: 50, left: 16, right: 16, bottom: 16),
+                          width: context.width(),
+                          height: context.height() * .7,
+                          decoration: boxDecorationWithShadow(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30))),
+                          //child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Personal Information',
+                                    style: boldTextStyle(size: 18)),
+                                16.height,
+                                Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      border: Border.all(
+                                          color: Colors.grey.withOpacity(0.2),
+                                          width: 0.5)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TitleDataUer(
+                                          titile: "Username",
+                                          content: userLogin.username ?? ""),
+                                      16.height,
+                                      TitleDataUer(
+                                          titile: "Email",
+                                          content: userLogin.email ?? ""),
+                                      16.height,
+                                      TitleDataUer(
+                                          titile: "Phone",
+                                          content: userLogin.phoneNumber ?? ""),
+                                      16.height,
+                                      TitleDataUer(
+                                          titile: "Date Of Birth",
+                                          content: (userLogin.dateOfBirth !=
+                                                      null &&
+                                                  userLogin.dateOfBirth != "")
+                                              ? DateFormat('dd/MM/yyyy').format(
+                                                  DateTime.parse(
+                                                      userLogin.dateOfBirth!))
+                                              : ""),
+                                      16.height,
+                                      TitleDataUer(
+                                          titile: "Gender",
+                                          content: nameGender(
+                                              userLogin.gender ?? -1)),
+                                      16.height,
+                                      TitleDataUer(
+                                          titile: "Address",
+                                          content: userLogin.address ?? ""),
+                                      16.height,
+                                    ],
                                   ),
                                 ),
-                              );
-                              _bloc.add(GetProfileEvent());
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.edit,
-                                  color: MyColors.white,
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  "Edit",
-                                  style: MyTextStyle.btnTextWhite,
+                                16.height,
+                                AppButton(
+                                  color: WAPrimaryColor,
+                                  width: context.width(),
+                                  child: Text('Edit',
+                                      style: boldTextStyle(
+                                          color: Colors.white, size: 14)),
+                                  onTap: () async {
+                                    await Navigator.push<void>(
+                                      context,
+                                      MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            EditProfileScrren(
+                                          userdata: userLogin,
+                                          callBack: (value) {},
+                                        ),
+                                      ),
+                                    );
+                                    _bloc.add(GetProfileEvent());
+                                  },
+                                ).cornerRadiusWithClipRRect(30).paddingOnly(
+                                    left: context.width() * 0.2,
+                                    right: context.width() * 0.2),
+                                16.height,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceEvenly, // Adjust the alignment as needed
+                                  children: [
+                                    Expanded(
+                                      child: AppButton(
+                                        color: WAPrimaryColor,
+                                        child: Text(
+                                          'Change Password',
+                                          style: boldTextStyle(
+                                              color: Colors.white,
+                                              size:
+                                                  14), // Adjust the  size as needed
+                                        ),
+                                        onTap: () {
+                                          Navigator.push<void>(
+                                            context,
+                                            MaterialPageRoute<void>(
+                                              builder: (BuildContext context) =>
+                                                  const ChangePasswordScrren(),
+                                            ),
+                                          );
+                                        },
+                                      )
+                                          .cornerRadiusWithClipRRect(30)
+                                          .paddingOnly(
+                                              left: context.width() * 0.01,
+                                              right: context.width() * 0.01),
+                                    ),
+                                    Expanded(
+                                      child: AppButton(
+                                        color: WAPrimaryColor,
+                                        child: Text('Logout',
+                                            style: boldTextStyle(
+                                                color: Colors.white, size: 14)),
+                                        onTap: () async {
+                                          SharedPreferences prefs =
+                                              await SharedPreferences
+                                                  .getInstance();
+                                          prefs.remove(myToken);
+                                          AuthService().signOut();
+                                          Navigator.push<void>(
+                                            context,
+                                            MaterialPageRoute<void>(
+                                              builder: (BuildContext context) =>
+                                                  const LoginScreen(),
+                                            ),
+                                          );
+                                        },
+                                      )
+                                          .cornerRadiusWithClipRRect(30)
+                                          .paddingOnly(
+                                              left: context.width() * 0.05,
+                                              right: context.width() * 0.05),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                        const SizedBox(width: 30),
-                        Container(
-                          padding: const EdgeInsets.all(15),
-                          width: 170,
-                          decoration: BoxDecoration(color: MyColors.blue, borderRadius: BorderRadius.circular(5)),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push<void>(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) => const ChangePasswordScrren(),
-                                ),
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Change Password",
-                                  style: MyTextStyle.btnTextWhite,
-                                ),
-                              ],
-                            ),
-                          ),
+                          //),
                         ),
                       ],
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(15),
-                          width: 160,
-                          decoration: BoxDecoration(color: MyColors.blue, borderRadius: BorderRadius.circular(5)),
-                          child: InkWell(
-                            onTap: () async {
-                              SharedPreferences prefs = await SharedPreferences.getInstance();
-                              //prefs.clear();
-                              prefs.remove(myToken);
-                              AuthService().signOut();
-                              Navigator.push<void>(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) => const LoginScreen(),
-                                ),
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.logout,
-                                  color: MyColors.white,
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  "Logout",
-                                  style: MyTextStyle.btnTextWhite,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
+                    ).paddingTop(10),
                   ],
                 ),
               ),
@@ -329,6 +392,7 @@ class TitleDataUer extends StatelessWidget {
                   titile,
                   style: MyTextStyle.title1,
                 )),
+            SizedBox(width: 50),
             Expanded(
                 flex: 5,
                 child: Text(
@@ -338,7 +402,7 @@ class TitleDataUer extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 5),
-        const Divider()
+        //const Divider()
       ],
     );
   }

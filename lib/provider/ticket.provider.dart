@@ -20,7 +20,6 @@ class TicketProvider {
     Map<String, String> header = {
       'Content-type': 'application/json',
     };
-
     return header;
   }
 
@@ -35,6 +34,8 @@ class TicketProvider {
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.get(Uri.parse(url.toString()), headers: header);
       String decodedData = utf8.decode(response.bodyBytes);
+      print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(decodedData);
         if (bodyConvert['isError'] == false) {
@@ -182,7 +183,7 @@ class TicketProvider {
 
   //update ticket
   static Future<bool> updateTicket(
-      RequestCreateTicketModel requestCreateTicketModel) async {
+      TicketResponseModel requestCreateTicketModel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     Map<String, String> header = await getHeader();
@@ -273,12 +274,34 @@ class TicketProvider {
     }
   }
 
+  static Future<bool> resolvedTicketToProgress(int idTicket) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    Map<String, String> header = await getHeader();
+    header.addAll({'Authorization': 'Bearer $token'});
+    var url =
+        "$baseUrl/v1/itsds/ticket/modify-status?ticketId=$idTicket&newStatus=2";
+    var response = await http.patch(
+      Uri.parse(url.toString()),
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      var bodyConvert = jsonDecode(response.body);
+      if (bodyConvert['isError'] == false) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   //danh gia  ticket
   static Future<bool> patchTechnicianTicket(
       {required int idTicket,
       required int impact,
-      required String impactDetail,
-      required int urgency}) async {
+      required String impactDetail,}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     Map<String, String> header = await getHeader();
@@ -288,7 +311,6 @@ class TicketProvider {
     var body = {
       "impact": impact,
       "impactDetail": impactDetail,
-      "urgency": urgency
     };
     var response = await http.patch(
       Uri.parse(url.toString()),
@@ -454,7 +476,8 @@ class TicketProvider {
       String? token = prefs.getString(myToken);
       var url = "";
       if (idTicket == null) {
-        url = "$baseUrl/v1/itsds/ticket/task/active";
+        url = "$baseUrl/v1/itsds/ticket/task/inactive";
+        print("id null");
       } else {
         url = "$baseUrl/v1/itsds/ticket/task/active?ticketId=$idTicket";
       }
@@ -462,6 +485,8 @@ class TicketProvider {
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.get(Uri.parse(url.toString()), headers: header);
       String decodedData = utf8.decode(response.bodyBytes);
+      print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(decodedData);
         if (bodyConvert['isError'] == false) {
@@ -485,6 +510,7 @@ class TicketProvider {
       var url = "";
       if (idTicket == null) {
         url = "$baseUrl/v1/itsds/ticket/task/inactive";
+        print("id null");
       } else {
         url = "$baseUrl/v1/itsds/ticket/task/inactive?ticketId=$idTicket";
       }
@@ -492,6 +518,8 @@ class TicketProvider {
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.get(Uri.parse(url.toString()), headers: header);
       String decodedData = utf8.decode(response.bodyBytes);
+      print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(decodedData);
         if (bodyConvert['isError'] == false) {

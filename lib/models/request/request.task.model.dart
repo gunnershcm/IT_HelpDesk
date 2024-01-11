@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 class RequestTaskModel {
   int? ticketId;
   String? title;
@@ -8,7 +10,7 @@ class RequestTaskModel {
   int? priority;
   String? scheduledStartTime;
   String? scheduledEndTime;
-  String? attachmentUrl;
+  List<String>? attachmentUrl;
   int? taskStatus;
   RequestTaskModel({
     this.ticketId,
@@ -20,6 +22,7 @@ class RequestTaskModel {
     this.attachmentUrl,
     this.taskStatus,
   });
+  
 
   RequestTaskModel copyWith({
     int? ticketId,
@@ -28,7 +31,7 @@ class RequestTaskModel {
     int? priority,
     String? scheduledStartTime,
     String? scheduledEndTime,
-    String? attachmentUrl,
+    List<String>? attachmentUrl,
     int? taskStatus,
   }) {
     return RequestTaskModel(
@@ -64,7 +67,7 @@ class RequestTaskModel {
       priority: map['priority'] != null ? map['priority'] as int : null,
       scheduledStartTime: map['scheduledStartTime'] != null ? map['scheduledStartTime'] as String : null,
       scheduledEndTime: map['scheduledEndTime'] != null ? map['scheduledEndTime'] as String : null,
-      attachmentUrl: map['attachmentUrl'] != null ? map['attachmentUrl'] as String : null,
+      attachmentUrl: map['attachmentUrl'] != null ? List<String>.from((map['attachmentUrl'] as List<String>)) : null,
       taskStatus: map['taskStatus'] != null ? map['taskStatus'] as int : null,
     );
   }
@@ -89,7 +92,7 @@ class RequestTaskModel {
       other.priority == priority &&
       other.scheduledStartTime == scheduledStartTime &&
       other.scheduledEndTime == scheduledEndTime &&
-      other.attachmentUrl == attachmentUrl &&
+      listEquals(other.attachmentUrl, attachmentUrl) &&
       other.taskStatus == taskStatus;
   }
 

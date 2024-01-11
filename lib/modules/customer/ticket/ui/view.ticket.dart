@@ -1,16 +1,32 @@
 // ignore_for_file: prefer_const_constructors, unrelated_type_equality_checks
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dich_vu_it/app/constant/enum.dart';
+import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
 import 'package:dich_vu_it/models/response/ticket.response.model.dart';
+import 'package:dich_vu_it/modules/customer/ticket/ui/edit.ticket.dart';
 import 'package:dich_vu_it/modules/customer/ticket/ui/log.ticket.dart';
+import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ViewTicketScreen extends StatelessWidget {
+class ViewTicketScreen extends StatefulWidget {
   final TicketResponseModel ticket;
 
   const ViewTicketScreen({Key? key, required this.ticket}) : super(key: key);
+
+  @override
+  State<ViewTicketScreen> createState() => _ViewTicketScreenState();
+}
+
+class _ViewTicketScreenState extends State<ViewTicketScreen> {
+  TicketResponseModel ticket = TicketResponseModel();
+  @override
+  void initState() {
+    super.initState();
+    ticket = widget.ticket;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +53,35 @@ class ViewTicketScreen extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
+          actions: [
+            Visibility(
+              visible: ticket.ticketStatus == 1,
+              child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => EditTicket(
+                          request: ticket,
+                          callBack: (value) {
+                            if (value != null) {
+                              setState(() {
+                                ticket = value;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    Icons.edit,
+                    size: 28,
+                    color: Colors.white,
+                  )),
+            ),
+            SizedBox(width: 15)
+          ],
         ),
         body: Column(
           children: [
@@ -73,24 +118,6 @@ class ViewTicketScreen extends StatelessWidget {
                                 children: [
                                   Text(
                                     "${ticket.requester?.firstName} ${ticket.requester?.lastName}",
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        final Uri launchUri = Uri(
-                                          scheme: 'tel',
-                                          path: ticket.requester?.phoneNumber ??
-                                              "0987654321",
-                                        );
-                                        await launchUrl(launchUri);
-                                      },
-                                      child: Icon(
-                                        Icons.phone,
-                                        size: 25,
-                                        color: Colors.blue,
-                                      ),
-                                    ),
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(left: 10),
@@ -146,13 +173,6 @@ class ViewTicketScreen extends StatelessWidget {
                                           ticket.priority ?? -1),
                                     ),
                                   ),
-                                  Expanded(
-                                    child: FieldTextWidget(
-                                      title: 'Urgency',
-                                      content:
-                                          nameUrgency(ticket.urgency ?? -1),
-                                    ),
-                                  ),
                                 ],
                               ),
 
@@ -186,6 +206,82 @@ class ViewTicketScreen extends StatelessWidget {
                                     ? DateFormat('HH:mm   dd-MM-yyyy').format(
                                         DateTime.parse(ticket.completedTime!))
                                     : "Not Assigned",
+                              ),
+                              const Text(
+                                "Attachment",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xFF909090),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      height: 80,
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Wrap(
+                                              spacing: 16.0,
+                                              runSpacing: 8.0,
+                                              children: [
+                                                if (ticket.attachmentUrls !=
+                                                    null)
+                                                  for (var url
+                                                      in ticket.attachmentUrls!)
+                                                    Container(
+                                                      height: 60,
+                                                      width: 60,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                      ),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: url,
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            CircularProgressIndicator(),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(Icons.error),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(width: 20),
+                                          Visibility(
+                                            visible:
+                                                ticket.attachmentUrls != null &&
+                                                    ticket.attachmentUrls!
+                                                        .isNotEmpty,
+                                            child: InkWell(
+                                              onTap: () async {
+                                                downloadFile(
+                                                  context,
+                                                  List<String>.from(
+                                                      ticket.attachmentUrls ??
+                                                          []),
+                                                );
+                                              },
+                                              child: Icon(
+                                                Icons.download,
+                                                size: 40,
+                                                color: Colors.blue,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 10),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -238,10 +334,10 @@ class ViewTicketScreen extends StatelessWidget {
                                           FieldTextWidget(
                                             title: 'Technician Phone',
                                             content: ticket.assignment
-                                                    ?.technicianPhone ??
+                                                    ?.technicianPhoneNumber ??
                                                 "Not Assigned",
                                             widget: (ticket.assignment
-                                                        ?.technicianPhone !=
+                                                        ?.technicianPhoneNumber !=
                                                     null)
                                                 ? Container(
                                                     margin: EdgeInsets.only(
@@ -253,7 +349,7 @@ class ViewTicketScreen extends StatelessWidget {
                                                           scheme: 'tel',
                                                           path: ticket
                                                                   .assignment
-                                                                  ?.technicianPhone ??
+                                                                  ?.technicianPhoneNumber ??
                                                               "0987654321",
                                                         );
                                                         await launchUrl(

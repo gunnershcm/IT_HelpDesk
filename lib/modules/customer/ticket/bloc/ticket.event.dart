@@ -21,7 +21,7 @@ class CreateTicketEvent extends TicketEvent {
 
 
 class UpdtaeTicketEvent extends TicketEvent {
-  final RequestCreateTicketModel request;
+  final TicketResponseModel request;
 
   const UpdtaeTicketEvent({required this.request});
 

@@ -127,26 +127,24 @@ String nameGender(int role) {
 String nameTaskStatus(int status) {
   switch (status) {
     case 0:
-      return "Open";
+      return "New";
     case 1:
-      return "Assigned";
-    case 2:
       return "InProgress";
-    case 3:
+    case 2:
       return "Completed";
-    case 4:
+    case 3:
       return "Cancelled";
     default:
       return "Not Assigned";
   }
 }
 
+
 Map<int, String> taskStatus = {
-  0: "Open",
-  1: "Assigned",
-  2: "InProgress",
-  3: "Completed",
-  4: "Cancelled",
+  0: "New",
+  1: "InProgress",
+  2: "Completed",
+  3: "Cancelled",
 };
 
 Color colorTaskStatus(int status) {
@@ -154,12 +152,10 @@ Color colorTaskStatus(int status) {
     case 0:
       return Colors.grey;
     case 1:
-      return const Color.fromARGB(255, 117, 117, 114);
-    case 2:
       return Colors.blue;
-    case 3:
+    case 2:
       return Colors.green;
-    case 4:
+    case 3:
       return Colors.red;
     default:
       return Colors.black;

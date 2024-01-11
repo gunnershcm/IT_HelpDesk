@@ -26,7 +26,7 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
   int? selectedStatus;
   int countNoti = 0;
   late String query = '';
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void getNoti() async {
     var noti = await NotiProvider.getCountNoti();
@@ -42,12 +42,14 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
     _bloc.add(GetAllListTicket());
   }
 
+
   void onStatusSelected(int? status) {
     setState(() {
       selectedStatus = status;
       filterList();
     });
   }
+  
 
   // Add this function to filter the list based on the search query
   void filterList() {
@@ -62,6 +64,7 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
           .toList();
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -239,11 +242,11 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
                       onTap: () => onStatusSelected(null),
                       isSelected: selectedStatus == null,
                     ),
-                    ScrollItem(
-                      text: 'Open',
-                      onTap: () => onStatusSelected(0),
-                      isSelected: selectedStatus == 0,
-                    ),
+                    // ScrollItem(
+                    //   text: 'Open',
+                    //   onTap: () => onStatusSelected(0),
+                    //   isSelected: selectedStatus == 0,
+                    // ),
                     ScrollItem(
                       text: 'Assigned',
                       onTap: () => onStatusSelected(1),
