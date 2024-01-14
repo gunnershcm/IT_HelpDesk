@@ -2,17 +2,39 @@ import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/app/widgets/dislike_button.dart';
 import 'package:dich_vu_it/app/widgets/like_button.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
+import 'package:dich_vu_it/modules/c_technician/ticket.solution/bloc/solution.bloc.dart';
 import 'package:flutter/material.dart';
 
-class TicketSolutionItem extends StatelessWidget {
+class TicketSolutionItem extends StatefulWidget {
   final TicketSolutionModel solution;
   final Function(TicketSolutionModel) onTap;
-
   const TicketSolutionItem({
     Key? key,
     required this.solution,
     required this.onTap,
   }) : super(key: key);
+
+  @override
+  State<TicketSolutionItem> createState() => _TicketSolutionItemState();
+}
+
+class _TicketSolutionItemState extends State<TicketSolutionItem> {
+  bool shouldUpdate = false;
+  var bloc = TicketSolutionBloc();
+  TicketSolutionModel solution = TicketSolutionModel();
+  @override
+  void initState() {
+    super.initState();
+    //bloc.add(GetAllSolutionEvent());
+    solution = widget.solution;
+  }
+
+  void updateLike() {
+    setState(() {
+      bloc.add(GetAllSolutionEvent());
+      shouldUpdate = !shouldUpdate;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,39 +78,6 @@ class TicketSolutionItem extends StatelessWidget {
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Status: ",
-                        style: DefaultTextStyle.of(context).style,
-                      ),
-                      TextSpan(
-                        text: "${getApproveStatus(solution.isApproved)}",
-                        style: solution.isApproved == true
-                            ? TextStyle(color: Colors.green)
-                            : TextStyle(color: Colors.red),
-                      ),
-                    ],
-                  ),
-                ),
-                // SizedBox(height: 5),
-                // RichText(
-                //   text: TextSpan(
-                //     children: [
-                //       TextSpan(
-                //         text: "Visibility: ",
-                //         style: DefaultTextStyle.of(context).style,
-                //       ),
-                //       TextSpan(
-                //         text: "${getPublicStatus(solution.isPublic)}",
-                //         style: solution.isPublic == true
-                //             ? TextStyle(color: Colors.green)
-                //             : TextStyle(color: Colors.red),
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -96,10 +85,15 @@ class TicketSolutionItem extends StatelessWidget {
                       isLike(solution.currentReactionUser),
                       solution.countLike!,
                       solution.id!,
+                      callback: updateLike,
                     ),
                     SizedBox(width: 20.0),
-                    DisLikeButtonWidget(isDislike(solution.currentReactionUser),
-                        solution.countDislike!, solution.id!),
+                    DisLikeButtonWidget(
+                      isDislike(solution.currentReactionUser),
+                        solution.countDislike!, solution.id!,
+                        callback: updateLike,
+                      
+                      ),
                     // DisLikeButton(
                     //   size: size,
                     //   isLiked: isLiked,

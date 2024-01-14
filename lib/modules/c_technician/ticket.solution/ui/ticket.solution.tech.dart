@@ -9,15 +9,21 @@ import 'package:dich_vu_it/app/widgets/like_button_setting.dart';
 //import 'package:dich_vu_it/app/widgets/like_button.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
+import 'package:dich_vu_it/models/response/user.login.response.model.dart';
+import 'package:dich_vu_it/models/response/user.profile.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/history.task/bloc/component/ticket.solution.item.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/bloc/solution.bloc.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/create.ticket.solution.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/view.ticket.solution.dart';
+import 'package:dich_vu_it/provider/session.provider.dart';
 import 'package:dich_vu_it/provider/solution.provider.dart';
+import 'package:dich_vu_it/repository/authentication.repository.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // import '../bloc/history.bloc.dart';
 // import 'infor.task.screen.dart';
@@ -33,18 +39,18 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
   var bloc = TicketSolutionBloc();
   List<TicketSolutionModel> listSolution = [];
   List<TicketSolutionModel> filteredList = [];
+  UserLoginResponseModel? userLoginResponseModel;
   late String query = '';
   TicketSolutionModel? selectedSolution =
       TicketSolutionModel(title: "All solutions");
-  // bool isLiked = false;
-  // int likeCount = 20;
-  // double size = 20;
 
   @override
   void initState() {
     super.initState();
     bloc.add(GetAllSolutionEvent());
+
   }
+
 
   void filterList() {
     setState(() {
@@ -58,8 +64,22 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
     });
   }
 
+  String idLogin = "";
+  Future<String> getIdLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? id = prefs.getString('idUser');
+
+    if (id != null) {
+      print('User Role: $id');
+      return idLogin = id;
+    } else {
+      print('Không tìm thấy thông tin người dùng trong SharedPreferences.');
+      return idLogin = "not found id";
+    }
+  }
   @override
   Widget build(BuildContext context) {
+    getIdLogin();
     return BlocConsumer<TicketSolutionBloc, TicketSolutionState>(
       bloc: bloc,
       listener: (context, state) {
@@ -172,6 +192,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                               builder: (BuildContext context) =>
                                   ViewSolutionDetail(
                                 solution: element,
+                                id: idLogin.toInt(),
                               ),
                             ),
                           );

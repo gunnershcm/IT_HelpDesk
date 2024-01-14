@@ -3,10 +3,13 @@
 import 'package:dich_vu_it/app/constant/enum.dart';
 
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
+import 'package:dich_vu_it/models/response/user.login.response.model.dart';
+import 'package:dich_vu_it/models/response/user.login.response.model.dart';
 import 'package:dich_vu_it/models/response/user.profile.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/comment/comment.solution.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:dich_vu_it/provider/solution.provider.dart';
+import 'package:dich_vu_it/repository/authentication.repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -15,31 +18,34 @@ import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/edit.solution
 
 class ViewSolutionDetail extends StatefulWidget {
   final TicketSolutionModel solution;
-  const ViewSolutionDetail({super.key, required this.solution});
-
+  final int? id;
+  const ViewSolutionDetail({super.key, required this.solution, required this.id});
+  
   @override
   State<ViewSolutionDetail> createState() => _ViewSolutionDetailState();
 }
 
 class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
   TicketSolutionModel solution = TicketSolutionModel();
-  UserProfileResponseModel userProfile = UserProfileResponseModel();
+  int? id;
   @override
   void initState() {
     super.initState();
     solution = widget.solution;
+    id = widget.id;
   }
 
+ 
   // var bloc = HomeBloc();
   // TaskModel taskModel = TaskModel();
-  // TextEditingController title = TextEditingController();
+// TextEditingController title = TextEditingController();
   // TextEditingController moTa = TextEditingController();
   // TextEditingController note = TextEditingController();
 
   // var date1;
   // var time1;
   // var date2;
-  // var time2;
+  // var time2;async {
   // @override
   // void initState() {
   //   super.initState();
@@ -60,6 +66,8 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
 
   @override
   Widget build(BuildContext context) {
+   
+    print("$id aaaa");
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -83,29 +91,33 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                     fontWeight: FontWeight.w600),
               ),
               actions: [
-                InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => EditSolutionScreen(
-                            solution: solution,
-                            callBack: (value) {
-                              if (value != null) {
-                                setState(() {
-                                  solution = value;
-                                });
-                              }
-                            },
+                Visibility(
+                  visible: solution.createdById == id,                      
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                EditSolutionScreen(
+                              solution: solution,
+                              callBack: (value) {
+                                if (value != null) {
+                                  setState(() {
+                                    solution = value;
+                                  });
+                                }
+                              },
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    child: Icon(
-                      Icons.edit,
-                      size: 28,
-                      color: Colors.white,
-                    )),
+                        );
+                      },
+                      child: Icon(
+                        Icons.edit,
+                        size: 28,
+                        color: Colors.white,
+                      )),
+                ),
                 SizedBox(width: 15)
               ],
             ),
@@ -143,7 +155,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                               content: getApproveStatus(solution.isApproved)),
                           // FieldTextWidget(
                           //     title: 'Visibility',
-                          //     content: getPublicStatus(solution.isPublic),                             
+                          //     content: getPublicStatus(solution.isPublic),
                           // ),
                           // AppButton(
                           //   text: "Change Public",
@@ -163,8 +175,11 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                       margin: EdgeInsets.only(left: 10),
                                       child: InkWell(
                                         onTap: () async {
-                                          downloadFile(context,
-                                              List<String>.from(solution.attachmentUrls ?? []));
+                                          downloadFile(
+                                              context,
+                                              List<String>.from(
+                                                  solution.attachmentUrls ??
+                                                      []));
                                         },
                                         child: Icon(
                                           Icons.download,
@@ -203,7 +218,8 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                       FieldTextWidget(
                                         title: 'Name',
                                         content:
-                                            "${solution.createdBy?.lastName ?? " "} ${solution.createdBy?.firstName ?? " "}",
+                                            "${solution.createdBy?.lastName ?? " "} ${solution.createdBy?.firstName ?? " "}" ,
+
                                       ),
                                       FieldTextWidget(
                                         title: 'Email',

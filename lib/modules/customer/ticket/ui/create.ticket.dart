@@ -10,6 +10,7 @@ import 'package:dich_vu_it/modules/customer/ticket/bloc/ticket.bloc.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:dich_vu_it/provider/location.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -198,7 +199,7 @@ class _CreateTickketState extends State<CreateTickket> {
                             ),
                           ),
                           asyncItems: (String? filter) =>
-                              TicketProvider.getAllService(),
+                              TicketProvider.getUserActiveService(),
                           itemAsString: (ServiceResponseModel u) =>
                               u.description!,
                           selectedItem: serviceModel,
@@ -233,11 +234,11 @@ class _CreateTickketState extends State<CreateTickket> {
                     //               value), // Hiển thị giá trị là văn bản của mục
                     //         );
                     //       }).toList(),
-                    //       value: requestCreateTicketModel.type,
+                    //       //value: requestCreateTicketModel.type,
                     //       onChanged: (value) {
-                    //         setState(() {
-                    //           requestCreateTicketModel.type = value as String;
-                    //         });
+                    //         // setState(() {
+                    //         //   requestCreateTicketModel.type = value as String;
+                    //         // });
                     //       },
                     //     ),
                     //   ),
