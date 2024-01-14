@@ -276,6 +276,29 @@ class TicketProvider {
     }
   }
 
+  static Future<bool> progressTicket(int idTicket) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    Map<String, String> header = await getHeader();
+    header.addAll({'Authorization': 'Bearer $token'});
+    var url =
+        "$baseUrl/v1/itsds/ticket/modify-status?ticketId=$idTicket&newStatus=2";
+    var response = await http.patch(
+      Uri.parse(url.toString()),
+      headers: header,
+    );
+    if (response.statusCode == 200) {
+      var bodyConvert = jsonDecode(response.body);
+      if (bodyConvert['isError'] == false) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   static Future<bool> resolvedTicketToProgress(int idTicket) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
@@ -501,7 +524,7 @@ class TicketProvider {
       String? token = prefs.getString(myToken);
       var url = "";
       if (idTicket == null) {
-        url = "$baseUrl/v1/itsds/ticket/task/inactive";
+        url = "$baseUrl/v1/itsds/ticket/task/active";
         print("id null");
       } else {
         url = "$baseUrl/v1/itsds/ticket/task/active?ticketId=$idTicket";

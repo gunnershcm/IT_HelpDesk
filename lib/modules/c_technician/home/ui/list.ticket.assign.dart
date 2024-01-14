@@ -156,6 +156,11 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                         isSelected: selectedStatus == null,
                       ),
                       ScrollItem(
+                        text: 'Open',
+                        onTap: () => onStatusSelected(0),
+                        isSelected: selectedStatus == 0,
+                      ),
+                      ScrollItem(
                         text: 'Assigned',
                         onTap: () => onStatusSelected(1),
                         isSelected: selectedStatus == 1,

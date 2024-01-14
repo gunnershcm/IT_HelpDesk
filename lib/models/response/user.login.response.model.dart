@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 class UserLoginResponseModel {
-  int? id;
+  String? id;
   String? firstName;
   String? lastName;
   String? username;
@@ -28,11 +28,10 @@ class UserLoginResponseModel {
     this.gender,
     this.accessToken,
   });
-
-
+  
 
   UserLoginResponseModel copyWith({
-    int? id,
+    String? id,
     String? firstName,
     String? lastName,
     String? username,
@@ -80,7 +79,7 @@ class UserLoginResponseModel {
 
   factory UserLoginResponseModel.fromMap(Map<String, dynamic> map) {
     return UserLoginResponseModel(
-      id: map['id'] != null ? map['id'] as int : null,
+      id: map['id'] != null ? map['id'] as String : null,
       firstName: map['firstName'] != null ? map['firstName'] as String : null,
       lastName: map['lastName'] != null ? map['lastName'] as String : null,
       username: map['username'] != null ? map['username'] as String : null,

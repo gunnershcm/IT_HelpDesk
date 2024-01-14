@@ -93,7 +93,7 @@ class _TicketItemState extends State<TicketItem> {
             ),
           ),
           const SizedBox(width: 10),
-          if (ticket!.ticketStatus == 1 || ticket!.ticketStatus == 2)
+          if (ticket!.ticketStatus == 2)
             ElevatedButton(
               onPressed: () async {
                 var response = await showNoti(context);
@@ -136,6 +136,25 @@ class _TicketItemState extends State<TicketItem> {
                 var response = await showNoti(context);
                 if (response) {
                   var check = await TicketProvider.resolvedTicketToProgress(
+                    ticket!.id ?? -1,
+                  );
+                  if (check == true) {
+                    // Do something when the ticket is closed
+                  }
+                }
+              },
+              style: ElevatedButton.styleFrom(primary: Colors.blue),
+              child: const Text(
+                "Progress",
+                style: TextStyle(color: Colors.white),
+              ),
+            )
+          else if (ticket!.ticketStatus == 1)
+            ElevatedButton(
+              onPressed: () async {
+                var response = await showNoti(context);
+                if (response) {
+                  var check = await TicketProvider.progressTicket(
                     ticket!.id ?? -1,
                   );
                   if (check == true) {

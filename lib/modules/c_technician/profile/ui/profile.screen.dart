@@ -43,8 +43,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _bloc.add(GetProfileEvent());
   }
 
+  String idLogin = "";
+  Future<String> getIdLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? id = prefs.getString('idUser');
+
+    if (id != null) {
+      print('User Role: $id');
+      return idLogin = id;
+    } else {
+      print('Không tìm thấy thông tin người dùng trong SharedPreferences.');
+      return idLogin = "not found id";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    getIdLogin();
     return Scaffold(
       body: BlocConsumer<ProfileBloc, ProfileState>(
           bloc: _bloc,
@@ -230,7 +245,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Personal Information',
+                                Text('Personal Information $idLogin',
                                     style: boldTextStyle(size: 18)),
                                 16.height,
                                 Container(

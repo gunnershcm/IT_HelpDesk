@@ -3,6 +3,8 @@
 import 'package:dich_vu_it/app/constant/enum.dart';
 
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
+import 'package:dich_vu_it/models/response/user.login.response.model.dart';
+import 'package:dich_vu_it/models/response/user.login.response.model.dart';
 import 'package:dich_vu_it/models/response/user.profile.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/comment/comment.solution.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
@@ -16,24 +18,24 @@ import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/edit.solution
 
 class ViewSolutionDetail extends StatefulWidget {
   final TicketSolutionModel solution;
-  final UserProfileResponseModel? userProfileResponseModel;
-  const ViewSolutionDetail({super.key, required this.solution, required this.userProfileResponseModel});
-
+  final int? id;
+  const ViewSolutionDetail({super.key, required this.solution, required this.id});
+  
   @override
   State<ViewSolutionDetail> createState() => _ViewSolutionDetailState();
 }
 
 class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
   TicketSolutionModel solution = TicketSolutionModel();
-  UserProfileResponseModel? userProfileResponseModel = UserProfileResponseModel();
-  //late int? id;
+  int? id;
   @override
   void initState() {
     super.initState();
     solution = widget.solution;
-    userProfileResponseModel = widget.userProfileResponseModel;
+    id = widget.id;
   }
 
+ 
   // var bloc = HomeBloc();
   // TaskModel taskModel = TaskModel();
 // TextEditingController title = TextEditingController();
@@ -43,7 +45,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
   // var date1;
   // var time1;
   // var date2;
-  // var time2;
+  // var time2;async {
   // @override
   // void initState() {
   //   super.initState();
@@ -64,6 +66,8 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
 
   @override
   Widget build(BuildContext context) {
+   
+    print("$id aaaa");
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -88,7 +92,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
               ),
               actions: [
                 Visibility(
-                  visible: solution.createdById == userProfileResponseModel?.id,                      
+                  visible: solution.createdById == id,                      
                   child: InkWell(
                       onTap: () {
                         Navigator.push(

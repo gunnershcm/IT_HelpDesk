@@ -154,6 +154,28 @@ class SolutionProvider {
     }
   }
 
+   static Future<bool> submit_approval(int? idManager) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    Map<String, String> header = await getHeader();
+    header.addAll({'Authorization': 'Bearer $token'});
+    var url = "$baseUrl/v1/itsds/solution/change-public?solutionId=$idManager";
+    var response = await http.patch(Uri.parse(url.toString()),
+        headers: header);
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      var bodyConvert = jsonDecode(response.body);
+      if (bodyConvert['isError'] == false) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
   static Future<List<TicketSolutionModel>> getAllListSolution() async {
     List<TicketSolutionModel> listData = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
