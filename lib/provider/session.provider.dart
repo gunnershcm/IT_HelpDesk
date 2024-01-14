@@ -56,8 +56,7 @@ class SessionProvider {
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.get(Uri.parse(url.toString()), headers: header);
       String decodedData = utf8.decode(response.bodyBytes);
-         print("objectobject: ${url}");
-             print("Bearer $token");
+      print(response.body);
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(decodedData);
         if (bodyConvert['isError'] == false) {
@@ -188,8 +187,7 @@ class SessionProvider {
     Map<String, String> header = await getHeader();
     header.addAll({'Authorization': 'Bearer $token'});
     var url = "$baseUrl/v1/itsds/auth/reset-password?email=$email";
-    var response = await http.post(Uri.parse(url.toString()),
-        headers: header);
+    var response = await http.post(Uri.parse(url.toString()), headers: header);
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -203,5 +201,4 @@ class SessionProvider {
       return true;
     }
   }
-
 }

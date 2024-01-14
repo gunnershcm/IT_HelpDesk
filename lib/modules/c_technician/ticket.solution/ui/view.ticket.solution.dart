@@ -7,6 +7,7 @@ import 'package:dich_vu_it/models/response/user.profile.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/comment/comment.solution.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:dich_vu_it/provider/solution.provider.dart';
+import 'package:dich_vu_it/repository/authentication.repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -15,7 +16,8 @@ import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/edit.solution
 
 class ViewSolutionDetail extends StatefulWidget {
   final TicketSolutionModel solution;
-  const ViewSolutionDetail({super.key, required this.solution});
+  final UserProfileResponseModel? userProfileResponseModel;
+  const ViewSolutionDetail({super.key, required this.solution, required this.userProfileResponseModel});
 
   @override
   State<ViewSolutionDetail> createState() => _ViewSolutionDetailState();
@@ -23,16 +25,18 @@ class ViewSolutionDetail extends StatefulWidget {
 
 class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
   TicketSolutionModel solution = TicketSolutionModel();
-  UserProfileResponseModel userProfile = UserProfileResponseModel();
+  UserProfileResponseModel? userProfileResponseModel = UserProfileResponseModel();
+  //late int? id;
   @override
   void initState() {
     super.initState();
     solution = widget.solution;
+    userProfileResponseModel = widget.userProfileResponseModel;
   }
 
   // var bloc = HomeBloc();
   // TaskModel taskModel = TaskModel();
-  // TextEditingController title = TextEditingController();
+// TextEditingController title = TextEditingController();
   // TextEditingController moTa = TextEditingController();
   // TextEditingController note = TextEditingController();
 
@@ -83,29 +87,33 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                     fontWeight: FontWeight.w600),
               ),
               actions: [
-                InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => EditSolutionScreen(
-                            solution: solution,
-                            callBack: (value) {
-                              if (value != null) {
-                                setState(() {
-                                  solution = value;
-                                });
-                              }
-                            },
+                Visibility(
+                  visible: solution.createdById == userProfileResponseModel?.id,                      
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                EditSolutionScreen(
+                              solution: solution,
+                              callBack: (value) {
+                                if (value != null) {
+                                  setState(() {
+                                    solution = value;
+                                  });
+                                }
+                              },
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    child: Icon(
-                      Icons.edit,
-                      size: 28,
-                      color: Colors.white,
-                    )),
+                        );
+                      },
+                      child: Icon(
+                        Icons.edit,
+                        size: 28,
+                        color: Colors.white,
+                      )),
+                ),
                 SizedBox(width: 15)
               ],
             ),
@@ -143,7 +151,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                               content: getApproveStatus(solution.isApproved)),
                           // FieldTextWidget(
                           //     title: 'Visibility',
-                          //     content: getPublicStatus(solution.isPublic),                             
+                          //     content: getPublicStatus(solution.isPublic),
                           // ),
                           // AppButton(
                           //   text: "Change Public",
@@ -163,8 +171,11 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                       margin: EdgeInsets.only(left: 10),
                                       child: InkWell(
                                         onTap: () async {
-                                          downloadFile(context,
-                                              List<String>.from(solution.attachmentUrls ?? []));
+                                          downloadFile(
+                                              context,
+                                              List<String>.from(
+                                                  solution.attachmentUrls ??
+                                                      []));
                                         },
                                         child: Icon(
                                           Icons.download,
@@ -203,7 +214,8 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                       FieldTextWidget(
                                         title: 'Name',
                                         content:
-                                            "${solution.createdBy?.lastName ?? " "} ${solution.createdBy?.firstName ?? " "}",
+                                            "${solution.createdBy?.lastName ?? " "} ${solution.createdBy?.firstName ?? " "}" ,
+
                                       ),
                                       FieldTextWidget(
                                         title: 'Email',

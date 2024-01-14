@@ -46,7 +46,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           emit(HomeError(error: "Scheduled Start Time not null"));
         } else if (event.requestTaskModel.scheduledEndTime == null) {
           emit(HomeError(error: "Scheduled End Time not null"));
-        
         } else {
           var response =
               await TicketProvider.createTicketTask(event.requestTaskModel);
@@ -63,7 +62,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           emit(HomeError(error: "Scheduled Start Time not null"));
         } else if (event.taskModel.scheduledEndTime == null) {
           emit(HomeError(error: "Scheduled End Time not null"));
-        
         } else {
           var response = await TicketProvider.updateTicketTask(event.taskModel);
           if (response) {
@@ -72,8 +70,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             emit(HomeError(error: "Error"));
           }
         }
-      } else if (event is ClearDataEvent){
+      } else if (event is ClearDataEvent) {
         emit(HomeInitial());
+      } else if (event is UpdateTicketEvent) {
+        var response =
+            await TicketProvider.updateTicketByTech(event.ticketResponseModel);
+        if (response) {
+          emit(EditTicketSuccessState());
+        } else {
+          emit(HomeError(error: "Error"));
+        }
       }
     } catch (e) {
       print("Loi: $e");

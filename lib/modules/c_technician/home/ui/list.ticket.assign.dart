@@ -37,7 +37,8 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
   void updateTicketList(){
    // _bloc.add(ClearDataEvent());
     setState(() {
-      updateList = !updateList;
+      //updateList = !updateList;
+      _bloc.add(GetListTicketAssignEvent());
     });
   }
 

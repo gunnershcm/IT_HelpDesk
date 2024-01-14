@@ -2,12 +2,12 @@ import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/app/widgets/dislike_button.dart';
 import 'package:dich_vu_it/app/widgets/like_button.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
+import 'package:dich_vu_it/modules/customer/ticket.solution/bloc/solution.bloc.dart';
 import 'package:flutter/material.dart';
 
-class TicketSolutionItem extends StatelessWidget {
+class TicketSolutionItem extends StatefulWidget {
   final TicketSolutionModel solution;
   final Function(TicketSolutionModel) onTap;
-
   const TicketSolutionItem({
     Key? key,
     required this.solution,
@@ -15,8 +15,32 @@ class TicketSolutionItem extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<TicketSolutionItem> createState() => _TicketSolutionItemState();
+}
+
+class _TicketSolutionItemState extends State<TicketSolutionItem> {
+  bool shouldUpdate = false;
+  var bloc = TicketSolutionBloc();
+  TicketSolutionModel solution = TicketSolutionModel();
+  @override
+  void initState() {
+    super.initState();
+    //bloc.add(GetAllSolutionEvent());
+    solution = widget.solution;
+  }
+   void updateLike() {
+    setState(() {
+      bloc.add(GetAllSolutionEvent());
+      shouldUpdate = !shouldUpdate;
+    });
+    print("$shouldUpdate Testttt callback" );
+  }
+  @override
   Widget build(BuildContext context) {
+   
+
     return Container(
+      
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       decoration: BoxDecoration(
@@ -35,6 +59,7 @@ class TicketSolutionItem extends StatelessWidget {
         children: [
           const SizedBox(width: 10),
           Expanded(
+            
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -56,39 +81,7 @@ class TicketSolutionItem extends StatelessWidget {
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
-                // RichText(
-                //   text: TextSpan(
-                //     children: [
-                //       TextSpan(
-                //         text: "Status: ",
-                //         style: DefaultTextStyle.of(context).style,
-                //       ),
-                //       TextSpan(
-                //         text: "${getApproveStatus(solution.isApproved)}",
-                //         style: solution.isApproved == true
-                //             ? TextStyle(color: Colors.green)
-                //             : TextStyle(color: Colors.red),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // SizedBox(height: 5),
-                // RichText(
-                //   text: TextSpan(
-                //     children: [
-                //       TextSpan(
-                //         text: "Visibility: ",
-                //         style: DefaultTextStyle.of(context).style,
-                //       ),
-                //       TextSpan(
-                //         text: "${getPublicStatus(solution.isPublic)}",
-                //         style: solution.isPublic == true
-                //             ? TextStyle(color: Colors.green)
-                //             : TextStyle(color: Colors.red),
-                //       ),
-                //     ],
-                //   ),
-                // ),
+                
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -96,10 +89,19 @@ class TicketSolutionItem extends StatelessWidget {
                       isLike(solution.currentReactionUser),
                       solution.countLike!,
                       solution.id!,
+                      callback: () {
+                        bloc.add(GetAllSolutionEvent());
+                      },
                     ),
                     SizedBox(width: 20.0),
-                    DisLikeButtonWidget(isDislike(solution.currentReactionUser),
-                        solution.countDislike!, solution.id!),
+                    DisLikeButtonWidget(
+                      isDislike(solution.currentReactionUser),
+                        solution.countDislike!, 
+                        solution.id!,
+                        callback: () {
+                        bloc.add(GetAllSolutionEvent());
+                      },
+                      ),
                     // DisLikeButton(
                     //   size: size,
                     //   isLiked: isLiked,

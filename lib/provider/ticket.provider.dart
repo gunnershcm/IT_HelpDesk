@@ -104,16 +104,18 @@ class TicketProvider {
     return listData;
   }
 
-  static Future<List<ServiceResponseModel>> getAllService() async {
+  static Future<List<ServiceResponseModel>> getUserActiveService() async {
     List<ServiceResponseModel> listData = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     try {
-      var url = "$baseUrl/v1/itsds/service/all";
+      var url = "$baseUrl/v1/itsds/user/active-services";
       Map<String, String> header = await getHeader();
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.get(Uri.parse(url.toString()), headers: header);
       String decodedData = utf8.decode(response.bodyBytes);
+      print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 200) {
         var bodyConvert = jsonDecode(decodedData);
         if (bodyConvert['isError'] == false) {
@@ -297,6 +299,29 @@ class TicketProvider {
     }
   }
 
+  static Future<bool> updateTicketByTech(
+      TicketResponseModel model) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    Map<String, String> header = await getHeader();
+    header.addAll({'Authorization': 'Bearer $token'});
+    var url =
+        "$baseUrl/v1/itsds/ticket/technician/${model.id}";
+    var response = await http.patch(Uri.parse(url.toString()),
+        headers: header, body: model.toJson());
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      var bodyConvert = jsonDecode(response.body);
+      if (bodyConvert['isError'] == false) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
   //danh gia  ticket
   static Future<bool> patchTechnicianTicket(
       {required int idTicket,

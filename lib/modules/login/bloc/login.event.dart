@@ -17,3 +17,12 @@ class StartLoginEvent extends LoginEvent {
   List<Object> get props => [username, password];
 }
 
+
+class YourUserLoadedEvent extends LoginEvent {
+  final UserProfileResponseModel userProfileResponseModel;
+
+  const YourUserLoadedEvent({required this.userProfileResponseModel});
+
+  @override
+  List<Object> get props => [userProfileResponseModel];
+}

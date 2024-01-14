@@ -63,7 +63,7 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                   MaterialPageRoute(
                     builder: (BuildContext context) =>
                         EditTicketTechnicianScreen(
-                      tiket: tiket,
+                      ticket: tiket,
                       callBack: (value) {
                         if (value != null) {
                           setState(() {
@@ -205,6 +205,10 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                 ],
               ),
               FieldTextWidget(
+                title: 'Description',
+                content: tiket.description ?? "",
+              ),
+              FieldTextWidget(
                 title: 'Impact',
                 content: nameImpact(tiket.impact ?? -1),
               ),
@@ -213,8 +217,18 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                 content: tiket.impactDetail ?? "",
               ),
               FieldTextWidget(
-                title: 'Description',
-                content: tiket.description ?? "",
+                title: 'Start Date',
+                content: (tiket.scheduledStartTime != null)
+                    ? DateFormat('HH:mm   dd-MM-yyyy')
+                        .format(DateTime.parse(tiket.scheduledStartTime!))
+                    : "",
+              ),
+              FieldTextWidget(
+                title: 'End Date',
+                content: (tiket.scheduledEndTime != null)
+                    ? DateFormat('HH:mm   dd-MM-yyyy')
+                        .format(DateTime.parse(tiket.scheduledEndTime!))
+                    : "",
               ),
               FieldTextWidget(
                 title: 'Created Date',

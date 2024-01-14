@@ -9,11 +9,13 @@ import 'package:dich_vu_it/app/widgets/like_button_setting.dart';
 //import 'package:dich_vu_it/app/widgets/like_button.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
+import 'package:dich_vu_it/models/response/user.profile.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/history.task/bloc/component/ticket.solution.item.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/bloc/solution.bloc.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/create.ticket.solution.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/view.ticket.solution.dart';
 import 'package:dich_vu_it/provider/solution.provider.dart';
+import 'package:dich_vu_it/repository/authentication.repository.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,17 +35,22 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
   var bloc = TicketSolutionBloc();
   List<TicketSolutionModel> listSolution = [];
   List<TicketSolutionModel> filteredList = [];
+  UserProfileResponseModel? userProfileResponseModel;
   late String query = '';
   TicketSolutionModel? selectedSolution =
       TicketSolutionModel(title: "All solutions");
-  // bool isLiked = false;
-  // int likeCount = 20;
-  // double size = 20;
 
   @override
   void initState() {
     super.initState();
     bloc.add(GetAllSolutionEvent());
+    userProfileResponseModel = getUserProfile(); 
+     print('User Profile: $userProfileResponseModel'); 
+  }
+
+    UserProfileResponseModel? getUserProfile() {
+    final authRepository = AuthenticationRepository();
+    return authRepository.currentUser;
   }
 
   void filterList() {
@@ -172,6 +179,8 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                               builder: (BuildContext context) =>
                                   ViewSolutionDetail(
                                 solution: element,
+                                userProfileResponseModel:
+                                    userProfileResponseModel,
                               ),
                             ),
                           );

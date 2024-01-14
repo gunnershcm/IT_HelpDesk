@@ -35,3 +35,12 @@ class UpdateTaskTicketEvent extends HomeEvent {
   List<Object> get props => [taskModel];
 }
 
+class UpdateTicketEvent extends HomeEvent {
+  final TicketResponseModel ticketResponseModel;
+
+  const UpdateTicketEvent({required this.ticketResponseModel});
+
+  @override
+  List<Object> get props => [ticketResponseModel];
+}
+
