@@ -62,15 +62,15 @@ class _ChangePasswordScrrenState extends State<ChangePasswordScrren> {
             Navigator.pop(context);
             showToast(
               context: context,
-              msg: "Updtae was successfully",
-              color: const Color.fromARGB(255, 32, 255, 76),
+              msg: "Update was successfully",
+              color: MyColors.success,
               icon: const Icon(Icons.done),
             );
           } else if (state is ProfileStateFailure) {
             showToast(
               context: context,
               msg: state.error,
-              color: Colors.orange,
+              color: MyColors.error,
               icon: const Icon(Icons.warning),
             );
             Navigator.pop(context);

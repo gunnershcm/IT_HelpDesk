@@ -100,10 +100,10 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                 title: 'Keyword',
                                 content: solution.keyword ?? "",
                               ),
-                              FieldTextWidget(
-                                title: 'InternalComments',
-                                content: solution.internalComments ?? "",
-                              ),
+                              // FieldTextWidget(
+                              //   title: 'InternalComments',
+                              //   content: solution.internalComments ?? "",
+                              // ),
 
                               FieldTextWidget(
                                 title: 'Created Date',
@@ -112,10 +112,21 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                         DateTime.parse(solution.createdAt!))
                                     : "",
                               ),
-
+                              FieldTextWidget(
+                                title: 'Created By',
+                                content:
+                                    "${solution.createdBy?.lastName ?? " "} ${solution.createdBy?.firstName ?? " "}",
+                              ),
+                              FieldTextWidget(
+                                title: 'Reviewed Date',
+                                content: (solution.reviewDate != null)
+                                    ? DateFormat('HH:mm   dd-MM-yyyy').format(
+                                        DateTime.parse(solution.reviewDate!))
+                                    : "",
+                              ),
                               FieldTextWidget(
                                 title: 'Expired Date',
-                                content: (solution.createdAt != null)
+                                content: (solution.expiredDate != null)
                                     ? DateFormat('HH:mm   dd-MM-yyyy').format(
                                         DateTime.parse(solution.expiredDate!))
                                     : "",

@@ -48,9 +48,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
   void initState() {
     super.initState();
     bloc.add(GetAllSolutionEvent());
-
   }
-
 
   void filterList() {
     setState(() {
@@ -137,7 +135,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
             ],
           ),
           body: Container(
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsets.all(5),
             child: Column(
               children: [
                 Padding(

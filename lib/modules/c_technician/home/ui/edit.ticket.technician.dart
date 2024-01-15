@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../app/theme/colors.dart';
+
 class EditTicketTechnicianScreen extends StatefulWidget {
   Function callBack;
   final TicketResponseModel ticket;
@@ -129,7 +131,7 @@ class _EditTicketTechnicianScreenState
             showToast(
               context: context,
               msg: "Edit ticket successfully",
-              color: Colors.green,
+              color: MyColors.success,
               icon: const Icon(Icons.done),
             );
           } else if (state is HomeError) {
@@ -137,7 +139,7 @@ class _EditTicketTechnicianScreenState
             showToast(
               context: context,
               msg: state.error,
-              color: Colors.orange,
+              color: MyColors.error,
               icon: const Icon(Icons.warning),
             );
           }

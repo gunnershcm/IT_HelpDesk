@@ -188,7 +188,8 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                               ),
                               FieldTextWidget(
                                 title: 'Service',
-                                content: ticket.service?.type ?? "Not Assigned",
+                                content: ticket.service?.description ??
+                                    "Not Assigned",
                               ),
 
                               // Additional Fields

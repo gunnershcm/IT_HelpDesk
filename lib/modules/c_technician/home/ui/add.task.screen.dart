@@ -14,6 +14,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../app/theme/colors.dart';
+
 class AddTaskScreen extends StatefulWidget {
   final Function callBack;
   const AddTaskScreen({super.key, required this.callBack});
@@ -77,7 +79,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             showToast(
               context: context,
               msg: "Create a new task successfully",
-              color: Colors.green,
+              color: MyColors.success,
               icon: const Icon(Icons.done),
             );
           } else if (state is HomeError) {
@@ -85,7 +87,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             showToast(
               context: context,
               msg: state.error,
-              color: Colors.orange,
+              color: MyColors.error,
               icon: const Icon(Icons.warning),
             );
           }

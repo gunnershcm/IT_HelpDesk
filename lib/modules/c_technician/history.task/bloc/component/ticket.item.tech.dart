@@ -106,7 +106,7 @@ class _TicketItemState extends State<TicketItem> {
                     showToast(
                       context: context,
                       msg: "Update successfully",
-                      color: Colors.green,
+                      color: MyColors.success,
                       icon: const Icon(Icons.done),
                     );
                     setState(() {
@@ -118,7 +118,7 @@ class _TicketItemState extends State<TicketItem> {
                       context: context,
                       msg:
                           "Cannot resovle ticket if all\nthe tasks are not completed",
-                      color: Colors.orange,
+                      color: MyColors.error,
                       icon: const Icon(Icons.warning),
                     );
                   }

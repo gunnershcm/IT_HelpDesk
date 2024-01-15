@@ -16,6 +16,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../app/theme/colors.dart';
+
 class CreateSolutionScreen extends StatefulWidget {
   final Function callBack;
   const CreateSolutionScreen({super.key, required this.callBack});
@@ -79,7 +81,7 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
             showToast(
               context: context,
               msg: "Create a new solution successfully",
-              color: Colors.green,
+              color: MyColors.success,
               icon: const Icon(Icons.done),
             );
           } else if (state is TicketSolutionError) {
@@ -87,7 +89,7 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
             showToast(
               context: context,
               msg: state.error,
-              color: Colors.orange,
+              color: MyColors.error,
               icon: const Icon(Icons.warning),
             );
           }
@@ -219,7 +221,7 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
                     title: 'Keyword',
                     controller: keyword,
                   ),
-                  SizedBox(height: 20),               
+                  SizedBox(height: 20),
                   // SizedBox(height: 20),
                   // const Text(
                   //   "Visibility",
@@ -246,35 +248,35 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
                   //     ),
                   //   ),
                   // ),
-                  
-                  SizedBox(height: 20),
-                  DatePickerBox1(
-                      requestDayBefore: date1,
-                      isTime: true,
-                      label: Text(
-                        'Expired Date:',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w500),
-                      ),
-                      dateDisplay: date2,
-                      timeDisplay: time2,
-                      selectedDateFunction: (day) {
-                        if (day == null) {
-                          requestSolutionModel.expiredDate = null;
-                        }
-                      },
-                      selectedTimeFunction: (time) {
-                        if (time == null) {
-                          requestSolutionModel.expiredDate = null;
-                        }
-                      },
-                      getFullTime: (time) {
-                        if (time != "") {
-                          requestSolutionModel.expiredDate = time;
-                        } else {
-                          requestSolutionModel.expiredDate = null;
-                        }
-                      }),
+
+                  // SizedBox(height: 20),
+                  // DatePickerBox1(
+                  //     requestDayBefore: date1,
+                  //     isTime: true,
+                  //     label: Text(
+                  //       'Expired Date:',
+                  //       style: TextStyle(
+                  //           fontSize: 18, fontWeight: FontWeight.w500),
+                  //     ),
+                  //     dateDisplay: date2,
+                  //     timeDisplay: time2,
+                  //     selectedDateFunction: (day) {
+                  //       if (day == null) {
+                  //         requestSolutionModel.expiredDate = null;
+                  //       }
+                  //     },
+                  //     selectedTimeFunction: (time) {
+                  //       if (time == null) {
+                  //         requestSolutionModel.expiredDate = null;
+                  //       }
+                  //     },
+                  //     getFullTime: (time) {
+                  //       if (time != "") {
+                  //         requestSolutionModel.expiredDate = time;
+                  //       } else {
+                  //         requestSolutionModel.expiredDate = null;
+                  //       }
+                  //     }),
                   SizedBox(height: 20),
                   const Text(
                     "Attachment",
@@ -355,9 +357,10 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
                             requestSolutionModel.content = content.text;
                             requestSolutionModel.categoryId =
                                 selectedItemCategory?.id;
-                             requestSolutionModel.keyword = keyword.text;
-                             //requestSolutionModel.isPublic = selectedStatus;
-                             requestSolutionModel.ownerId = selectedItemOwner?.id;
+                            requestSolutionModel.keyword = keyword.text;
+                            //requestSolutionModel.isPublic = selectedStatus;
+                            requestSolutionModel.ownerId =
+                                selectedItemOwner?.id;
                             print(requestSolutionModel.toMap());
                             bloc.add(CreateSolutionEvent(
                                 requestSolutionModel: requestSolutionModel));

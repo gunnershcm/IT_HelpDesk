@@ -12,6 +12,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../app/theme/colors.dart';
+
 class EditTicket extends StatefulWidget {
   final TicketResponseModel request;
   final Function callBack;
@@ -22,8 +24,7 @@ class EditTicket extends StatefulWidget {
 }
 
 class _EditTicketState extends State<EditTicket> {
-  TicketResponseModel requestCreateTicketModel =
-      TicketResponseModel();
+  TicketResponseModel requestCreateTicketModel = TicketResponseModel();
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController attachmentUrl = TextEditingController();
@@ -46,6 +47,7 @@ class _EditTicketState extends State<EditTicket> {
     requestCreateTicketModel = widget.request;
     title.text = requestCreateTicketModel.title ?? "";
     description.text = requestCreateTicketModel.description ?? "";
+    serviceModel = requestCreateTicketModel.service;
     //selectedPriority = requestCreateTicketModel.priority ?? 0;
     //selectedItem = CategoryResponseModel(id: requestCreateTicketModel.categoryId, name: requestCreateTicketModel.categoryName);
     //attachmentUrl.text = requestCreateTicketModel.attachmentUrl ?? "";
@@ -86,7 +88,7 @@ class _EditTicketState extends State<EditTicket> {
             showToast(
               context: context,
               msg: "Update ticket successfully",
-              color: Colors.green,
+              color: MyColors.success,
               icon: const Icon(Icons.done),
             );
           } else if (state is TicketError) {
@@ -94,7 +96,7 @@ class _EditTicketState extends State<EditTicket> {
             showToast(
               context: context,
               msg: state.error,
-              color: Colors.orange,
+              color: MyColors.error,
               icon: const Icon(Icons.warning),
             );
           }

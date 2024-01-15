@@ -74,8 +74,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Navigator.pop(context);
               showToast(
                 context: context,
-                msg: "Updtae avatar was successfully",
-                color: const Color.fromARGB(255, 32, 255, 76),
+                msg: "Update avatar was successfully",
+                color: MyColors.success,
                 icon: const Icon(Icons.done),
               );
               _bloc.add(GetProfileEvent());
@@ -83,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               showToast(
                 context: context,
                 msg: state.error,
-                color: Colors.orange,
+                color: MyColors.error,
                 icon: const Icon(Icons.warning),
               );
               Navigator.pop(context);
@@ -231,7 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Stack(
                       alignment: AlignmentDirectional.topCenter,
                       children: [
-                        Container( 
+                        Container(
                           margin: const EdgeInsets.only(top: 20),
                           padding: const EdgeInsets.only(
                               top: 50, left: 16, right: 16, bottom: 16),
@@ -242,140 +242,142 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   topLeft: Radius.circular(30),
                                   topRight: Radius.circular(30))),
                           //child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Personal Information $idLogin',
-                                    style: boldTextStyle(size: 18)),
-                                16.height,
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16),
-                                      border: Border.all(
-                                          color: Colors.grey.withOpacity(0.2),
-                                          width: 0.5)),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      TitleDataUer(
-                                          titile: "Username",
-                                          content: userLogin.username ?? ""),
-                                      16.height,
-                                      TitleDataUer(
-                                          titile: "Email",
-                                          content: userLogin.email ?? ""),
-                                      16.height,
-                                      TitleDataUer(
-                                          titile: "Phone",
-                                          content: userLogin.phoneNumber ?? ""),
-                                      16.height,
-                                      TitleDataUer(
-                                          titile: "Date Of Birth",
-                                          content: (userLogin.dateOfBirth !=
-                                                      null &&
-                                                  userLogin.dateOfBirth != "")
-                                              ? DateFormat('dd/MM/yyyy').format(
-                                                  DateTime.parse(
-                                                      userLogin.dateOfBirth!))
-                                              : ""),
-                                      16.height,
-                                      TitleDataUer(
-                                          titile: "Gender",
-                                          content: nameGender(
-                                              userLogin.gender ?? -1)),
-                                      16.height,
-                                      TitleDataUer(
-                                          titile: "Address",
-                                          content: userLogin.address ?? ""),
-                                      16.height,
-                                    ],
-                                  ),
-                                ),
-                                16.height,
-                                AppButton(
-                                  color: WAPrimaryColor,
-                                  width: context.width(),
-                                  child: Text('Edit',
-                                      style: boldTextStyle(
-                                          color: Colors.white, size: 14)),
-                                  onTap: () async {
-                                    await Navigator.push<void>(
-                                      context,
-                                      MaterialPageRoute<void>(
-                                        builder: (BuildContext context) =>
-                                            EditProfileScrren(
-                                          userdata: userLogin,
-                                          callBack: (value) {},
-                                        ),
-                                      ),
-                                    );
-                                    _bloc.add(GetProfileEvent());
-                                  },
-                                ).cornerRadiusWithClipRRect(30).paddingOnly(
-                                    left: context.width() * 0.2,
-                                    right: context.width() * 0.2),
-                                16.height,
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceEvenly, // Adjust the alignment as needed
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Text('Personal Information $idLogin',
+                              //     style: boldTextStyle(size: 18)),
+                              Text('Personal Information',
+                                  style: boldTextStyle(size: 18)),
+                              16.height,
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        width: 0.5)),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: AppButton(
-                                        color: WAPrimaryColor,
-                                        child: Text(
-                                          'Change Password',
-                                          style: boldTextStyle(
-                                              color: Colors.white,
-                                              size:
-                                                  14), // Adjust the  size as needed
-                                        ),
-                                        onTap: () {
-                                          Navigator.push<void>(
-                                            context,
-                                            MaterialPageRoute<void>(
-                                              builder: (BuildContext context) =>
-                                                  const ChangePasswordScrren(),
-                                            ),
-                                          );
-                                        },
-                                      )
-                                          .cornerRadiusWithClipRRect(30)
-                                          .paddingOnly(
-                                              left: context.width() * 0.01,
-                                              right: context.width() * 0.01),
-                                    ),
-                                    Expanded(
-                                      child: AppButton(
-                                        color: WAPrimaryColor,
-                                        child: Text('Logout',
-                                            style: boldTextStyle(
-                                                color: Colors.white, size: 14)),
-                                        onTap: () async {
-                                          SharedPreferences prefs =
-                                              await SharedPreferences
-                                                  .getInstance();
-                                          prefs.remove(myToken);
-                                          AuthService().signOut();
-                                          Navigator.push<void>(
-                                            context,
-                                            MaterialPageRoute<void>(
-                                              builder: (BuildContext context) =>
-                                                  const LoginScreen(),
-                                            ),
-                                          );
-                                        },
-                                      )
-                                          .cornerRadiusWithClipRRect(30)
-                                          .paddingOnly(
-                                              left: context.width() * 0.05,
-                                              right: context.width() * 0.05),
-                                    ),
+                                    TitleDataUer(
+                                        titile: "Username",
+                                        content: userLogin.username ?? ""),
+                                    16.height,
+                                    TitleDataUer(
+                                        titile: "Email",
+                                        content: userLogin.email ?? ""),
+                                    16.height,
+                                    TitleDataUer(
+                                        titile: "Phone",
+                                        content: userLogin.phoneNumber ?? ""),
+                                    // 16.height,
+                                    // TitleDataUer(
+                                    //     titile: "Date Of Birth",
+                                    //     content: (userLogin.dateOfBirth !=
+                                    //                 null &&
+                                    //             userLogin.dateOfBirth != "")
+                                    //         ? DateFormat('dd/MM/yyyy').format(
+                                    //             DateTime.parse(
+                                    //                 userLogin.dateOfBirth!))
+                                    //         : ""),
+                                    16.height,
+                                    TitleDataUer(
+                                        titile: "Gender",
+                                        content:
+                                            nameGender(userLogin.gender ?? -1)),
+                                    16.height,
+                                    TitleDataUer(
+                                        titile: "Address",
+                                        content: userLogin.address ?? ""),
+                                    16.height,
+                                    TitleDataUer(
+                                        titile: "Role",
+                                        content:
+                                            nameRole(userLogin.role ?? -1)),
+                                    16.height,
                                   ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              16.height,
+                              AppButton(
+                                color: WAPrimaryColor,
+                                width: context.width(),
+                                child: Text('Edit',
+                                    style: boldTextStyle(
+                                        color: Colors.white, size: 14)),
+                                onTap: () async {
+                                  await Navigator.push<void>(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          EditProfileScrren(
+                                        userdata: userLogin,
+                                        callBack: (value) {},
+                                      ),
+                                    ),
+                                  );
+                                  _bloc.add(GetProfileEvent());
+                                },
+                              ).cornerRadiusWithClipRRect(30).paddingOnly(
+                                  left: context.width() * 0.2,
+                                  right: context.width() * 0.2),
+                              16.height,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceEvenly, // Adjust the alignment as needed
+                                children: [
+                                  Expanded(
+                                    child: AppButton(
+                                      color: WAPrimaryColor,
+                                      child: Text(
+                                        'Change Password',
+                                        style: boldTextStyle(
+                                            color: Colors.white,
+                                            size:
+                                                14), // Adjust the  size as needed
+                                      ),
+                                      onTap: () {
+                                        Navigator.push<void>(
+                                          context,
+                                          MaterialPageRoute<void>(
+                                            builder: (BuildContext context) =>
+                                                const ChangePasswordScrren(),
+                                          ),
+                                        );
+                                      },
+                                    ).cornerRadiusWithClipRRect(30).paddingOnly(
+                                        left: context.width() * 0.01,
+                                        right: context.width() * 0.01),
+                                  ),
+                                  Expanded(
+                                    child: AppButton(
+                                      color: WAPrimaryColor,
+                                      child: Text('Logout',
+                                          style: boldTextStyle(
+                                              color: Colors.white, size: 14)),
+                                      onTap: () async {
+                                        SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        prefs.remove(myToken);
+                                        AuthService().signOut();
+                                        Navigator.push<void>(
+                                          context,
+                                          MaterialPageRoute<void>(
+                                            builder: (BuildContext context) =>
+                                                const LoginScreen(),
+                                          ),
+                                        );
+                                      },
+                                    ).cornerRadiusWithClipRRect(30).paddingOnly(
+                                        left: context.width() * 0.05,
+                                        right: context.width() * 0.05),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                           //),
                         ),
                       ],

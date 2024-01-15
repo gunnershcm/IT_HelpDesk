@@ -44,7 +44,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
     super.initState();
     bloc.add(GetAllSolutionEvent());
   }
-  
+
   void filterList() {
     setState(() {
       filteredList = listSolution
@@ -90,15 +90,11 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
             ),
           ),
           body: Container(
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsets.all(5),
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 16,
-                      bottom: 8,
-                      left: 16,
-                      right: 16), // Updated padding
+                  padding: const EdgeInsets.all(15), // Updated padding
                   child: SizedBox(
                     height: 40,
                     child: TextField(
@@ -134,31 +130,32 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
                 ),
                 //SizedBox(height: 20),
                 Expanded(
-                child: ListView.builder(
-                  itemCount: filteredList.length,
-                  itemBuilder: (context, index) {
-                    final element = filteredList[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push<void>(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) => ViewSolutionDetail(
-                              solution: element,
+                  child: ListView.builder(
+                    itemCount: filteredList.length,
+                    itemBuilder: (context, index) {
+                      final element = filteredList[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push<void>(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  ViewSolutionDetail(
+                                solution: element,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: TicketSolutionItem(
-                        solution: element,
-                        onTap: (ticket) {
-                          // onTap logic specific to the TicketItem
+                          );
                         },
-                      ),
-                    );
-                  },
+                        child: TicketSolutionItem(
+                          solution: element,
+                          onTap: (ticket) {
+                            // onTap logic specific to the TicketItem
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
               ],
             ),
           ),
