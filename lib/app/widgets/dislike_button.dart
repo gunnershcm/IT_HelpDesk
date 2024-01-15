@@ -8,8 +8,14 @@ class DisLikeButtonWidget extends StatefulWidget {
   final bool dislike;
   final int countDisLike;
   final int solutionId;
-  const DisLikeButtonWidget(this.dislike, this.countDisLike, this.solutionId,
-      {super.key});
+  final VoidCallback callback;
+   const DisLikeButtonWidget(
+    this.dislike,
+    this.countDisLike,
+    this.solutionId, {
+    Key? key,
+    required this.callback,
+  }) : super(key: key);
   @override
   _DisLikeButtonState createState() => _DisLikeButtonState();
 }
@@ -18,7 +24,7 @@ class _DisLikeButtonState extends State<DisLikeButtonWidget> {
   late bool isDisliked;
   late int dislikeCount;
   late int solutionId;
-
+  late VoidCallback callback;
 
   @override
   void initState() {
@@ -27,6 +33,18 @@ class _DisLikeButtonState extends State<DisLikeButtonWidget> {
     isDisliked = widget.dislike;
     dislikeCount = widget.countDisLike;
     solutionId = widget.solutionId;
+    callback = widget.callback;
+  }
+
+  @override
+  void didUpdateWidget(covariant DisLikeButtonWidget oldWidget) {
+    if (oldWidget.countDisLike != widget.countDisLike) {
+      // Thực hiện cập nhật khi tham số b thay đổi
+      setState(() {
+        dislikeCount = widget.countDisLike;
+      });
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -63,6 +81,8 @@ class _DisLikeButtonState extends State<DisLikeButtonWidget> {
             dislikeCount--;
           }
         });
+        callback();
+        return !isLiked;
       },
     );
   }

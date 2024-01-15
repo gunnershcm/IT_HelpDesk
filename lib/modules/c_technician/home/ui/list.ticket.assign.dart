@@ -37,7 +37,8 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
   void updateTicketList(){
    // _bloc.add(ClearDataEvent());
     setState(() {
-      updateList = !updateList;
+      //updateList = !updateList;
+      _bloc.add(GetListTicketAssignEvent());
     });
   }
 
@@ -47,7 +48,6 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
       filterList();
     });
   }
-  
 
   // Add this function to filter the list based on the search query
   void filterList() {
@@ -63,7 +63,6 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
     });
   }
 
-    
     @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -153,6 +152,11 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                         text: 'All',
                         onTap: () => onStatusSelected(null),
                         isSelected: selectedStatus == null,
+                      ),
+                      ScrollItem(
+                        text: 'Open',
+                        onTap: () => onStatusSelected(0),
+                        isSelected: selectedStatus == 0,
                       ),
                       ScrollItem(
                         text: 'Assigned',

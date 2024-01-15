@@ -44,7 +44,7 @@ class _TicketSolutionPageState extends State<TicketSolutionPage> {
     super.initState();
     bloc.add(GetAllSolutionEvent());
   }
-
+  
   void filterList() {
     setState(() {
       filteredList = listSolution

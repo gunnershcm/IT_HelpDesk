@@ -6,7 +6,14 @@ class LikeButtonWidget extends StatefulWidget {
   final bool like;
   final int countLike;
   final int solutionId;
-  const LikeButtonWidget(this.like,this.countLike,this.solutionId,{super.key});
+  final VoidCallback callback;
+  const LikeButtonWidget(
+    this.like,
+    this.countLike,
+    this.solutionId, {
+    Key? key,
+    required this.callback,
+  }) : super(key: key);
   @override
   _LikeButtonState createState() => _LikeButtonState();
 }
@@ -16,6 +23,7 @@ class _LikeButtonState extends State<LikeButtonWidget> {
   late int likeCount;
   late int solutionId;
   late bool like;
+  late VoidCallback callback;
 
   @override
   void initState() {
@@ -25,6 +33,18 @@ class _LikeButtonState extends State<LikeButtonWidget> {
     likeCount = widget.countLike;
     solutionId = widget.solutionId;
     like = widget.like;
+    callback = widget.callback;
+  }
+
+  @override
+  void didUpdateWidget(covariant LikeButtonWidget oldWidget) {
+    if (oldWidget.countLike != widget.countLike) {
+      // Thực hiện cập nhật khi tham số b thay đổi
+      setState(() {
+        likeCount = widget.countLike;
+      });
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -57,7 +77,9 @@ class _LikeButtonState extends State<LikeButtonWidget> {
           } else {
             likeCount--;
           }
-        });
+        });       
+        callback();
+        return !isLiked;
       },
     );
   }

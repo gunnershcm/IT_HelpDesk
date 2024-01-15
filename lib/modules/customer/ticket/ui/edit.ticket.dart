@@ -167,7 +167,7 @@ class _EditTicketState extends State<EditTicket> {
                         ),
                       ),
                       asyncItems: (String? filter) =>
-                          TicketProvider.getAllService(),
+                          TicketProvider.getUserActiveService(),
                       itemAsString: (ServiceResponseModel u) => u.description!,
                       selectedItem: serviceModel,
                       onChanged: (value) {

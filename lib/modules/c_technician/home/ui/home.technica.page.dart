@@ -336,6 +336,7 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                                   Text(
                                     "Ticket: ${element.ticket?.title ?? ""}",
                                     style: TextStyle(),
+                                    maxLines: 1,  
                                   ),
                                   SizedBox(height: 5),
                                   Row(

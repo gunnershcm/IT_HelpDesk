@@ -9,6 +9,16 @@ abstract class LoginState extends Equatable {
   List<Object> get props => [];
 }
 
+
+  class YourUserLoadedState extends LoginState {
+    final UserProfileResponseModel userProfileResponseModel;
+
+    YourUserLoadedState(this.userProfileResponseModel);
+
+    @override
+    List<Object> get props => [userProfileResponseModel];
+  }
+
 class LoginInitial extends LoginState {}
 
 class LoginLoading extends LoginState {}

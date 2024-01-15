@@ -3,10 +3,14 @@
 import 'package:dich_vu_it/app/constant/enum.dart';
 
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
+import 'package:dich_vu_it/models/response/user.login.response.model.dart';
+import 'package:dich_vu_it/models/response/user.login.response.model.dart';
 import 'package:dich_vu_it/models/response/user.profile.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/comment/comment.solution.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:dich_vu_it/provider/solution.provider.dart';
+import 'package:dich_vu_it/repository/authentication.repository.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -15,7 +19,9 @@ import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/edit.solution
 
 class ViewSolutionDetail extends StatefulWidget {
   final TicketSolutionModel solution;
-  const ViewSolutionDetail({super.key, required this.solution});
+  final int? id;
+  const ViewSolutionDetail(
+      {super.key, required this.solution, required this.id});
 
   @override
   State<ViewSolutionDetail> createState() => _ViewSolutionDetailState();
@@ -23,23 +29,25 @@ class ViewSolutionDetail extends StatefulWidget {
 
 class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
   TicketSolutionModel solution = TicketSolutionModel();
-  UserProfileResponseModel userProfile = UserProfileResponseModel();
+  UserProfileResponseModel? selectedManager;
+  int? id;
   @override
   void initState() {
     super.initState();
     solution = widget.solution;
+    id = widget.id;
   }
 
   // var bloc = HomeBloc();
   // TaskModel taskModel = TaskModel();
-  // TextEditingController title = TextEditingController();
+// TextEditingController title = TextEditingController();
   // TextEditingController moTa = TextEditingController();
   // TextEditingController note = TextEditingController();
 
   // var date1;
   // var time1;
   // var date2;
-  // var time2;
+  // var time2;async {
   // @override
   // void initState() {
   //   super.initState();
@@ -57,9 +65,72 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
   //       .format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
   //   taskModel.progress ??= 0;
   //}
+  void _showPopup(BuildContext context) {
+    int? idManager;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Choose Manager'),
+          content: DropdownSearch<UserProfileResponseModel>(
+            popupProps: PopupPropsMultiSelection.menu(
+              showSearchBox: false,
+            ),
+            dropdownDecoratorProps: DropDownDecoratorProps(
+              dropdownSearchDecoration: InputDecoration(
+                constraints: const BoxConstraints.tightFor(
+                  width: 300,
+                  height: 40,
+                ),
+                contentPadding: const EdgeInsets.only(left: 14, bottom: 14),
+                focusedBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(0),
+                  ),
+                  borderSide: BorderSide(color: Colors.white, width: 0),
+                ),
+                hintText: "",
+                hintMaxLines: 1,
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                  borderSide: BorderSide(color: Colors.black, width: 1),
+                ),
+              ),
+            ),
+            asyncItems: (String? filter) => SolutionProvider.getListManager(),
+            itemAsString: (UserProfileResponseModel u) =>
+                (u.lastName! + " " + u.firstName!),
+            selectedItem: selectedManager,
+            onChanged: (value) {
+              idManager = value?.id;
+              print("$idManager test idManager");
+              print(solution.id);
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await SolutionProvider.submit_approval(solution.id, idManager);
+              },
+              child: Text('Submit'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("$id aaaa");
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -83,30 +154,48 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                     fontWeight: FontWeight.w600),
               ),
               actions: [
-                InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => EditSolutionScreen(
-                            solution: solution,
-                            callBack: (value) {
-                              if (value != null) {
-                                setState(() {
-                                  solution = value;
-                                });
-                              }
-                            },
+                Visibility(
+                  visible: solution.createdById == id,
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                EditSolutionScreen(
+                              solution: solution,
+                              callBack: (value) {
+                                if (value != null) {
+                                  setState(() {
+                                    solution = value;
+                                  });
+                                }
+                              },
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    child: Icon(
-                      Icons.edit,
-                      size: 28,
-                      color: Colors.white,
-                    )),
-                SizedBox(width: 15)
+                        );
+                      },
+                      child: Icon(
+                        Icons.edit,
+                        size: 28,
+                        color: Colors.white,
+                      )),
+                ),
+                SizedBox(width: 15),
+                Visibility(
+                  visible: solution.createdById == id &&
+                      solution.isApproved == false,
+                  child: InkWell(
+                      onTap: () {
+                        _showPopup(context);
+                      },
+                      child: Icon(
+                        Icons.upload_file,
+                        size: 28,
+                        color: Colors.white,
+                      )),
+                ),
+                SizedBox(width: 15),
               ],
             ),
             body: Column(
@@ -143,7 +232,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                               content: getApproveStatus(solution.isApproved)),
                           // FieldTextWidget(
                           //     title: 'Visibility',
-                          //     content: getPublicStatus(solution.isPublic),                             
+                          //     content: getPublicStatus(solution.isPublic),
                           // ),
                           // AppButton(
                           //   text: "Change Public",
@@ -163,8 +252,11 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                       margin: EdgeInsets.only(left: 10),
                                       child: InkWell(
                                         onTap: () async {
-                                          downloadFile(context,
-                                              List<String>.from(solution.attachmentUrls ?? []));
+                                          downloadFile(
+                                              context,
+                                              List<String>.from(
+                                                  solution.attachmentUrls ??
+                                                      []));
                                         },
                                         child: Icon(
                                           Icons.download,

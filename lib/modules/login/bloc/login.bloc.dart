@@ -8,6 +8,7 @@ import 'package:dich_vu_it/models/response/user.profile.response.model.dart';
 import 'package:dich_vu_it/provider/api.dart';
 import 'package:dich_vu_it/provider/firebase.auth.service.dart';
 import 'package:dich_vu_it/provider/session.provider.dart';
+import 'package:dich_vu_it/repository/authentication.repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,6 +54,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             emit(LoginFailure(error: "Username or password is incorrect"));
           }
         }
+      
       }
     } catch (e) {
       print("Loi: $e");

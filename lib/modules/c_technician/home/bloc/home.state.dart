@@ -39,3 +39,5 @@ class GetListTaskActiveSuccessState extends HomeState {
 }
 
 class EditTaskSuccessState extends HomeState {}
+
+class EditTicketSuccessState extends HomeState {}

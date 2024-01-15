@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import 'package:dich_vu_it/models/response/ticket.response.model.dart';
+
 class RequestTaskModel {
   int? ticketId;
   String? title;
@@ -12,6 +14,7 @@ class RequestTaskModel {
   String? scheduledEndTime;
   List<String>? attachmentUrl;
   int? taskStatus;
+  TicketResponseModel? ticketResponseModel;
   RequestTaskModel({
     this.ticketId,
     this.title,
@@ -21,6 +24,7 @@ class RequestTaskModel {
     this.scheduledEndTime,
     this.attachmentUrl,
     this.taskStatus,
+    this.ticketResponseModel,
   });
   
 
@@ -33,6 +37,7 @@ class RequestTaskModel {
     String? scheduledEndTime,
     List<String>? attachmentUrl,
     int? taskStatus,
+    TicketResponseModel? ticketResponseModel,
   }) {
     return RequestTaskModel(
       ticketId: ticketId ?? this.ticketId,
@@ -43,6 +48,7 @@ class RequestTaskModel {
       scheduledEndTime: scheduledEndTime ?? this.scheduledEndTime,
       attachmentUrl: attachmentUrl ?? this.attachmentUrl,
       taskStatus: taskStatus ?? this.taskStatus,
+      ticketResponseModel: ticketResponseModel ?? this.ticketResponseModel,
     );
   }
 
@@ -56,6 +62,7 @@ class RequestTaskModel {
       'scheduledEndTime': scheduledEndTime,
       'attachmentUrl': attachmentUrl,
       'taskStatus': taskStatus,
+      'ticketResponseModel': ticketResponseModel?.toMap(),
     };
   }
 
@@ -69,6 +76,7 @@ class RequestTaskModel {
       scheduledEndTime: map['scheduledEndTime'] != null ? map['scheduledEndTime'] as String : null,
       attachmentUrl: map['attachmentUrl'] != null ? List<String>.from((map['attachmentUrl'] as List<String>)) : null,
       taskStatus: map['taskStatus'] != null ? map['taskStatus'] as int : null,
+      ticketResponseModel: map['ticketResponseModel'] != null ? TicketResponseModel.fromMap(map['ticketResponseModel'] as Map<String,dynamic>) : null,
     );
   }
 
@@ -78,7 +86,7 @@ class RequestTaskModel {
 
   @override
   String toString() {
-    return 'RequestTaskModel(ticketId: $ticketId, title: $title, description: $description, priority: $priority, scheduledStartTime: $scheduledStartTime, scheduledEndTime: $scheduledEndTime, attachmentUrl: $attachmentUrl, taskStatus: $taskStatus)';
+    return 'RequestTaskModel(ticketId: $ticketId, title: $title, description: $description, priority: $priority, scheduledStartTime: $scheduledStartTime, scheduledEndTime: $scheduledEndTime, attachmentUrl: $attachmentUrl, taskStatus: $taskStatus, ticketResponseModel: $ticketResponseModel)';
   }
 
   @override
@@ -93,7 +101,8 @@ class RequestTaskModel {
       other.scheduledStartTime == scheduledStartTime &&
       other.scheduledEndTime == scheduledEndTime &&
       listEquals(other.attachmentUrl, attachmentUrl) &&
-      other.taskStatus == taskStatus;
+      other.taskStatus == taskStatus &&
+      other.ticketResponseModel == ticketResponseModel;
   }
 
   @override
@@ -105,6 +114,7 @@ class RequestTaskModel {
       scheduledStartTime.hashCode ^
       scheduledEndTime.hashCode ^
       attachmentUrl.hashCode ^
-      taskStatus.hashCode;
+      taskStatus.hashCode ^
+      ticketResponseModel.hashCode;
   }
 }
