@@ -4,6 +4,7 @@ import 'package:dich_vu_it/app/constant/value.dart';
 import 'package:dich_vu_it/models/request/request.create.solution.model.dart';
 import 'package:dich_vu_it/models/response/feedback.model.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
+import 'package:dich_vu_it/models/response/user.profile.response.model.dart';
 import 'package:dich_vu_it/provider/session.provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -47,33 +48,7 @@ class SolutionProvider {
     return listData;
   }
 
-  static Future<FeedbackModel?> sendFeedback(
-      int idTicketSolutionModel, String comment) async {
-    FeedbackModel? feedbackModel;
-
-    var body = {
-      "solutionId": idTicketSolutionModel,
-      "comment": comment,
-      "isPublic": true
-    };
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString(myToken);
-    Map<String, String> header = await getHeader();
-    header.addAll({'Authorization': 'Bearer $token'});
-    var url = "$baseUrl/v1/itsds/solution/feedback";
-    var response = await http.post(Uri.parse(url.toString()),
-        headers: header, body: json.encode(body));
-    if (response.statusCode == 200) {
-      var bodyConvert = jsonDecode(response.body);
-      if (bodyConvert['isError'] == false) {
-        FeedbackModel feedbackModel =
-            FeedbackModel.fromMap(bodyConvert['result']['data']);
-        return feedbackModel;
-      }
-    }
-    return feedbackModel;
-  }
+  
 
   static Future<bool> updateTicketSolution(
       TicketSolutionModel solutionModel) async {
@@ -153,15 +128,45 @@ class SolutionProvider {
       return true;
     }
   }
+  static Future<FeedbackModel?> sendFeedback(
+      int idTicketSolutionModel, String comment) async {
+    FeedbackModel? feedbackModel;
 
-   static Future<bool> submit_approval(int? idManager) async {
+    var body = {
+      "solutionId": idTicketSolutionModel,
+      "comment": comment,
+      "isPublic": true
+    };
+    
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     Map<String, String> header = await getHeader();
     header.addAll({'Authorization': 'Bearer $token'});
-    var url = "$baseUrl/v1/itsds/solution/change-public?solutionId=$idManager";
+    var url = "$baseUrl/v1/itsds/solution/feedback";
+    var response = await http.post(Uri.parse(url.toString()),
+        headers: header, body: json.encode(body));
+    if (response.statusCode == 200) {
+      var bodyConvert = jsonDecode(response.body);
+      if (bodyConvert['isError'] == false) {
+        FeedbackModel feedbackModel =
+            FeedbackModel.fromMap(bodyConvert['result']['data']);
+        return feedbackModel;
+      }
+    }
+    return feedbackModel;
+  }
+
+   static Future<bool> submit_approval(int? idSolution,int? idManager) async {
+    var body ={
+      "managerId" : idManager,
+    };
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    Map<String, String> header = await getHeader();
+    header.addAll({'Authorization': 'Bearer $token'});
+    var url = "$baseUrl/v1/itsds/solution/submit-approval?solutionId=$idSolution";
     var response = await http.patch(Uri.parse(url.toString()),
-        headers: header);
+        headers: header, body: json.encode(body));
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -175,6 +180,37 @@ class SolutionProvider {
       return true;
     }
   }
+
+    static Future<List<UserProfileResponseModel>> getListManager() async {
+    List<UserProfileResponseModel> listData = [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    try {
+      var url = "$baseUrl/v1/itsds/user/list/managers";
+
+      Map<String, String> header = await getHeader();
+      header.addAll({'Authorization': 'Bearer $token'});
+      var response = await http.get(Uri.parse(url.toString()), headers: header);
+      String decodedData = utf8.decode(response.bodyBytes);
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode == 200) {
+        var bodyConvert = jsonDecode(decodedData);
+        if (bodyConvert['isError'] == false) {
+          for (var element in bodyConvert['result']) {
+            UserProfileResponseModel item = UserProfileResponseModel.fromMap(element);
+            listData.add(item);
+            print(listData);
+          }
+        }
+      }
+    } catch (e) {
+      print("Loi: $e");
+    }
+    return listData;
+  }
+
+
 
   static Future<List<TicketSolutionModel>> getAllListSolution() async {
     List<TicketSolutionModel> listData = [];
@@ -202,8 +238,6 @@ class SolutionProvider {
     } catch (e) {
       print("Loi: $e");
     }
-    // listData = listDataFake;
-    //listData.insert(0, TicketSolutionModel(title: "All tickets"));
     return listData;
   }
 

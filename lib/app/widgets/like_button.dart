@@ -36,7 +36,7 @@ class _LikeButtonState extends State<LikeButtonWidget> {
     callback = widget.callback;
   }
 
-    @override
+  @override
   void didUpdateWidget(covariant LikeButtonWidget oldWidget) {
     if (oldWidget.countLike != widget.countLike) {
       // Thực hiện cập nhật khi tham số b thay đổi
