@@ -10,6 +10,7 @@ import 'package:dich_vu_it/modules/c_technician/ticket.solution/comment/comment.
 import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:dich_vu_it/provider/solution.provider.dart';
 import 'package:dich_vu_it/repository/authentication.repository.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -19,14 +20,16 @@ import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/edit.solution
 class ViewSolutionDetail extends StatefulWidget {
   final TicketSolutionModel solution;
   final int? id;
-  const ViewSolutionDetail({super.key, required this.solution, required this.id});
-  
+  const ViewSolutionDetail(
+      {super.key, required this.solution, required this.id});
+
   @override
   State<ViewSolutionDetail> createState() => _ViewSolutionDetailState();
 }
 
 class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
   TicketSolutionModel solution = TicketSolutionModel();
+  UserProfileResponseModel? selectedManager;
   int? id;
   @override
   void initState() {
@@ -35,7 +38,6 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
     id = widget.id;
   }
 
- 
   // var bloc = HomeBloc();
   // TaskModel taskModel = TaskModel();
 // TextEditingController title = TextEditingController();
@@ -63,10 +65,71 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
   //       .format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
   //   taskModel.progress ??= 0;
   //}
+  void _showPopup(BuildContext context) {
+    int? idManager;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Choose Manager'),
+          content: DropdownSearch<UserProfileResponseModel>(
+            popupProps: PopupPropsMultiSelection.menu(
+              showSearchBox: false,
+            ),
+            dropdownDecoratorProps: DropDownDecoratorProps(
+              dropdownSearchDecoration: InputDecoration(
+                constraints: const BoxConstraints.tightFor(
+                  width: 300,
+                  height: 40,
+                ),
+                contentPadding: const EdgeInsets.only(left: 14, bottom: 14),
+                focusedBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(0),
+                  ),
+                  borderSide: BorderSide(color: Colors.white, width: 0),
+                ),
+                hintText: "",
+                hintMaxLines: 1,
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                  borderSide: BorderSide(color: Colors.black, width: 1),
+                ),
+              ),
+            ),
+            asyncItems: (String? filter) => SolutionProvider.getListManager(),
+            itemAsString: (UserProfileResponseModel u) =>
+                (u.lastName! + " " + u.firstName!),
+            selectedItem: selectedManager,
+            onChanged: (value) {
+              idManager = value?.id;
+              print("$idManager test idManager");
+              print(solution.id);
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await SolutionProvider.submit_approval(solution.id, idManager);
+              },
+              child: Text('Submit'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-   
     print("$id aaaa");
     return DefaultTabController(
         length: 2,
@@ -92,7 +155,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
               ),
               actions: [
                 Visibility(
-                  visible: solution.createdById == id,                      
+                  visible: solution.createdById == id,
                   child: InkWell(
                       onTap: () {
                         Navigator.push(
@@ -118,7 +181,21 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                         color: Colors.white,
                       )),
                 ),
-                SizedBox(width: 15)
+                SizedBox(width: 15),
+                Visibility(
+                  visible: solution.createdById == id &&
+                      solution.isApproved == false,
+                  child: InkWell(
+                      onTap: () {
+                        _showPopup(context);
+                      },
+                      child: Icon(
+                        Icons.upload_file,
+                        size: 28,
+                        color: Colors.white,
+                      )),
+                ),
+                SizedBox(width: 15),
               ],
             ),
             body: Column(
@@ -218,8 +295,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                       FieldTextWidget(
                                         title: 'Name',
                                         content:
-                                            "${solution.createdBy?.lastName ?? " "} ${solution.createdBy?.firstName ?? " "}" ,
-
+                                            "${solution.createdBy?.lastName ?? " "} ${solution.createdBy?.firstName ?? " "}",
                                       ),
                                       FieldTextWidget(
                                         title: 'Email',

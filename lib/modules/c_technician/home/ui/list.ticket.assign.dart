@@ -48,7 +48,6 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
       filterList();
     });
   }
-  
 
   // Add this function to filter the list based on the search query
   void filterList() {
@@ -64,7 +63,6 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
     });
   }
 
-    
     @override
     Widget build(BuildContext context) {
       return Scaffold(

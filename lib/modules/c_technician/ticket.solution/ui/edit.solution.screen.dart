@@ -53,11 +53,16 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
     title.text = solutionModel.title ?? "";
     content.text = solutionModel.content ?? "";
     keyword.text = solutionModel.keyword ?? "";
-    date2 = DateFormat('dd-MM-yyyy')
-        .format(DateTime.parse(solutionModel.expiredDate ?? ""));
-    time2 = DateFormat('HH:mm')
-        .format(DateTime.parse(solutionModel.expiredDate ?? ""));
-    
+    // date2 = DateFormat('dd-MM-yyyy')
+    //     .format(DateTime.parse(solutionModel.expiredDate ?? ""));
+    // time2 = DateFormat('HH:mm')
+    //     .format(DateTime.parse(solutionModel.expiredDate ?? ""));
+    date2 = solutionModel.expiredDate != null
+    ? DateFormat('dd-MM-yyyy').format(DateTime.parse(solutionModel.expiredDate!))
+    : "";
+    time2 = solutionModel.expiredDate != null
+    ? DateFormat('HH:mm').format(DateTime.parse(solutionModel.expiredDate!))
+    : "";
   }
 
   @override

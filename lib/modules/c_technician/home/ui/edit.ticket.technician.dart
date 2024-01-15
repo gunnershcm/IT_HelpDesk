@@ -320,8 +320,9 @@ class _EditTicketTechnicianScreenState
                         child: InkWell(
                           onTap: () async {
                             ticket.impact = selectedImpact;
-                            ticket.impactDetail = description.text;                        
-                            bloc.add(UpdateTicketEvent(ticketResponseModel: ticket));
+                            ticket.impactDetail = description.text;
+                            bloc.add(
+                                UpdateTicketEvent(ticketResponseModel: ticket));
                           },
                           child: Center(
                             child: Text(
