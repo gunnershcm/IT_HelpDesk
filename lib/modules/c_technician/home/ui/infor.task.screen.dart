@@ -14,10 +14,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
+import '../../../../app/theme/colors.dart';
+
 class InforTaskScreen extends StatefulWidget {
   final TaskModel taskModel;
   final Function callBack;
-  const InforTaskScreen({super.key, required this.taskModel, required this.callBack});
+  const InforTaskScreen(
+      {super.key, required this.taskModel, required this.callBack});
 
   @override
   State<InforTaskScreen> createState() => _InforTaskScreenState();
@@ -35,7 +38,7 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
     2: 'High',
     3: 'Critical',
   };
-  
+
   int selectedPriority = 0;
   var date1;
   var time1;
@@ -48,10 +51,14 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
     title.text = taskModel.title ?? "";
     moTa.text = taskModel.description ?? "";
     note.text = taskModel.note ?? "";
-    date1 = DateFormat('dd-MM-yyyy').format(DateTime.parse(taskModel.scheduledStartTime ?? ""));
-    time1 = DateFormat('HH:mm').format(DateTime.parse(taskModel.scheduledStartTime ?? ""));
-    date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
-    time2 = DateFormat('HH:mm').format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
+    date1 = DateFormat('dd-MM-yyyy')
+        .format(DateTime.parse(taskModel.scheduledStartTime ?? ""));
+    time1 = DateFormat('HH:mm')
+        .format(DateTime.parse(taskModel.scheduledStartTime ?? ""));
+    date2 = DateFormat('dd-MM-yyyy')
+        .format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
+    time2 = DateFormat('HH:mm')
+        .format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
     taskModel.progress ??= 0;
   }
 
@@ -73,7 +80,8 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
         title: const Center(
           child: Text(
             "Information task",
-            style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+            style: TextStyle(
+                color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
           ),
         ),
         actions: [
@@ -104,7 +112,7 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
             showToast(
               context: context,
               msg: "Edit task successfully",
-              color: Colors.green,
+              color: MyColors.success,
               icon: const Icon(Icons.done),
             );
           } else if (state is HomeError) {
@@ -112,7 +120,7 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
             showToast(
               context: context,
               msg: state.error,
-              color: Colors.orange,
+              color: MyColors.error,
               icon: const Icon(Icons.warning),
             );
           }
@@ -122,14 +130,17 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
             padding: const EdgeInsets.all(15),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(color: const Color.fromARGB(255, 229, 243, 254), borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 229, 243, 254),
+                borderRadius: BorderRadius.circular(10)),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextFielWidget(
                     title: 'Ticket',
-                    controller: TextEditingController(text: taskModel.ticket?.title ?? ""),
+                    controller: TextEditingController(
+                        text: taskModel.ticket?.title ?? ""),
                     enabled: false,
                   ),
                   SizedBox(height: 20),
@@ -139,10 +150,15 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2(
-                        items: taskStatus.entries.map((item) => DropdownMenuItem<int>(value: item.key, child: Text(item.value))).toList(),
+                        items: taskStatus.entries
+                            .map((item) => DropdownMenuItem<int>(
+                                value: item.key, child: Text(item.value)))
+                            .toList(),
                         value: taskModel.taskStatus,
                         onChanged: (value) {
                           setState(() {
@@ -197,10 +213,15 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2(
-                        items: listPriority.entries.map((item) => DropdownMenuItem<int>(value: item.key, child: Text(item.value))).toList(),
+                        items: listPriority.entries
+                            .map((item) => DropdownMenuItem<int>(
+                                value: item.key, child: Text(item.value)))
+                            .toList(),
                         value: taskModel.priority,
                         onChanged: (value) {
                           setState(() {
@@ -216,7 +237,8 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                       isTime: true,
                       label: Text(
                         'Scheduled Start Time:',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500),
                       ),
                       dateDisplay: date1,
                       timeDisplay: time1,
@@ -243,7 +265,8 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                       isTime: true,
                       label: Text(
                         'Scheduled End Time:',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500),
                       ),
                       dateDisplay: date2,
                       timeDisplay: time2,
@@ -295,7 +318,9 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                           children: [
                             Expanded(
                               child: Text(
-                                (taskModel.attachmentUrl != null) ? "File uploaded" : "Upload file",
+                                (taskModel.attachmentUrl != null)
+                                    ? "File uploaded"
+                                    : "Upload file",
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),

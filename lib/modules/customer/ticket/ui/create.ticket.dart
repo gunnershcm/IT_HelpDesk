@@ -15,6 +15,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../app/theme/colors.dart';
+
 class CreateTickket extends StatefulWidget {
   //final Function callBack;
   const CreateTickket({super.key});
@@ -114,7 +116,7 @@ class _CreateTickketState extends State<CreateTickket> {
             showToast(
               context: context,
               msg: "Create a new ticket successfully",
-              color: Colors.green,
+              color: MyColors.success,
               icon: const Icon(Icons.done),
             );
           } else if (state is TicketError) {
@@ -122,7 +124,7 @@ class _CreateTickketState extends State<CreateTickket> {
             showToast(
               context: context,
               msg: state.error,
-              color: Colors.orange,
+              color: MyColors.error,
               icon: const Icon(Icons.warning),
             );
           }
@@ -526,7 +528,8 @@ class _CreateTickketState extends State<CreateTickket> {
                                             });
                                             print("a");
                                             print(fileNames);
-                                            print("abcxyz ${requestCreateTicketModel.attachmentUrls}");
+                                            print(
+                                                "abcxyz ${requestCreateTicketModel.attachmentUrls}");
                                             print("b");
                                           } else {
                                             // Handle the case where fileNames is null (upload failed)
@@ -585,7 +588,7 @@ class _CreateTickketState extends State<CreateTickket> {
                               requestCreateTicketModel.description =
                                   description.text;
                               requestCreateTicketModel.serviceId =
-                                  serviceModel?.id;                       
+                                  serviceModel?.id;
                               // requestCreateTicketModel.priority =
                               //     selectedPriority;
                               // requestCreateTicketModel.street = street.text;
@@ -595,11 +598,11 @@ class _CreateTickketState extends State<CreateTickket> {
                               //     selectedDistrict;
                               // requestCreateTicketModel.ward = selectedWard;
                               //requestCreateTicketModel.attachmentUrl = attachmentUrl;
-                              //requestCreateTicketModel.attachmentUrl = ;   
-                              print("call api ${requestCreateTicketModel.attachmentUrls}");                          
+                              //requestCreateTicketModel.attachmentUrl = ;
+                              print(
+                                  "call api ${requestCreateTicketModel.attachmentUrls}");
                               _bloc.add(CreateTicketEvent(
                                   request: requestCreateTicketModel));
-                              
                             },
                             child: Center(
                               child: Text(

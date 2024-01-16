@@ -45,8 +45,6 @@ class _EditProfileScrrenState extends State<EditProfileScrren> {
   Map<int, String> listGender = {
     0: 'Male',
     1: 'Female',
-    2: 'Orther',
-    3: 'Prefer Not To Say',
   };
   final _bloc = ProfileBloc();
   bool validateEmailCheck = true;
@@ -132,14 +130,14 @@ class _EditProfileScrrenState extends State<EditProfileScrren> {
               showToast(
                 context: context,
                 msg: "Update was successfully",
-                color: const Color.fromARGB(255, 32, 255, 76),
+                color: MyColors.success,
                 icon: const Icon(Icons.done),
               );
             } else if (state is ProfileStateFailure) {
               showToast(
                 context: context,
                 msg: state.error,
-                color: Colors.orange,
+                color: MyColors.error,
                 icon: const Icon(Icons.warning),
               );
               Navigator.pop(context);
@@ -187,34 +185,34 @@ class _EditProfileScrrenState extends State<EditProfileScrren> {
                       keyboardType: TextInputType.text,
                       controller: lastNameController,
                       focus: lastNameFocusNode,
-                      nextFocus: emailFocusNode,
+                      nextFocus: phoneFocusNode,
                       onChanged: (value) {
                         userdata.lastName = value;
                       },
                     ),
-                    const SizedBox(height: 12),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Email",
-                        style: boldTextStyle(size: 16),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    AppTextField(
-                      //validator: validateEmailCheck,
-                      decoration:
-                          waInputDecoration(hint: 'Enter your email here'),
-                      textFieldType: TextFieldType.EMAIL,
-                      keyboardType: TextInputType.text,
-                      controller: emailController,
-                      focus: emailFocusNode,
-                      nextFocus: phoneFocusNode,
-                      onChanged: (value) {
-                        validateEmail(value);
-                        userdata.email = value;
-                      },
-                    ),
+                    // const SizedBox(height: 12),
+                    // Align(
+                    //   alignment: Alignment.centerLeft,
+                    //   child: Text(
+                    //     "Email",
+                    //     style: boldTextStyle(size: 16),
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 12),
+                    // AppTextField(
+                    //   //validator: validateEmailCheck,
+                    //   decoration:
+                    //       waInputDecoration(hint: 'Enter your email here'),
+                    //   textFieldType: TextFieldType.EMAIL,
+                    //   keyboardType: TextInputType.text,
+                    //   controller: emailController,
+                    //   focus: emailFocusNode,
+                    //   nextFocus: phoneFocusNode,
+                    //   onChanged: (value) {
+                    //     validateEmail(value);
+                    //     userdata.email = value;
+                    //   },
+                    // ),
                     const SizedBox(height: 12),
                     Align(
                       alignment: Alignment.centerLeft,
@@ -232,7 +230,7 @@ class _EditProfileScrrenState extends State<EditProfileScrren> {
                       keyboardType: TextInputType.text,
                       controller: phoneController,
                       focus: phoneFocusNode,
-                      nextFocus: addressFocusNode,
+                      nextFocus: genderFocusNode,
                       onChanged: (value) {
                         setState(() {
                           validatePhoneCheck = validatePhoneNumber(value);
@@ -240,54 +238,54 @@ class _EditProfileScrrenState extends State<EditProfileScrren> {
                         userdata.phoneNumber = value;
                       },
                     ),
-                    const SizedBox(height: 12),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Address",
-                        style: boldTextStyle(size: 16),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    AppTextField(
-                      decoration:
-                          waInputDecoration(hint: 'Enter your address here'),
-                      textFieldType: TextFieldType.NAME,
-                      keyboardType: TextInputType.text,
-                      controller:
-                          TextEditingController(text: userdata.address ?? ""),
-                      focus: addressFocusNode,
-                      nextFocus: dobFocusNode,
-                      onChanged: (value) {
-                        userdata.address = value;
-                      },
-                    ),
-                    const SizedBox(height: 15),
-                    DatePickerBox1(
-                      isTime: false,
-                      label: Text(
-                        "Date Of Birth",
-                        style: MyTextStyle.titleTextfile,
-                      ),
-                      dateDisplay: birth,
-                      selectedDateFunction: (day) {
-                        birth = day;
-                        if (birth != null) {
-                          userdata.dateOfBirth = dateReverse(birth);
-                        } else {
-                          userdata.dateOfBirth = "";
-                        }
-                      },
-                      // decoration: BoxDecoration(
-                      //   border: Border.all(
-                      //     color: Colors.black, // Màu đen của viền
-                      //     width: 2.0, // Độ rộng của viền
-                      //   ),
-                      //   borderRadius: BorderRadius.all(
-                      //     Radius.circular(8.0), // Độ cong của góc viền
-                      //   ),
-                      // ),
-                    ),
+                    // const SizedBox(height: 12),
+                    // Align(
+                    //   alignment: Alignment.centerLeft,
+                    //   child: Text(
+                    //     "Address",
+                    //     style: boldTextStyle(size: 16),
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 12),
+                    // AppTextField(
+                    //   decoration:
+                    //       waInputDecoration(hint: 'Enter your address here'),
+                    //   textFieldType: TextFieldType.NAME,
+                    //   keyboardType: TextInputType.text,
+                    //   controller:
+                    //       TextEditingController(text: userdata.address ?? ""),
+                    //   focus: addressFocusNode,
+                    //   nextFocus: dobFocusNode,
+                    //   onChanged: (value) {
+                    //     userdata.address = value;
+                    //   },
+                    // ),
+                    // const SizedBox(height: 15),
+                    // DatePickerBox1(
+                    //   isTime: false,
+                    //   label: Text(
+                    //     "Date Of Birth",
+                    //     style: MyTextStyle.titleTextfile,
+                    //   ),
+                    //   dateDisplay: birth,
+                    //   selectedDateFunction: (day) {
+                    //     birth = day;
+                    //     if (birth != null) {
+                    //       userdata.dateOfBirth = dateReverse(birth);
+                    //     } else {
+                    //       userdata.dateOfBirth = "";
+                    //     }
+                    //   },
+                    //   // decoration: BoxDecoration(
+                    //   //   border: Border.all(
+                    //   //     color: Colors.black, // Màu đen của viền
+                    //   //     width: 2.0, // Độ rộng của viền
+                    //   //   ),
+                    //   //   borderRadius: BorderRadius.all(
+                    //   //     Radius.circular(8.0), // Độ cong của góc viền
+                    //   //   ),
+                    //   // ),
+                    // ),
                     const SizedBox(height: 15),
                     Row(
                       children: [
@@ -306,7 +304,8 @@ class _EditProfileScrrenState extends State<EditProfileScrren> {
                             padding: const EdgeInsets.only(left: 10, top: 5),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                  color: Color.fromARGB(255, 225, 224, 224)),
+                                  color:
+                                      const Color.fromARGB(255, 225, 224, 224)),
                               borderRadius: BorderRadius.circular(12),
                               color: WAPrimaryColor.withOpacity(0.07),
                             ),

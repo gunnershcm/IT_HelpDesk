@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../app/theme/colors.dart';
+
 class EditSolutionScreen extends StatefulWidget {
   final TicketSolutionModel solution;
   final Function callBack;
@@ -58,11 +60,12 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
     // time2 = DateFormat('HH:mm')
     //     .format(DateTime.parse(solutionModel.expiredDate ?? ""));
     date2 = solutionModel.expiredDate != null
-    ? DateFormat('dd-MM-yyyy').format(DateTime.parse(solutionModel.expiredDate!))
-    : "";
+        ? DateFormat('dd-MM-yyyy')
+            .format(DateTime.parse(solutionModel.expiredDate!))
+        : "";
     time2 = solutionModel.expiredDate != null
-    ? DateFormat('HH:mm').format(DateTime.parse(solutionModel.expiredDate!))
-    : "";
+        ? DateFormat('HH:mm').format(DateTime.parse(solutionModel.expiredDate!))
+        : "";
   }
 
   @override
@@ -99,7 +102,7 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
             showToast(
               context: context,
               msg: "Update solution successfully",
-              color: Colors.green,
+              color: MyColors.success,
               icon: const Icon(Icons.done),
             );
           } else if (state is TicketSolutionError) {
@@ -107,7 +110,7 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
             showToast(
               context: context,
               msg: state.error,
-              color: Colors.orange,
+              color: MyColors.error,
               icon: const Icon(Icons.warning),
             );
           }
@@ -355,33 +358,33 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
                     //         solutionModel.reviewDate = null;
                     //       }
                     //     }),
-                    SizedBox(height: 20),
-                    DatePickerBox1(
-                      requestDayBefore: date2,
-                      isTime: true,
-                      label: Text(
-                        'Expired Date:',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                      ),
-                      dateDisplay: date2,
-                      timeDisplay: time2,
-                      selectedDateFunction: (day) {
-                        if (day == null) {
-                          solutionModel.expiredDate = null;
-                        }
-                      },
-                      selectedTimeFunction: (time) {
-                        if (time == null) {
-                          solutionModel.expiredDate = null;
-                        }
-                      },
-                      getFullTime: (time) {
-                        if (time != "") {
-                          solutionModel.expiredDate = time;
-                        } else {
-                          solutionModel.expiredDate = null;
-                        }
-                      }),
+                    // SizedBox(height: 20),
+                    // DatePickerBox1(
+                    //   requestDayBefore: date2,
+                    //   isTime: true,
+                    //   label: Text(
+                    //     'Expired Date:',
+                    //     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    //   ),
+                    //   dateDisplay: date2,
+                    //   timeDisplay: time2,
+                    //   selectedDateFunction: (day) {
+                    //     if (day == null) {
+                    //       solutionModel.expiredDate = null;
+                    //     }
+                    //   },
+                    //   selectedTimeFunction: (time) {
+                    //     if (time == null) {
+                    //       solutionModel.expiredDate = null;
+                    //     }
+                    //   },
+                    //   getFullTime: (time) {
+                    //     if (time != "") {
+                    //       solutionModel.expiredDate = time;
+                    //     } else {
+                    //       solutionModel.expiredDate = null;
+                    //     }
+                    //   }),
                     SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

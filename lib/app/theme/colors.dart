@@ -18,7 +18,7 @@ class MyColors {
   static const cancelled = Color(0xFFFF0000);
 
   //noti
-  static const success = Color.fromARGB(255, 33, 243, 61);
+  static const success = Color.fromARGB(255, 96, 138, 206);
   static const error = Color.fromARGB(255, 245, 169, 69);
 
   static const greyUnselect = Color.fromARGB(255, 150, 190, 254);

@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 showToast(
                   context: context,
                   msg: "You do not have access",
-                  color: const Color.fromARGB(255, 100, 99, 97),
+                  color: MyColors.error,
                   icon: const Icon(Icons.warning),
                 );
               }
@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 showToast(
                   context: context,
                   msg: "You do not have access",
-                  color: const Color.fromARGB(255, 100, 99, 97),
+                  color: MyColors.error,
                   icon: const Icon(Icons.warning),
                 );
               }
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
               showToast(
                 context: context,
                 msg: state.error,
-                color: Colors.orange,
+                color: MyColors.error,
                 icon: const Icon(Icons.warning),
               );
               Navigator.pop(context);
@@ -206,19 +206,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                         },
                                       ),
                                       16.height,
-
                                       GestureDetector(
                                         child: Align(
                                           alignment: Alignment.centerRight,
                                           child: Text("Forgot password?",
-                                              style: primaryTextStyle()),                                      
+                                              style: primaryTextStyle()),
                                         ),
                                         onTap: () {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                   ForgetScreen()),
+                                                    ForgetScreen()),
                                           );
                                         },
                                       ),

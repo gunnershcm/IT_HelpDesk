@@ -273,10 +273,15 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                     .format(DateTime.parse(solution.createdAt!))
                                 : "",
                           ),
+                          FieldTextWidget(
+                            title: 'Created By',
+                            content:
+                                "${solution.createdBy?.lastName ?? " "} ${solution.createdBy?.firstName ?? " "}",
+                          ),
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 10),
                             child: Text(
-                              "Created By",
+                              "Owner Information",
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -295,12 +300,11 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                       FieldTextWidget(
                                         title: 'Name',
                                         content:
-                                            "${solution.createdBy?.lastName ?? " "} ${solution.createdBy?.firstName ?? " "}",
+                                            "${solution.owner?.lastName ?? " "} ${solution.owner?.firstName ?? " "}",
                                       ),
                                       FieldTextWidget(
                                         title: 'Email',
-                                        content:
-                                            solution.createdBy?.email ?? "",
+                                        content: solution.owner?.email ?? "",
                                       ),
                                     ],
                                   ),
@@ -310,9 +314,9 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                           ),
                           FieldTextWidget(
                             title: 'Phone',
-                            content: solution.createdBy?.phoneNumber ?? "",
-                            widget: (solution.createdBy?.phoneNumber != null &&
-                                    solution.createdBy?.phoneNumber != "")
+                            content: solution.owner?.phoneNumber ?? "",
+                            widget: (solution.owner?.phoneNumber != null &&
+                                    solution.owner?.phoneNumber != "")
                                 ? Container(
                                     margin: EdgeInsets.only(left: 10),
                                     child: InkWell(

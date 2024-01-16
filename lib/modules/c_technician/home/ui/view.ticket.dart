@@ -119,8 +119,7 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                               host: 'www.google.com',
                               path: '/maps',
                               queryParameters: {
-                                'q':
-                                    address // Địa chỉ cụ thể
+                                'q': address // Địa chỉ cụ thể
                               },
                             );
                             // Mở Google Maps bằng cách mở URL
@@ -141,7 +140,7 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
               ),
               FieldTextWidget(
                 title: 'Service',
-                content: tiket.service?.type ?? "",
+                content: tiket.service?.description ?? "",
               ),
               FieldTextWidget(
                 title: 'Priority',
@@ -188,8 +187,10 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                                   20), // Adjust the spacing between the images and the upload icon
                           InkWell(
                             onTap: () async {
-                              downloadFile(context,
-                                  List<String>.from(tiket.attachmentUrls ?? []));
+                              downloadFile(
+                                  context,
+                                  List<String>.from(
+                                      tiket.attachmentUrls ?? []));
                             },
                             child: Icon(
                               Icons.download,

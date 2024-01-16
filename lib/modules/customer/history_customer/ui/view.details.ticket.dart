@@ -54,7 +54,7 @@ class ViewDetailsTicketScreen extends StatelessWidget {
               ),
               FieldTextWidget(
                 title: 'service',
-                content: tiket.service?.type ?? "",
+                content: tiket.service?.description ?? "",
               ),
               (tiket.ticketStatus == 4)
                   ? Column(
@@ -72,7 +72,6 @@ class ViewDetailsTicketScreen extends StatelessWidget {
                           title: 'Impact Detail',
                           content: tiket.impactDetail ?? "",
                         ),
-                        
                       ],
                     )
                   : SizedBox.shrink(),
@@ -109,28 +108,30 @@ class ViewDetailsTicketScreen extends StatelessWidget {
                         ),
                         FieldTextWidget(
                           title: 'Technician Phone',
-                          content: tiket.assignment?.technicianPhoneNumber ?? "",
-                          widget: (tiket.assignment?.technicianPhoneNumber != null)
-                              ? Container(
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: InkWell(
-                                    onTap: () async {
-                                      final Uri launchUri = Uri(
-                                        scheme: 'tel',
-                                        path:
-                                            tiket.assignment?.technicianPhoneNumber ??
+                          content:
+                              tiket.assignment?.technicianPhoneNumber ?? "",
+                          widget:
+                              (tiket.assignment?.technicianPhoneNumber != null)
+                                  ? Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      child: InkWell(
+                                        onTap: () async {
+                                          final Uri launchUri = Uri(
+                                            scheme: 'tel',
+                                            path: tiket.assignment
+                                                    ?.technicianPhoneNumber ??
                                                 "0987654321",
-                                      );
-                                      await launchUrl(launchUri);
-                                    },
-                                    child: Icon(
-                                      Icons.phone,
-                                      size: 25,
-                                      color: Colors.blue,
-                                    ),
-                                  ),
-                                )
-                              : SizedBox.shrink(),
+                                          );
+                                          await launchUrl(launchUri);
+                                        },
+                                        child: Icon(
+                                          Icons.phone,
+                                          size: 25,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    )
+                                  : SizedBox.shrink(),
                         ),
                         FieldTextWidget(
                           title: 'Team Assignment',
