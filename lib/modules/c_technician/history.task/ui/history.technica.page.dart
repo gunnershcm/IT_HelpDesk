@@ -34,6 +34,12 @@ class _HistoryTaskPageState extends State<HistoryTaskPage> {
   }
 
   @override
+void dispose() {
+  // Dispose of your AnimationController and other resources here
+  super.dispose();
+}
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<HistoryTaskBloc, HistoryTaskState>(
       bloc: bloc,

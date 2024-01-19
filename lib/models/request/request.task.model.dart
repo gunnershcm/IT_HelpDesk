@@ -12,7 +12,7 @@ class RequestTaskModel {
   int? priority;
   String? scheduledStartTime;
   String? scheduledEndTime;
-  List<String>? attachmentUrl;
+  List<String>? attachmentUrls;
   int? taskStatus;
   TicketResponseModel? ticketResponseModel;
   RequestTaskModel({
@@ -22,7 +22,7 @@ class RequestTaskModel {
     this.priority,
     this.scheduledStartTime,
     this.scheduledEndTime,
-    this.attachmentUrl,
+    this.attachmentUrls,
     this.taskStatus,
     this.ticketResponseModel,
   });
@@ -35,7 +35,7 @@ class RequestTaskModel {
     int? priority,
     String? scheduledStartTime,
     String? scheduledEndTime,
-    List<String>? attachmentUrl,
+    List<String>? attachmentUrls,
     int? taskStatus,
     TicketResponseModel? ticketResponseModel,
   }) {
@@ -46,7 +46,7 @@ class RequestTaskModel {
       priority: priority ?? this.priority,
       scheduledStartTime: scheduledStartTime ?? this.scheduledStartTime,
       scheduledEndTime: scheduledEndTime ?? this.scheduledEndTime,
-      attachmentUrl: attachmentUrl ?? this.attachmentUrl,
+      attachmentUrls: attachmentUrls ?? this.attachmentUrls,
       taskStatus: taskStatus ?? this.taskStatus,
       ticketResponseModel: ticketResponseModel ?? this.ticketResponseModel,
     );
@@ -60,7 +60,7 @@ class RequestTaskModel {
       'priority': priority,
       'scheduledStartTime': scheduledStartTime,
       'scheduledEndTime': scheduledEndTime,
-      'attachmentUrl': attachmentUrl,
+      'attachmentUrls': attachmentUrls,
       'taskStatus': taskStatus,
       'ticketResponseModel': ticketResponseModel?.toMap(),
     };
@@ -74,7 +74,7 @@ class RequestTaskModel {
       priority: map['priority'] != null ? map['priority'] as int : null,
       scheduledStartTime: map['scheduledStartTime'] != null ? map['scheduledStartTime'] as String : null,
       scheduledEndTime: map['scheduledEndTime'] != null ? map['scheduledEndTime'] as String : null,
-      attachmentUrl: map['attachmentUrl'] != null ? List<String>.from((map['attachmentUrl'] as List<String>)) : null,
+      attachmentUrls: map['attachmentUrls'] != null ? List<String>.from((map['attachmentUrls'] as List<String>)) : null,
       taskStatus: map['taskStatus'] != null ? map['taskStatus'] as int : null,
       ticketResponseModel: map['ticketResponseModel'] != null ? TicketResponseModel.fromMap(map['ticketResponseModel'] as Map<String,dynamic>) : null,
     );
@@ -86,7 +86,7 @@ class RequestTaskModel {
 
   @override
   String toString() {
-    return 'RequestTaskModel(ticketId: $ticketId, title: $title, description: $description, priority: $priority, scheduledStartTime: $scheduledStartTime, scheduledEndTime: $scheduledEndTime, attachmentUrl: $attachmentUrl, taskStatus: $taskStatus, ticketResponseModel: $ticketResponseModel)';
+    return 'RequestTaskModel(ticketId: $ticketId, title: $title, description: $description, priority: $priority, scheduledStartTime: $scheduledStartTime, scheduledEndTime: $scheduledEndTime, attachmentUrls: $attachmentUrls, taskStatus: $taskStatus, ticketResponseModel: $ticketResponseModel)';
   }
 
   @override
@@ -100,7 +100,7 @@ class RequestTaskModel {
       other.priority == priority &&
       other.scheduledStartTime == scheduledStartTime &&
       other.scheduledEndTime == scheduledEndTime &&
-      listEquals(other.attachmentUrl, attachmentUrl) &&
+      listEquals(other.attachmentUrls, attachmentUrls) &&
       other.taskStatus == taskStatus &&
       other.ticketResponseModel == ticketResponseModel;
   }
@@ -113,7 +113,7 @@ class RequestTaskModel {
       priority.hashCode ^
       scheduledStartTime.hashCode ^
       scheduledEndTime.hashCode ^
-      attachmentUrl.hashCode ^
+      attachmentUrls.hashCode ^
       taskStatus.hashCode ^
       ticketResponseModel.hashCode;
   }

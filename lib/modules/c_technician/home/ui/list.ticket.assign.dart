@@ -10,8 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListTicketAssign extends StatefulWidget {
-  final List<TicketResponseModel> listTiket;
-  const ListTicketAssign({super.key, required this.listTiket});
+  const ListTicketAssign({super.key});
 
   @override
   State<ListTicketAssign> createState() => _ListTicketAssignState();
@@ -67,17 +66,10 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
       backgroundColor: Color.fromARGB(255, 229, 243, 254),
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-            )),
-        title: const Center(
+        leading: Row(),
+        title: Center(
           child: Text(
-            "List of assigned tickets",
+            "Ticket ",
             style: TextStyle(
                 color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
           ),

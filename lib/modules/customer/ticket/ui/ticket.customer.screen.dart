@@ -1,6 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/scroll.item.dart';
+import 'package:dich_vu_it/models/chat/chat_user.dart';
 import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
 import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/customer/notification/notification.page.dart';
@@ -9,11 +14,11 @@ import 'package:dich_vu_it/modules/customer/ticket/compoment/ticket.item.dart';
 import 'package:dich_vu_it/modules/customer/ticket/ui/edit.ticket.dart';
 import 'package:dich_vu_it/modules/customer/ticket/ui/view.ticket.dart';
 import 'package:dich_vu_it/provider/noti.provider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TicketCustomerScreen extends StatefulWidget {
-  const TicketCustomerScreen({Key? key}) : super(key: key);
+  const TicketCustomerScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<TicketCustomerScreen> createState() => _TicketCustomerScreenState();
@@ -27,7 +32,6 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
   int countNoti = 0;
   late String query = '';
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   void getNoti() async {
     var noti = await NotiProvider.getCountNoti();
     setState(() {
@@ -42,14 +46,12 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
     _bloc.add(GetAllListTicket());
   }
 
-
   void onStatusSelected(int? status) {
     setState(() {
       selectedStatus = status;
       filterList();
     });
   }
-  
 
   // Add this function to filter the list based on the search query
   void filterList() {
@@ -64,7 +66,6 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
           .toList();
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -242,11 +243,11 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
                       onTap: () => onStatusSelected(null),
                       isSelected: selectedStatus == null,
                     ),
-                    // ScrollItem(
-                    //   text: 'Open',
-                    //   onTap: () => onStatusSelected(0),
-                    //   isSelected: selectedStatus == 0,
-                    // ),
+                    ScrollItem(
+                      text: 'Open',
+                      onTap: () => onStatusSelected(0),
+                      isSelected: selectedStatus == 0,
+                    ),
                     ScrollItem(
                       text: 'Assigned',
                       onTap: () => onStatusSelected(1),

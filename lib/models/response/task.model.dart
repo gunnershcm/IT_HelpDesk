@@ -18,7 +18,7 @@ class TaskModel {
   String? actualStartTime;
   String? actualEndTime;
   int? progress;
-  List<String>? attachmentUrl;
+  List<String>? attachmentUrls;
   int? taskStatus;
   TaskModel({
     this.id,
@@ -33,7 +33,7 @@ class TaskModel {
     this.actualStartTime,
     this.actualEndTime,
     this.progress,
-    this.attachmentUrl,
+    this.attachmentUrls,
     this.taskStatus,
   });
   
@@ -51,7 +51,7 @@ class TaskModel {
     String? actualStartTime,
     String? actualEndTime,
     int? progress,
-    List<String>? attachmentUrl,
+    List<String>? attachmentUrls,
     int? taskStatus,
   }) {
     return TaskModel(
@@ -67,7 +67,7 @@ class TaskModel {
       actualStartTime: actualStartTime ?? this.actualStartTime,
       actualEndTime: actualEndTime ?? this.actualEndTime,
       progress: progress ?? this.progress,
-      attachmentUrl: attachmentUrl ?? this.attachmentUrl,
+      attachmentUrls: attachmentUrls ?? this.attachmentUrls,
       taskStatus: taskStatus ?? this.taskStatus,
     );
   }
@@ -86,7 +86,7 @@ class TaskModel {
       'actualStartTime': actualStartTime,
       'actualEndTime': actualEndTime,
       'progress': progress,
-      'attachmentUrl': attachmentUrl,
+      'attachmentUrls': attachmentUrls,
       'taskStatus': taskStatus,
     };
   }
@@ -105,7 +105,7 @@ class TaskModel {
       actualStartTime: map['actualStartTime'] != null ? map['actualStartTime'] as String : null,
       actualEndTime: map['actualEndTime'] != null ? map['actualEndTime'] as String : null,
       progress: map['progress'] != null ? map['progress'] as int : null,
-      attachmentUrl: map['attachmentUrl'] != null ? List<String>.from((map['attachmentUrl'] as List<String>)) : null,
+      attachmentUrls: map['attachmentUrls'] != null ? List<String>.from((map['attachmentUrls'] as List<String>)) : null,
       taskStatus: map['taskStatus'] != null ? map['taskStatus'] as int : null,
     );
   }
@@ -116,7 +116,7 @@ class TaskModel {
 
   @override
   String toString() {
-    return 'TaskModel(id: $id, ticketId: $ticketId, ticket: $ticket, title: $title, description: $description, note: $note, priority: $priority, scheduledStartTime: $scheduledStartTime, scheduledEndTime: $scheduledEndTime, actualStartTime: $actualStartTime, actualEndTime: $actualEndTime, progress: $progress, attachmentUrl: $attachmentUrl, taskStatus: $taskStatus)';
+    return 'TaskModel(id: $id, ticketId: $ticketId, ticket: $ticket, title: $title, description: $description, note: $note, priority: $priority, scheduledStartTime: $scheduledStartTime, scheduledEndTime: $scheduledEndTime, actualStartTime: $actualStartTime, actualEndTime: $actualEndTime, progress: $progress, attachmentUrls: $attachmentUrls, taskStatus: $taskStatus)';
   }
 
   @override
@@ -136,7 +136,7 @@ class TaskModel {
       other.actualStartTime == actualStartTime &&
       other.actualEndTime == actualEndTime &&
       other.progress == progress &&
-      listEquals(other.attachmentUrl, attachmentUrl) &&
+      listEquals(other.attachmentUrls, attachmentUrls) &&
       other.taskStatus == taskStatus;
   }
 
@@ -154,7 +154,7 @@ class TaskModel {
       actualStartTime.hashCode ^
       actualEndTime.hashCode ^
       progress.hashCode ^
-      attachmentUrl.hashCode ^
+      attachmentUrls.hashCode ^
       taskStatus.hashCode;
   }
 }

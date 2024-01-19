@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, prefer_const_constructors
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dich_vu_it/app/constant/enum.dart';
+import 'package:dich_vu_it/app/widgets/WAColors.dart';
+import 'package:dich_vu_it/app/widgets/WAWidgets.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/pick.date.dart';
 import 'package:dich_vu_it/app/widgets/textfiel.dart';
@@ -30,8 +33,9 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
   var bloc = HomeBloc();
   TaskModel taskModel = TaskModel();
   TextEditingController title = TextEditingController();
-  TextEditingController moTa = TextEditingController();
+  TextEditingController description = TextEditingController();
   TextEditingController note = TextEditingController();
+  bool _deleteIconVisible = false;
   Map<int, String> listPriority = {
     0: 'Low',
     1: 'Medium',
@@ -49,7 +53,7 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
     super.initState();
     taskModel = widget.taskModel;
     title.text = taskModel.title ?? "";
-    moTa.text = taskModel.description ?? "";
+    description.text = taskModel.description ?? "";
     note.text = taskModel.note ?? "";
     date1 = DateFormat('dd-MM-yyyy')
         .format(DateTime.parse(taskModel.scheduledStartTime ?? ""));
@@ -88,7 +92,7 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
           IconButton(
               onPressed: () {
                 taskModel.title = title.text;
-                taskModel.description = moTa.text;
+                taskModel.description = description.text;
                 taskModel.note = note.text;
                 bloc.add(UpdateTaskTicketEvent(taskModel: taskModel));
               },
@@ -131,28 +135,40 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 229, 243, 254),
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10)),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextFielWidget(
-                    title: 'Ticket',
-                    controller: TextEditingController(
-                        text: taskModel.ticket?.title ?? ""),
-                    enabled: false,
+                  const Text(
+                    "Ticket",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: TextFormField(
+                      maxLines: null,
+                      controller: TextEditingController(
+                          text: taskModel.ticket?.title ?? ""),
+                      decoration: waInputDecoration(hint: ''),
+                      readOnly: true,
+                    ),
+                  ),
+
                   SizedBox(height: 20),
                   const Text(
                     "Task status",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
+
                   Container(
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
+                        border: Border.all(
+                            color: Color.fromARGB(255, 225, 224, 224)),
+                        borderRadius: BorderRadius.circular(12),
+                        color: WAPrimaryColor.withOpacity(0.07)),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2(
                         items: taskStatus.entries
@@ -192,20 +208,47 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                     },
                   ),
                   SizedBox(height: 20),
-                  TextFielWidget(
-                    title: 'Title',
-                    controller: title,
-                  ),
+                   const Text(
+                      "Title",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: TextFormField(
+                        maxLines: null,
+                        controller: title,
+                        decoration: waInputDecoration(hint: ''),
+                      ),
+                    ),
                   SizedBox(height: 20),
-                  TextFielWidget(
-                    title: 'Description',
-                    controller: moTa,
-                  ),
+                   const Text(
+                      "Description",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: TextFormField(
+                        maxLines: null,
+                        controller: description,
+                        decoration: waInputDecoration(hint: ''),
+                      ),
+                    ),
                   SizedBox(height: 20),
-                  TextFielWidget(
-                    title: 'Notes',
-                    controller: note,
-                  ),
+                  const Text(
+                      "Note",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: TextFormField(
+                        maxLines: null,
+                        controller: note,
+                        decoration: waInputDecoration(hint: ''),
+                      ),
+                    ),
                   SizedBox(height: 20),
                   const Text(
                     "Priority",
@@ -214,8 +257,10 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
+                        border: Border.all(
+                            color: Color.fromARGB(255, 225, 224, 224)),
+                        borderRadius: BorderRadius.circular(12),
+                        color: WAPrimaryColor.withOpacity(0.07)),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2(
                         items: listPriority.entries
@@ -317,26 +362,128 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                         child: Row(
                           children: [
                             Expanded(
-                              child: Text(
-                                (taskModel.attachmentUrl != null)
-                                    ? "File uploaded"
-                                    : "Upload file",
-                                overflow: TextOverflow.ellipsis,
+                              child: Container(
+                                height: 80,
+                                padding: EdgeInsets.only(left: 10),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Wrap(
+                                        spacing: 16.0,
+                                        runSpacing: 8.0,
+                                        children: [
+                                          if (taskModel.attachmentUrls != null)
+                                            for (int index = 0;
+                                                index <
+                                                    taskModel
+                                                        .attachmentUrls!.length;
+                                                index++)
+                                              Stack(
+                                                children: [
+                                                  Container(
+                                                    height: 60,
+                                                    width: 60,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: taskModel
+                                                              .attachmentUrls![
+                                                          index],
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          CircularProgressIndicator(),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Icon(Icons.error),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                    top: 0,
+                                                    right: 0,
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          taskModel
+                                                              .attachmentUrls!
+                                                              .removeAt(index);
+                                                        });
+                                                        if (taskModel
+                                                            .attachmentUrls!
+                                                            .isEmpty) {
+                                                          setState(() {
+                                                            _deleteIconVisible =
+                                                                false;
+                                                          });
+                                                        }
+                                                      },
+                                                      child: AnimatedOpacity(
+                                                        opacity:
+                                                            _deleteIconVisible
+                                                                ? 1.0
+                                                                : 0.0,
+                                                        duration: Duration(
+                                                            milliseconds: 300),
+                                                        child: Container(
+                                                          padding:
+                                                              EdgeInsets.all(4),
+                                                          color: Colors.red,
+                                                          child: Icon(
+                                                            Icons.close,
+                                                            color: Colors.white,
+                                                            size: 16,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                        ],
+                                      ),
+                                    ),
+                                    if (taskModel.attachmentUrls == null ||
+                                        taskModel.attachmentUrls!.isEmpty)
+                                      Expanded(
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: InkWell(
+                                            onTap: () async {
+                                              var fileNames =
+                                                  await handleUploadFile();
+                                              print(fileNames);
+                                              if (fileNames != null) {
+                                                setState(() {
+                                                  _deleteIconVisible = true;
+                                                  taskModel.attachmentUrls =
+                                                      fileNames;
+                                                });
+                                                print("a");
+                                                print(fileNames);
+                                                print(
+                                                    "Test taskModel ${taskModel.attachmentUrls}");
+                                                print("b");
+                                              } else {
+                                                // Handle the case where fileNames is null (upload failed)
+                                                print("File upload failed");
+                                              }
+                                            },
+                                            child: Icon(
+                                              Icons.upload,
+                                              size: 30,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    SizedBox(width: 10),
+                                  ],
+                                ),
                               ),
                             ),
-                            SizedBox(width: 10),
-                            InkWell(
-                                onTap: () async {
-                                  var fileName = await handleUploadFile();
-                                  setState(() {
-                                    taskModel.attachmentUrl = fileName;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.upload,
-                                  color: Colors.blue,
-                                )),
-                            SizedBox(width: 10),
                           ],
                         ),
                       ))

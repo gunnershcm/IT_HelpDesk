@@ -3,6 +3,7 @@ import 'package:dich_vu_it/app/theme/text.style.dart';
 import 'package:dich_vu_it/app/widgets/will.pop.scope.dart';
 import 'package:dich_vu_it/modules/c_technician/history.task/ui/history.technica.page.dart';
 import 'package:dich_vu_it/modules/c_technician/home/ui/home.technica.page.dart';
+import 'package:dich_vu_it/modules/c_technician/home/ui/list.ticket.assign.dart';
 import 'package:dich_vu_it/modules/c_technician/profile/ui/profile.screen.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/ui/ticket.solution.tech.dart';
 import 'package:dich_vu_it/modules/chat/chat.screen.list.dart';
@@ -36,7 +37,7 @@ class _NavigatorMainTechnicianState extends State<NavigatorMainTechnician> {
                 if (value == 0) {
                   body = const HomeTechiacaPage();
                 } else if (value == 1) {
-                  body = const HistoryTaskPage();
+                  body = const ListTicketAssign();
                 } else if (value == 2) {
                   body = const TicketSolutionPage() ;
                 } else if (value == 3) {
@@ -51,12 +52,12 @@ class _NavigatorMainTechnicianState extends State<NavigatorMainTechnician> {
             unselectedLabelStyle: MyTextStyle.styleUnSelectMenu,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home, color: (sttPage == 0) ? MyColors.blue : MyColors.greyUnselect),
-                label: 'Home',
+                icon: Icon(Icons.task, color: (sttPage == 0) ? MyColors.blue : MyColors.greyUnselect),
+                label: 'Task',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.history, color: (sttPage == 1) ? MyColors.blue : MyColors.greyUnselect),
-                label: 'History',
+                icon: Icon(Icons.confirmation_number, color: (sttPage == 1) ? MyColors.blue : MyColors.greyUnselect),
+                label: 'Ticket',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.wb_incandescent_outlined, color: (sttPage == 2) ? MyColors.blue : MyColors.greyUnselect),

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, unrelated_type_equality_checks, must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/models/response/task.model.dart';
 import 'package:dich_vu_it/models/response/ticket.response.model.dart';
@@ -151,28 +152,78 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
               //           .format(DateTime.parse(task.actualEndTime!))
               //       : "",
               // ),
-              FieldTextWidget(
-                  title: 'Attachment',
-                  content:
-                      (task.attachmentUrl != null && task.attachmentUrl != "")
-                          ? "File uploaded"
-                          : "",
-                  widget:
-                      (task.attachmentUrl != null && task.attachmentUrl != "")
-                          ? Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: InkWell(
-                                onTap: () async {
-                                  downloadFile(context, List<String>.from(task.attachmentUrl ?? []));
-                                },
-                                child: Icon(
-                                  Icons.download,
-                                  size: 25,
-                                  color: Colors.blue,
-                                ),
+              const Text(
+                "Attachment",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF909090),
+                ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 80, // Adjust the overall height of the container
+                      padding: EdgeInsets.only(left: 10),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Wrap(
+                              spacing:
+                                  16.0, // Adjust the spacing between images
+                              runSpacing: 8.0,
+                              children: [
+                                if (task.attachmentUrls != null)
+                                  for (var url in task.attachmentUrls!)
+                                    Container(
+                                      height:
+                                          60, // Adjust the height of the image container
+                                      width:
+                                          60, // Adjust the width of the image container
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: CachedNetworkImage(
+                                        imageUrl: url,
+                                        placeholder: (context, url) =>
+                                            CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                              ],
+                            ),
+                          ),
+                          if (task.attachmentUrls != null &&
+                              task.attachmentUrls!.isNotEmpty)
+                            SizedBox(
+                              width:
+                                  20, // Adjust the spacing between the images and the upload icon
+                            ),
+                          if (task.attachmentUrls != null &&
+                              task.attachmentUrls!.isNotEmpty)
+                            InkWell(
+                              onTap: () async {
+                                downloadFile(
+                                    context,
+                                    List<String>.from(
+                                        task.attachmentUrls ?? []));
+                              },
+                              child: Icon(
+                                Icons.download,
+                                size: 40, // Adjust the size of the upload icon
+                                color: Colors.blue,
                               ),
-                            )
-                          : SizedBox.shrink()),
+                            ),
+                          SizedBox(width: 10),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

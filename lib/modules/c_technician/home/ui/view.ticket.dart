@@ -1,9 +1,13 @@
 // ignore_for_file: prefer_const_constructors, unrelated_type_equality_checks, must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dich_vu_it/app/constant/enum.dart';
+import 'package:dich_vu_it/models/chat/chat_user.dart';
 import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/home/ui/edit.ticket.technician.dart';
+import 'package:dich_vu_it/modules/chat/chat.card/chat.screen.dart';
+import 'package:dich_vu_it/provider/api.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:dich_vu_it/provider/location.provider.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +24,7 @@ class ViewTicketAssigScreen extends StatefulWidget {
 
 class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
   TicketResponseModel tiket = TicketResponseModel();
+  late ChatUser user;
   // List<Map<String, dynamic>> cities = [];
   // List<Map<String, dynamic>> districts = [];
   // List<Map<String, dynamic>> wards = [];
@@ -33,7 +38,32 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
   void initState() {
     super.initState();
     tiket = widget.tiket;
+    // getUserChat();
   }
+
+  // void getUserChat() {
+  //   String? email = tiket.requester?.email?.toString();
+  //   // Get the user by ID using the stream
+  //   if (email != null) {
+  //     APIs.GetUserByEmail(email)
+  //         .listen((QuerySnapshot<Map<String, dynamic>> snapshot) {
+  //       if (snapshot.docs.isNotEmpty) {
+  //         // If there's at least one document in the snapshot
+  //         Map<String, dynamic>? userData = snapshot.docs.first.data();
+
+  //         // Map the data to ChatUser
+  //         user = ChatUser.fromJson(userData);
+  //         // Now, `user` contains the ChatUser object
+  //       } else {
+  //         // Handle the case where no user is found
+  //         print('No user found with Email: $email');
+  //       }
+  //     });
+  //   } else {
+  //     // Handle the case where technicianId is null
+  //     print('ID is null');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +117,7 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
         padding: const EdgeInsets.all(15),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FieldTextWidget(
                 title: 'Title',
@@ -146,6 +177,14 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                 title: 'Priority',
                 content: nameFromPriority(tiket.priority ?? -1),
               ),
+              const Text(
+                "Attachment",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF909090),
+                ),
+              ),
               Row(
                 children: [
                   Expanded(
@@ -182,22 +221,27 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          if (tiket.attachmentUrls != null &&
+                              tiket.attachmentUrls!.isNotEmpty)
+                            SizedBox(
                               width:
-                                  20), // Adjust the spacing between the images and the upload icon
-                          InkWell(
-                            onTap: () async {
-                              downloadFile(
-                                  context,
-                                  List<String>.from(
-                                      tiket.attachmentUrls ?? []));
-                            },
-                            child: Icon(
-                              Icons.download,
-                              size: 40, // Adjust the size of the upload icon
-                              color: Colors.blue,
+                                  20, // Adjust the spacing between the images and the upload icon
                             ),
-                          ),
+                          if (tiket.attachmentUrls != null &&
+                              tiket.attachmentUrls!.isNotEmpty)
+                            InkWell(
+                              onTap: () async {
+                                downloadFile(
+                                    context,
+                                    List<String>.from(
+                                        tiket.attachmentUrls ?? []));
+                              },
+                              child: Icon(
+                                Icons.download,
+                                size: 40, // Adjust the size of the upload icon
+                                color: Colors.blue,
+                              ),
+                            ),
                           SizedBox(width: 10),
                         ],
                       ),
@@ -251,6 +295,26 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                 title: 'Requester Name',
                 content:
                     "${tiket.requester?.lastName ?? " "} ${tiket.requester?.firstName ?? " "}",
+                widget: (tiket.requesterId != null)
+                    ? Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: InkWell(
+                          onTap: () async {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => ChatScreen(
+                                          user: user,
+                                        )));
+                          },
+                          child: Icon(
+                            Icons.chat,
+                            size: 25,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      )
+                    : SizedBox.shrink(),
               ),
               FieldTextWidget(
                 title: 'Requester Email',
@@ -280,6 +344,10 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                         ),
                       )
                     : SizedBox.shrink(),
+              ),
+              FieldTextWidget(
+                title: 'Company Address',
+                content: tiket.address ?? "",
               ),
               FieldTextWidget(
                 title: 'Team Assignment',

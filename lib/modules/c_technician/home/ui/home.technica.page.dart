@@ -122,58 +122,58 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
             padding: EdgeInsets.all(15),
             child: Column(
               children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(bottom: 10),
-                  padding: EdgeInsets.all(15),
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        blurRadius: 8,
-                        offset: Offset(3, 3),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "You currently have ${listTiketAssign.length} assigned tickets",
-                          style: TextStyle(fontSize: 18),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 15),
-                        width: 70,
-                        decoration: BoxDecoration(
-                            border: Border(
-                                left:
-                                    BorderSide(width: 1, color: Colors.grey))),
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) =>
-                                      ListTicketAssign(
-                                    listTiket: listTiketAssign,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              "View",
-                              style: TextStyle(fontSize: 17),
-                            )),
-                      )
-                    ],
-                  ),
-                ),
+                // Container(
+                //   width: MediaQuery.of(context).size.width,
+                //   margin: EdgeInsets.only(bottom: 10),
+                //   padding: EdgeInsets.all(15),
+                //   height: 100,
+                //   decoration: BoxDecoration(
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.circular(20),
+                //     boxShadow: [
+                //       BoxShadow(
+                //         color: Colors.grey.withOpacity(0.5),
+                //         blurRadius: 8,
+                //         offset: Offset(3, 3),
+                //       ),
+                //     ],
+                //   ),
+                //   child: Row(
+                //     children: [
+                //       Expanded(
+                //         child: Text(
+                //           "You currently have ${listTiketAssign.length} assigned tickets",
+                //           style: TextStyle(fontSize: 18),
+                //           textAlign: TextAlign.center,
+                //         ),
+                //       ),
+                //       Container(
+                //         margin: EdgeInsets.only(left: 15),
+                //         width: 70,
+                //         decoration: BoxDecoration(
+                //             border: Border(
+                //                 left:
+                //                     BorderSide(width: 1, color: Colors.grey))),
+                //         child: TextButton(
+                //             onPressed: () {
+                //               // Navigator.push(
+                //               //   context,
+                //               //   MaterialPageRoute<void>(
+                //               //     builder: (BuildContext context) =>
+                //               //         ListTicketAssign(
+                //               //       listTiket: listTiketAssign,
+                //               //     ),
+                //               //   ),
+                //               // );
+                //             },
+                //             child: Text(
+                //               "View",
+                //               style: TextStyle(fontSize: 17),
+                //             )),
+                //       )
+                //     ],
+                //   ),
+                // ),
                 Row(
                   children: [
                     Expanded(
@@ -184,7 +184,7 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                         height: 40,
                         child: DropdownSearch<TicketResponseModel>(
                           popupProps: PopupPropsMultiSelection.menu(
-                            showSearchBox: true,
+                            //showSearchBox: true,
                             searchDelay: const Duration(milliseconds: 500),
                           ),
                           dropdownDecoratorProps: DropDownDecoratorProps(
