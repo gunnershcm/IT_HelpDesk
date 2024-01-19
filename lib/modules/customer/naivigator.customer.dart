@@ -19,7 +19,9 @@ class NavigatorMainCustomer extends StatefulWidget {
 
 class _NavigatorMainCustomerState extends State<NavigatorMainCustomer> {
   int sttPage = 0;
-  Widget body = const TicketCustomerScreen();
+  Widget body = TicketCustomerScreen(
+ 
+  );
   @override
   void initState() {
     super.initState();
@@ -36,7 +38,7 @@ class _NavigatorMainCustomerState extends State<NavigatorMainCustomer> {
               setState(() {
                 sttPage = value;
                 if (value == 0) {
-                  body = const TicketCustomerScreen();
+                  body = TicketCustomerScreen();
                 } else if (value == 1) {
                   body = const TicketSolutionPage();
                 } else if (value == 2) {
@@ -51,7 +53,7 @@ class _NavigatorMainCustomerState extends State<NavigatorMainCustomer> {
             selectedLabelStyle: MyTextStyle.styleSelectMenu,
             selectedItemColor: MyColors.blue,
             unselectedLabelStyle: MyTextStyle.styleUnSelectMenu,
-            items: <BottomNavigationBarItem>[
+            items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.confirmation_number,
                     color:

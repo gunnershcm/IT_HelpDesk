@@ -16,7 +16,7 @@ import 'package:dich_vu_it/modules/customer/ticket/ui/view.ticket.dart';
 import 'package:dich_vu_it/provider/noti.provider.dart';
 
 class TicketCustomerScreen extends StatefulWidget {
-  const TicketCustomerScreen({
+  TicketCustomerScreen({
     Key? key,
   }) : super(key: key);
 
@@ -283,15 +283,16 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
                   itemBuilder: (context, index) {
                     final element = filteredList[index];
                     return GestureDetector(
-                      onTap: () {
-                        Navigator.push<void>(
+                      onTap: () async {
+                         Navigator.push(
                           context,
-                          MaterialPageRoute<void>(
+                          MaterialPageRoute(
                             builder: (BuildContext context) => ViewTicketScreen(
                               ticket: element,
                             ),
                           ),
                         );
+                       
                       },
                       child: TicketItem(
                         ticket: element,

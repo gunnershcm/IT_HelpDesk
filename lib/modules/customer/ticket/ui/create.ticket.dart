@@ -110,7 +110,7 @@ class _CreateTickketState extends State<CreateTickket> {
             onLoading(context);
             return;
           } else if (state is CareateTicketSuccessState) {
-            Navigator.pop(context);
+            //Navigator.pop(context);
             // Navigator.pop(context);
             //widget.callBack(true);
             // Navigator.pushReplacement(

@@ -149,7 +149,7 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                                 children: [
                                   Text(
                                     "${ticket.requester?.firstName} ${ticket.requester?.lastName}",
-                                  ),                                 
+                                  ),
                                 ],
                               ),
                             ],
@@ -239,73 +239,69 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                                   color: Color(0xFF909090),
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      height: 80,
-                                      padding: EdgeInsets.only(left: 10),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Wrap(
-                                              spacing: 16.0,
-                                              runSpacing: 8.0,
-                                              children: [
-                                                if (ticket.attachmentUrls !=
-                                                    null)
-                                                  for (var url
-                                                      in ticket.attachmentUrls!)
-                                                    Container(
-                                                      height: 60,
-                                                      width: 60,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
-                                                      ),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl: url,
-                                                        placeholder: (context,
-                                                                url) =>
-                                                            CircularProgressIndicator(),
-                                                        errorWidget: (context,
-                                                                url, error) =>
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Wrap(
+                                          spacing: 16.0,
+                                          runSpacing: 8.0,
+                                          children: [
+                                            if (ticket.attachmentUrls != null)
+                                              for (var url
+                                                  in ticket.attachmentUrls!)
+                                                Container(
+                                                  height: 60,
+                                                  width: 60,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: url,
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        CircularProgressIndicator(),
+                                                    errorWidget:
+                                                        (context, url, error) =>
                                                             Icon(Icons.error),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(width: 20),
-                                          Visibility(
-                                            visible:
-                                                ticket.attachmentUrls != null &&
-                                                    ticket.attachmentUrls!
-                                                        .isNotEmpty,
-                                            child: InkWell(
-                                              onTap: () async {
-                                                downloadFile(
-                                                  context,
-                                                  List<String>.from(
-                                                      ticket.attachmentUrls ??
-                                                          []),
-                                                );
-                                              },
-                                              child: Icon(
-                                                Icons.download,
-                                                size: 40,
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(width: 10),
-                                        ],
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
+                                      SizedBox(width: 20),
+                                      Visibility(
+                                        visible: ticket.attachmentUrls !=
+                                                null &&
+                                            ticket.attachmentUrls!.isNotEmpty,
+                                        child: InkWell(
+                                          onTap: () async {
+                                            downloadFile(
+                                              context,
+                                              List<String>.from(
+                                                  ticket.attachmentUrls ?? []),
+                                            );
+                                          },
+                                          child: Icon(
+                                            Icons.download,
+                                            size: 40,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
                             ],
                           ),
@@ -347,6 +343,11 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                                                         left: 10),
                                                     child: InkWell(
                                                       onTap: () async {
+                                                        ChatUser user = await APIs
+                                                            .getUser(ticket
+                                                                    .assignment
+                                                                    ?.technicianEmail ??
+                                                                "");
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(

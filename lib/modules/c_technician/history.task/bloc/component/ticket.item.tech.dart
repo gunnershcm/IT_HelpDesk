@@ -7,17 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TicketItem extends StatefulWidget {
-  final List<TicketResponseModel> listTicket;
+  //final List<TicketResponseModel> listTicket;
   final TicketResponseModel ticket;
   final Function(TicketResponseModel) onTap;
-  final Function callback;
+  //final Function callback;
 
   const TicketItem({
     Key? key,
     required this.ticket,
     required this.onTap,
-    required this.listTicket,
-    required this.callback,
   }) : super(key: key);
 
   @override
@@ -27,7 +25,7 @@ class TicketItem extends StatefulWidget {
 class _TicketItemState extends State<TicketItem> {
   TicketResponseModel? ticket;
   Function(TicketResponseModel)? onTap;
-  List<TicketResponseModel>? listTicket;
+  //List<TicketResponseModel>? listTicket;
   Function? callback;
 
   @override
@@ -35,8 +33,8 @@ class _TicketItemState extends State<TicketItem> {
     super.initState();
     ticket = widget.ticket;
     onTap = widget.onTap;
-    listTicket = widget.listTicket;
-    callback = widget.callback;
+    //listTicket = widget.listTicket;
+    //callback = widget.callback;
   }
 
   @override
@@ -111,7 +109,7 @@ class _TicketItemState extends State<TicketItem> {
                     );
                     setState(() {
                       ticket!.ticketStatus == 3;
-                      callback!(ticket);
+                      //callback!(ticket);
                     });
                   } else {
                     showToast(

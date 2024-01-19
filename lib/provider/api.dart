@@ -161,6 +161,17 @@ class APIs {
         .set(chatUser.toJson());
   }
 
+//get user
+  static Future<ChatUser> getUser(String email) async {
+    var query = await firestore
+        .collection('users')
+        .where("email", isEqualTo: email)
+        .limit(1)
+        .get();
+    ChatUser userQuery = ChatUser.fromJson(query.docs.first.data());
+    return userQuery;
+  }
+
   // for getting id's of known users from firestore database
   static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUsersId() {
     return firestore
