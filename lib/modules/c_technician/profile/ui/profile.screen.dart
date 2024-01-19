@@ -236,7 +236,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: const EdgeInsets.only(
                               top: 50, left: 16, right: 16, bottom: 16),
                           width: context.width(),
-                          height: context.height() * .7,
+                          height: context.height() * .74,
                           decoration: boxDecorationWithShadow(
                               borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(30),
@@ -301,7 +301,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               16.height,
                               AppButton(
-                                color: WAPrimaryColor,
+                                color: MyColors.blue,
                                 width: context.width(),
                                 child: Text('Edit',
                                     style: boldTextStyle(
@@ -329,7 +329,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 children: [
                                   Expanded(
                                     child: AppButton(
-                                      color: WAPrimaryColor,
+                                      color: MyColors.blue,
                                       child: Text(
                                         'Change Password',
                                         style: boldTextStyle(
@@ -352,7 +352,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   Expanded(
                                     child: AppButton(
-                                      color: WAPrimaryColor,
+                                      color: MyColors.blue,
                                       child: Text('Logout',
                                           style: boldTextStyle(
                                               color: Colors.white, size: 14)),

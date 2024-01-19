@@ -56,6 +56,7 @@ Future<List<String>?> uploadFile(List<File> files) async {
     print("Error during upload: $e");
     return null;
   }
+  
 }
 
 
@@ -83,7 +84,6 @@ Future<List<String>?> handleUploadFile() async {
 }
 
 
-
 Future<void> downloadFile(BuildContext context, List<String> urls) async {
   try {
     for (String url in urls) {
@@ -109,4 +109,3 @@ Future<void> downloadFile(BuildContext context, List<String> urls) async {
     print("error: $e");
   }
 }
-

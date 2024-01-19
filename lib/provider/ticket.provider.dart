@@ -83,7 +83,7 @@ class TicketProvider {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
     try {
-      var url = "$baseUrl/v1/itsds/category";
+      var url = "$baseUrl/v1/itsds/category/all";
       Map<String, String> header = await getHeader();
       header.addAll({'Authorization': 'Bearer $token'});
       var response = await http.get(Uri.parse(url.toString()), headers: header);

@@ -3,20 +3,24 @@ import 'dart:convert';
 
 class AssigmentModel {
   int? id;
+  int? technicianId;
   String? technicianFullName;
   String? technicianEmail;
   String? technicianPhoneNumber;
   String? teamName;
   AssigmentModel({
     this.id,
+    this.technicianId,
     this.technicianFullName,
     this.technicianEmail,
     this.technicianPhoneNumber,
     this.teamName,
   });
+  
 
   AssigmentModel copyWith({
     int? id,
+    int? technicianId,
     String? technicianFullName,
     String? technicianEmail,
     String? technicianPhoneNumber,
@@ -24,6 +28,7 @@ class AssigmentModel {
   }) {
     return AssigmentModel(
       id: id ?? this.id,
+      technicianId: technicianId ?? this.technicianId,
       technicianFullName: technicianFullName ?? this.technicianFullName,
       technicianEmail: technicianEmail ?? this.technicianEmail,
       technicianPhoneNumber: technicianPhoneNumber ?? this.technicianPhoneNumber,
@@ -34,6 +39,7 @@ class AssigmentModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
+      'technicianId': technicianId,
       'technicianFullName': technicianFullName,
       'technicianEmail': technicianEmail,
       'technicianPhoneNumber': technicianPhoneNumber,
@@ -44,6 +50,7 @@ class AssigmentModel {
   factory AssigmentModel.fromMap(Map<String, dynamic> map) {
     return AssigmentModel(
       id: map['id'] != null ? map['id'] as int : null,
+      technicianId: map['technicianId'] != null ? map['technicianId'] as int : null,
       technicianFullName: map['technicianFullName'] != null ? map['technicianFullName'] as String : null,
       technicianEmail: map['technicianEmail'] != null ? map['technicianEmail'] as String : null,
       technicianPhoneNumber: map['technicianPhoneNumber'] != null ? map['technicianPhoneNumber'] as String : null,
@@ -57,7 +64,7 @@ class AssigmentModel {
 
   @override
   String toString() {
-    return 'AssigmentModel(id: $id, technicianFullName: $technicianFullName, technicianEmail: $technicianEmail, technicianPhoneNumber: $technicianPhoneNumber, teamName: $teamName)';
+    return 'AssigmentModel(id: $id, technicianId: $technicianId, technicianFullName: $technicianFullName, technicianEmail: $technicianEmail, technicianPhoneNumber: $technicianPhoneNumber, teamName: $teamName)';
   }
 
   @override
@@ -66,6 +73,7 @@ class AssigmentModel {
   
     return 
       other.id == id &&
+      other.technicianId == technicianId &&
       other.technicianFullName == technicianFullName &&
       other.technicianEmail == technicianEmail &&
       other.technicianPhoneNumber == technicianPhoneNumber &&
@@ -75,6 +83,7 @@ class AssigmentModel {
   @override
   int get hashCode {
     return id.hashCode ^
+      technicianId.hashCode ^
       technicianFullName.hashCode ^
       technicianEmail.hashCode ^
       technicianPhoneNumber.hashCode ^

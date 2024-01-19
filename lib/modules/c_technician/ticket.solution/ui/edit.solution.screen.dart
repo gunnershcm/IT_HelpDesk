@@ -1,4 +1,7 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dich_vu_it/app/widgets/WAColors.dart';
+import 'package:dich_vu_it/app/widgets/WAWidgets.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/pick.date.dart';
 import 'package:dich_vu_it/app/widgets/toast.dart';
@@ -6,6 +9,7 @@ import 'package:dich_vu_it/models/response/category.response.model.dart';
 import 'package:dich_vu_it/models/response/ticket.solution.model.dart';
 import 'package:dich_vu_it/models/response/user.profile.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/ticket.solution/bloc/solution.bloc.dart';
+import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -33,6 +37,7 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
   TextEditingController internalComments = TextEditingController();
   CategoryResponseModel? selectedItemCategory;
   UserProfileResponseModel? selectedItemOwner;
+  bool _deleteIconVisible = false;
 
   Map<bool, String> listStatus = {
     false: 'Private',
@@ -55,6 +60,30 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
     title.text = solutionModel.title ?? "";
     content.text = solutionModel.content ?? "";
     keyword.text = solutionModel.keyword ?? "";
+    TicketProvider.getAllCategory().then((categories) {
+      // Find the category with the name from solutionModel
+      selectedItemCategory = categories.firstWhere(
+        (category) =>
+            category.name ==
+            solutionModel
+                .category?.name, // Handle the case when category is not found
+      );
+
+      // Set the state to trigger a rebuild
+      setState(() {});
+    });
+    TicketProvider.getAllUsers().then((owners) {
+      // Find the category with the name from solutionModel
+      selectedItemOwner = owners.firstWhere(
+        (owner) =>
+            owner.lastName == solutionModel.owner?.lastName &&
+            owner.firstName == solutionModel.owner?.firstName,
+        // Handle the case when category is not found
+      );
+
+      // Set the state to trigger a rebuild
+      setState(() {});
+    });
     // date2 = DateFormat('dd-MM-yyyy')
     //     .format(DateTime.parse(solutionModel.expiredDate ?? ""));
     // time2 = DateFormat('HH:mm')
@@ -119,8 +148,7 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
           return Container(
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 215, 232, 245),
-                  borderRadius: BorderRadius.circular(10)),
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,15 +160,10 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
                       child: TextFormField(
+                        maxLines: null,
                         controller: title,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(10),
-                        ),
+                        decoration: waInputDecoration(hint: ''),
                       ),
                     ),
                     SizedBox(height: 20),
@@ -151,15 +174,10 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
                       child: TextFormField(
+                        maxLines: null,
                         controller: content,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(10),
-                        ),
+                        decoration: waInputDecoration(hint: ''),
                       ),
                     ),
                     SizedBox(height: 20),
@@ -172,12 +190,14 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
                         width: MediaQuery.of(context).size.width,
                         height: 48,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
+                            border: Border.all(
+                                color: Color.fromARGB(255, 225, 224, 224)),
+                            borderRadius: BorderRadius.circular(12),
+                            color: WAPrimaryColor.withOpacity(0.07)),
                         child: DropdownSearch<CategoryResponseModel>(
                           popupProps: PopupPropsMultiSelection.menu(
-                            showSearchBox: true,
-                          ),
+                              //showSearchBox: true,
+                              ),
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
                               constraints: const BoxConstraints.tightFor(
@@ -224,12 +244,14 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
                         width: MediaQuery.of(context).size.width,
                         height: 48,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
+                            border: Border.all(
+                                color: Color.fromARGB(255, 225, 224, 224)),
+                            borderRadius: BorderRadius.circular(12),
+                            color: WAPrimaryColor.withOpacity(0.07)),
                         child: DropdownSearch<UserProfileResponseModel>(
                           popupProps: PopupPropsMultiSelection.menu(
-                            showSearchBox: true,
-                          ),
+                              //showSearchBox: true,
+                              ),
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration: InputDecoration(
                               constraints: const BoxConstraints.tightFor(
@@ -273,18 +295,13 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
                       child: TextFormField(
+                        maxLines: null,
                         controller: keyword,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(10),
-                        ),
+                        decoration: waInputDecoration(hint: ''),
                       ),
                     ),
-                    // SizedBox(height: 20),
+                    SizedBox(height: 20),
                     // const Text(
                     //   "Internal Comment",
                     //   style:
@@ -385,6 +402,159 @@ class _EditSolutionScreenState extends State<EditSolutionScreen> {
                     //       solutionModel.expiredDate = null;
                     //     }
                     //   }),
+                    const Text(
+                      "Attachment",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: EdgeInsets.only(left: 10),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: 80,
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Wrap(
+                                          spacing: 16.0,
+                                          runSpacing: 8.0,
+                                          children: [
+                                            if (solutionModel.attachmentUrls !=
+                                                null)
+                                              for (int index = 0;
+                                                  index <
+                                                      solutionModel
+                                                          .attachmentUrls!
+                                                          .length;
+                                                  index++)
+                                                Stack(
+                                                  children: [
+                                                    Container(
+                                                      height: 60,
+                                                      width: 60,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                      ),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: solutionModel
+                                                                .attachmentUrls![
+                                                            index],
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            CircularProgressIndicator(),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(Icons.error),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                      top: 0,
+                                                      right: 0,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            solutionModel
+                                                                .attachmentUrls!
+                                                                .removeAt(
+                                                                    index);
+                                                          });
+                                                          if (solutionModel
+                                                              .attachmentUrls!
+                                                              .isEmpty) {
+                                                            setState(() {
+                                                              _deleteIconVisible =
+                                                                  false;
+                                                            });
+                                                          }
+                                                        },
+                                                        child: AnimatedOpacity(
+                                                          opacity:
+                                                              _deleteIconVisible
+                                                                  ? 1.0
+                                                                  : 0.0,
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  300),
+                                                          child: Container(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    4),
+                                                            color: Colors.red,
+                                                            child: Icon(
+                                                              Icons.close,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 16,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                          ],
+                                        ),
+                                      ),
+                                      if (solutionModel.attachmentUrls ==
+                                              null ||
+                                          solutionModel.attachmentUrls!.isEmpty)
+                                        Expanded(
+                                          child: Container(
+                                            alignment: Alignment.centerLeft,
+                                            child: InkWell(
+                                              onTap: () async {
+                                                var fileNames =
+                                                    await handleUploadFile();
+                                                print(fileNames);
+                                                if (fileNames != null) {
+                                                  setState(() {
+                                                    _deleteIconVisible = true;
+                                                    solutionModel
+                                                            .attachmentUrls =
+                                                        fileNames;
+                                                  });
+                                                  print("a");
+                                                  print(fileNames);
+                                                  print(
+                                                      "abcxyz ${solutionModel.attachmentUrls}");
+                                                  print("b");
+                                                } else {
+                                                  // Handle the case where fileNames is null (upload failed)
+                                                  print("File upload failed");
+                                                }
+                                              },
+                                              child: Icon(
+                                                Icons.upload,
+                                                size: 30,
+                                                color: Colors.blue,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      SizedBox(width: 10),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ))
+                      ],
+                    ),
                     SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

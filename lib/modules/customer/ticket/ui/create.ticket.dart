@@ -7,10 +7,11 @@ import 'package:dich_vu_it/app/widgets/toast.dart';
 import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
 import 'package:dich_vu_it/models/response/service.response.model.dart';
 import 'package:dich_vu_it/modules/customer/ticket/bloc/ticket.bloc.dart';
+import 'package:dich_vu_it/modules/customer/ticket/ui/ticket.customer.screen.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:dich_vu_it/provider/location.provider.dart';
 import 'package:dich_vu_it/provider/ticket.provider.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
+//import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,33 +60,33 @@ class _CreateTickketState extends State<CreateTickket> {
   @override
   void initState() {
     super.initState();
-    _loadCities();
+    // _loadCities();
   }
 
-  Future<void> _loadCities() async {
-    List<Map<String, dynamic>> fetchedCities =
-        await LocationProvider.fetchCities();
-    setState(() {
-      cities = fetchedCities; // Cập nhật dữ liệu thành phố trong CreateTicket
-    });
-  }
+  // Future<void> _loadCities() async {
+  //   List<Map<String, dynamic>> fetchedCities =
+  //       await LocationProvider.fetchCities();
+  //   setState(() {
+  //     cities = fetchedCities; // Cập nhật dữ liệu thành phố trong CreateTicket
+  //   });
+  // }
 
-  Future<void> _loadDistricts(dynamic cityCode) async {
-    List<Map<String, dynamic>> fetchedDistrictes =
-        await LocationProvider.fetchDistricts(cityCode);
-    setState(() {
-      districts =
-          fetchedDistrictes; // Cập nhật dữ liệu thành phố trong CreateTicket
-    });
-  }
+  // Future<void> _loadDistricts(dynamic cityCode) async {
+  //   List<Map<String, dynamic>> fetchedDistrictes =
+  //       await LocationProvider.fetchDistricts(cityCode);
+  //   setState(() {
+  //     districts =
+  //         fetchedDistrictes; // Cập nhật dữ liệu thành phố trong CreateTicket
+  //   });
+  // }
 
-  Future<void> _loadWards(dynamic districtCode) async {
-    List<Map<String, dynamic>> fetchedWards =
-        await LocationProvider.fetchWards(districtCode);
-    setState(() {
-      wards = fetchedWards; // Cập nhật dữ liệu thành phố trong CreateTicket
-    });
-  }
+  // Future<void> _loadWards(dynamic districtCode) async {
+  //   List<Map<String, dynamic>> fetchedWards =
+  //       await LocationProvider.fetchWards(districtCode);
+  //   setState(() {
+  //     wards = fetchedWards; // Cập nhật dữ liệu thành phố trong CreateTicket
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -106,12 +107,16 @@ class _CreateTickketState extends State<CreateTickket> {
         bloc: _bloc,
         listener: (context, state) async {
           if (state is TicketLoading) {
-            //onLoading(context);
+            onLoading(context);
             return;
           } else if (state is CareateTicketSuccessState) {
-            //Navigator.pop(context);
+            Navigator.pop(context);
             // Navigator.pop(context);
             //widget.callBack(true);
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => TicketCustomerScreen()),
+            // );
             //onLoading(context);
             showToast(
               context: context,
@@ -162,7 +167,7 @@ class _CreateTickketState extends State<CreateTickket> {
                     ),
                     Container(
                         width: MediaQuery.of(context).size.width,
-                        height: 48,
+                        height: 55,
                         decoration: BoxDecoration(
                             border: Border.all(
                                 color: Color.fromARGB(255, 225, 224, 224)),
@@ -170,8 +175,8 @@ class _CreateTickketState extends State<CreateTickket> {
                             color: WAPrimaryColor.withOpacity(0.07)),
                         child: DropdownSearch<ServiceResponseModel>(
                           popupProps: PopupPropsMultiSelection.menu(
-                            showSearchBox: true,
-                          ),
+                              //showSearchBox: true,
+                              ),
                           dropdownDecoratorProps: DropDownDecoratorProps(
                             dropdownSearchDecoration:
                                 // waInputDecoration(hint: ''),
@@ -279,9 +284,6 @@ class _CreateTickketState extends State<CreateTickket> {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      // decoration: BoxDecoration(
-                      //     color: Colors.white,
-                      //     borderRadius: BorderRadius.circular(10)),
                       child: TextFormField(
                         maxLines: null,
                         controller: description,
@@ -486,6 +488,14 @@ class _CreateTickketState extends State<CreateTickket> {
                                                           .attachmentUrls!
                                                           .removeAt(index);
                                                     });
+                                                    if (requestCreateTicketModel
+                                                        .attachmentUrls!
+                                                        .isEmpty) {
+                                                      setState(() {
+                                                        _deleteIconVisible =
+                                                            false;
+                                                      });
+                                                    }
                                                   },
                                                   child: AnimatedOpacity(
                                                     opacity: _deleteIconVisible
@@ -512,7 +522,9 @@ class _CreateTickketState extends State<CreateTickket> {
                                   ),
                                 ),
                                 if (requestCreateTicketModel.attachmentUrls ==
-                                    null)
+                                        null ||
+                                    requestCreateTicketModel
+                                        .attachmentUrls!.isEmpty)
                                   Expanded(
                                     child: Container(
                                       alignment: Alignment.centerLeft,
@@ -523,6 +535,7 @@ class _CreateTickketState extends State<CreateTickket> {
                                           print(fileNames);
                                           if (fileNames != null) {
                                             setState(() {
+                                              _deleteIconVisible = true;
                                               requestCreateTicketModel
                                                   .attachmentUrls = fileNames;
                                             });

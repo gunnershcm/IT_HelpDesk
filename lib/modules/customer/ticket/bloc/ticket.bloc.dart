@@ -34,11 +34,9 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
           emit(TicketError(error: "Title not null"));
         } else if (event.request.serviceId == null) {
           emit(TicketError(error: "Service not null"));
-        } else if (event.request.attachmentUrls == null) {
-          emit(TicketError(error: "Attachment not null"));
         } else {
           var checkCreateTiket =
-              await TicketProvider.createTicket(event.request);           
+              await TicketProvider.createTicket(event.request);
           if (checkCreateTiket == true) {
             emit(CareateTicketSuccessState());
           } else {
@@ -61,6 +59,21 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
             emit(TicketError(error: "Error"));
           }
           ;
+        }
+      } else if (event is CloseTicketEvent) {
+        var checkCloseTicket = await TicketProvider.closeTicket(event.ticketId);
+        if (checkCloseTicket == true) {
+          emit(UpdateTicketSuccessState());
+        } else {
+          emit(TicketError(error: "Error closing ticket"));
+        }
+      } else if (event is CancelTicketEvent) {
+        var checkCancelTicket =
+            await TicketProvider.cancelTicket(event.ticketId);
+        if (checkCancelTicket == true) {
+          emit(UpdateTicketSuccessState());
+        } else {
+          emit(TicketError(error: "Error canceling ticket"));
         }
       }
     } catch (e) {

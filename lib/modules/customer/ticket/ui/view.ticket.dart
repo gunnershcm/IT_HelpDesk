@@ -1,10 +1,14 @@
 // ignore_for_file: prefer_const_constructors, unrelated_type_equality_checks
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dich_vu_it/app/constant/enum.dart';
+import 'package:dich_vu_it/models/chat/chat_user.dart';
 import 'package:dich_vu_it/models/request/request.create.ticket.model.dart';
 import 'package:dich_vu_it/models/response/ticket.response.model.dart';
+import 'package:dich_vu_it/modules/chat/chat.card/chat.screen.dart';
 import 'package:dich_vu_it/modules/customer/ticket/ui/edit.ticket.dart';
 import 'package:dich_vu_it/modules/customer/ticket/ui/log.ticket.dart';
+import 'package:dich_vu_it/provider/api.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -22,11 +26,38 @@ class ViewTicketScreen extends StatefulWidget {
 
 class _ViewTicketScreenState extends State<ViewTicketScreen> {
   TicketResponseModel ticket = TicketResponseModel();
+  late ChatUser user;
   @override
   void initState() {
     super.initState();
     ticket = widget.ticket;
+    // getUserChat();
   }
+
+  // void getUserChat() {
+  //   String? technicianId = ticket.assignment?.technicianId?.toString();
+
+  //   if (technicianId != null) {
+  //     // Get the user by ID using the stream
+  //     APIs.GetUserByEmail(technicianId)
+  //         .listen((QuerySnapshot<Map<String, dynamic>> snapshot) {
+  //       if (snapshot.docs.isNotEmpty) {
+  //         // If there's at least one document in the snapshot
+  //         Map<String, dynamic>? userData = snapshot.docs.first.data();
+
+  //         // Map the data to ChatUser
+  //         user = ChatUser.fromJson(userData);
+  //         // Now, `user` contains the ChatUser object
+  //       } else {
+  //         // Handle the case where no user is found
+  //         print('No user found with ID: $technicianId');
+  //       }
+  //     });
+  //   } else {
+  //     // Handle the case where technicianId is null
+  //     print('Technician ID is null');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -118,15 +149,7 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                                 children: [
                                   Text(
                                     "${ticket.requester?.firstName} ${ticket.requester?.lastName}",
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    child: Icon(
-                                      Icons.chat,
-                                      size: 25,
-                                      color: Colors.blue,
-                                    ),
-                                  ),
+                                  ),                                 
                                 ],
                               ),
                             ],
@@ -316,6 +339,31 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                                             content: ticket.assignment
                                                     ?.technicianFullName ??
                                                 "Not Assigned",
+                                            widget: (ticket.assignment
+                                                        ?.technicianFullName !=
+                                                    null)
+                                                ? Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 10),
+                                                    child: InkWell(
+                                                      onTap: () async {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (_) =>
+                                                                    ChatScreen(
+                                                                      user:
+                                                                          user,
+                                                                    )));
+                                                      },
+                                                      child: Icon(
+                                                        Icons.chat,
+                                                        size: 25,
+                                                        color: Colors.blue,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : SizedBox.shrink(),
                                           ),
                                           SizedBox(height: 10),
                                           FieldTextWidget(
@@ -327,6 +375,7 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                                         ],
                                       ),
                                     ),
+                                    SizedBox(width: 10),
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:

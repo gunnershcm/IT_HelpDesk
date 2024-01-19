@@ -78,6 +78,22 @@ class _TicketSolutionItemState extends State<TicketSolutionItem> {
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Status: ",
+                        style: DefaultTextStyle.of(context).style,
+                      ),
+                      TextSpan(
+                        text: getApproveStatus(solution.isApproved),
+                        style: solution.isApproved == true
+                            ? const TextStyle(color: Colors.green)
+                            : const TextStyle(color: Colors.red),
+                      ),
+                    ],
+                  ),
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -90,10 +106,10 @@ class _TicketSolutionItemState extends State<TicketSolutionItem> {
                     SizedBox(width: 20.0),
                     DisLikeButtonWidget(
                       isDislike(solution.currentReactionUser),
-                        solution.countDislike!, solution.id!,
-                        callback: updateLike,
-                      
-                      ),
+                      solution.countDislike!,
+                      solution.id!,
+                      callback: updateLike,
+                    ),
                     // DisLikeButton(
                     //   size: size,
                     //   isLiked: isLiked,

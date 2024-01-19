@@ -143,13 +143,15 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      height: 80,
+                                      height:
+                                          80, // Adjust the overall height of the container
                                       padding: EdgeInsets.only(left: 10),
                                       child: Row(
                                         children: [
                                           Expanded(
                                             child: Wrap(
-                                              spacing: 16.0,
+                                              spacing:
+                                                  16.0, // Adjust the spacing between images
                                               runSpacing: 8.0,
                                               children: [
                                                 if (solution.attachmentUrls !=
@@ -157,8 +159,10 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                                   for (var url in solution
                                                       .attachmentUrls!)
                                                     Container(
-                                                      height: 60,
-                                                      width: 60,
+                                                      height:
+                                                          60, // Adjust the height of the image container
+                                                      width:
+                                                          60, // Adjust the width of the image container
                                                       decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
@@ -178,28 +182,31 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
                                               ],
                                             ),
                                           ),
-                                          SizedBox(width: 20),
-                                          Visibility(
-                                            visible: solution.attachmentUrls !=
-                                                    null &&
-                                                solution
-                                                    .attachmentUrls!.isNotEmpty,
-                                            child: InkWell(
+                                          if (solution.attachmentUrls != null &&
+                                              solution
+                                                  .attachmentUrls!.isNotEmpty)
+                                            SizedBox(
+                                              width:
+                                                  20, // Adjust the spacing between the images and the upload icon
+                                            ),
+                                          if (solution.attachmentUrls != null &&
+                                              solution
+                                                  .attachmentUrls!.isNotEmpty)
+                                            InkWell(
                                               onTap: () async {
                                                 downloadFile(
-                                                  context,
-                                                  List<String>.from(
-                                                      solution.attachmentUrls ??
-                                                          []),
-                                                );
+                                                    context,
+                                                    List<String>.from(solution
+                                                            .attachmentUrls ??
+                                                        []));
                                               },
                                               child: Icon(
                                                 Icons.download,
-                                                size: 40,
+                                                size:
+                                                    40, // Adjust the size of the upload icon
                                                 color: Colors.blue,
                                               ),
                                             ),
-                                          ),
                                           SizedBox(width: 10),
                                         ],
                                       ),

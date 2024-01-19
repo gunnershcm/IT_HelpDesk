@@ -28,3 +28,22 @@ class UpdtaeTicketEvent extends TicketEvent {
   @override
   List<Object> get props => [request];
 }
+
+class CloseTicketEvent extends TicketEvent {
+  final int ticketId;
+
+  CloseTicketEvent(this.ticketId);
+
+  @override
+  List<Object> get props => [ticketId];
+}
+
+
+class CancelTicketEvent extends TicketEvent {
+  final int ticketId;
+
+  const CancelTicketEvent(this.ticketId);
+
+  @override
+  List<Object> get props => [ticketId];
+}

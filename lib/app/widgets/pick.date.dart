@@ -178,12 +178,12 @@ class DatePickerBox1State extends State<DatePickerBox1> {
                     flex: 2,
                     child: Container(
                       height: 50,
-                      padding: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.only(left: 1),
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border(
-                            left: BorderSide(width: 1, color: Colors.grey)),
-                        //  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
+                        border: Border.all(
+                            color: Color.fromARGB(255, 225, 224, 224)),
+                        borderRadius: BorderRadius.circular(12),
+                        color: WAPrimaryColor.withOpacity(0.07),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

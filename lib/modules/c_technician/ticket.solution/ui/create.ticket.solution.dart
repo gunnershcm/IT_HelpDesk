@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_typing_uninitialized_variables
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dich_vu_it/app/widgets/WAColors.dart';
+import 'package:dich_vu_it/app/widgets/WAWidgets.dart';
 import 'package:dich_vu_it/app/widgets/loading.dart';
 import 'package:dich_vu_it/app/widgets/pick.date.dart';
 import 'package:dich_vu_it/app/widgets/textfiel.dart';
@@ -36,6 +39,7 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
   CategoryResponseModel? selectedItemCategory;
   UserProfileResponseModel? selectedItemOwner;
   //TicketSolutionModel? selectedItemApprove;
+  bool _deleteIconVisible = false;
 
   Map<bool, String> listStatus = {
     false: 'Private',
@@ -100,20 +104,42 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 229, 243, 254),
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10)),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextFielWidget(
-                    title: 'Title',
-                    controller: title,
+                  const Text(
+                    "Title",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    // decoration: BoxDecoration(
+                    //     color: Colors.white,
+                    //     borderRadius: BorderRadius.circular(10)),
+                    child: TextFormField(
+                      maxLines: null,
+                      controller: title,
+                      decoration: waInputDecoration(hint: ''),
+                    ),
                   ),
                   SizedBox(height: 20),
-                  TextFielWidget(
-                    title: 'Content',
-                    controller: content,
+                  const Text(
+                    "Content",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    // decoration: BoxDecoration(
+                    //     color: Colors.white,
+                    //     borderRadius: BorderRadius.circular(10)),
+                    child: TextFormField(
+                      maxLines: null,
+                      controller: content,
+                      decoration: waInputDecoration(hint: ''),
+                    ),
                   ),
                   SizedBox(height: 20),
                   const Text(
@@ -124,8 +150,10 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: 48,
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
+                          border: Border.all(
+                              color: Color.fromARGB(255, 225, 224, 224)),
+                          borderRadius: BorderRadius.circular(12),
+                          color: WAPrimaryColor.withOpacity(0.07)),
                       child: DropdownSearch<CategoryResponseModel>(
                         popupProps: PopupPropsMultiSelection.menu(
                           showSearchBox: true,
@@ -175,8 +203,10 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: 48,
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
+                          border: Border.all(
+                              color: Color.fromARGB(255, 225, 224, 224)),
+                          borderRadius: BorderRadius.circular(12),
+                          color: WAPrimaryColor.withOpacity(0.07)),
                       child: DropdownSearch<UserProfileResponseModel>(
                         popupProps: PopupPropsMultiSelection.menu(
                           showSearchBox: true,
@@ -217,9 +247,20 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
                         },
                       )),
                   SizedBox(height: 20),
-                  TextFielWidget(
-                    title: 'Keyword',
-                    controller: keyword,
+                   const Text(
+                    "Keyword",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    // decoration: BoxDecoration(
+                    //     color: Colors.white,
+                    //     borderRadius: BorderRadius.circular(10)),
+                    child: TextFormField(
+                      maxLines: null,
+                      controller: keyword,
+                      decoration: waInputDecoration(hint: ''),
+                    ),
                   ),
                   SizedBox(height: 20),
                   // SizedBox(height: 20),
@@ -277,7 +318,7 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
                   //         requestSolutionModel.expiredDate = null;
                   //       }
                   //     }),
-                  SizedBox(height: 20),
+                  SizedBox(height: 30),
                   const Text(
                     "Attachment",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
@@ -285,40 +326,124 @@ class _CreateSolutionScreenState extends State<CreateSolutionScreen> {
                   Row(
                     children: [
                       Expanded(
-                          child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: EdgeInsets.only(left: 10),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                (requestSolutionModel.attachmentUrls != null)
-                                    ? "File uploaded"
-                                    : "Upload file",
-                                overflow: TextOverflow.ellipsis,
+                        child: Container(
+                          height: 80,
+                          padding: EdgeInsets.only(left: 10),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Wrap(
+                                  spacing: 16.0,
+                                  runSpacing: 8.0,
+                                  children: [
+                                    if (requestSolutionModel.attachmentUrls !=
+                                        null)
+                                      for (int index = 0;
+                                          index <
+                                              requestSolutionModel
+                                                  .attachmentUrls!.length;
+                                          index++)
+                                        Stack(
+                                          children: [
+                                            Container(
+                                              height: 60,
+                                              width: 60,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              child: CachedNetworkImage(
+                                                imageUrl: requestSolutionModel
+                                                    .attachmentUrls![index],
+                                                placeholder: (context, url) =>
+                                                    CircularProgressIndicator(),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Icon(Icons.error),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            Positioned(
+                                              top: 0,
+                                              right: 0,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    requestSolutionModel
+                                                        .attachmentUrls!
+                                                        .removeAt(index);
+                                                  });
+                                                  if (requestSolutionModel
+                                                      .attachmentUrls!
+                                                      .isEmpty) {
+                                                    setState(() {
+                                                      _deleteIconVisible =
+                                                          false;
+                                                    });
+                                                  }
+                                                },
+                                                child: AnimatedOpacity(
+                                                  opacity: _deleteIconVisible
+                                                      ? 1.0
+                                                      : 0.0,
+                                                  duration: Duration(
+                                                      milliseconds: 300),
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(4),
+                                                    color: Colors.red,
+                                                    child: Icon(
+                                                      Icons.close,
+                                                      color: Colors.white,
+                                                      size: 16,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 10),
-                            InkWell(
-                                onTap: () async {
-                                  var fileName = await handleUploadFile();
-                                  setState(() {
-                                    requestSolutionModel.attachmentUrls =
-                                        fileName;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.upload,
-                                  color: Colors.blue,
-                                )),
-                            SizedBox(width: 10),
-                          ],
+                              if (requestSolutionModel.attachmentUrls == null ||
+                                  requestSolutionModel.attachmentUrls!.isEmpty)
+                                Expanded(
+                                  child: Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: InkWell(
+                                      onTap: () async {
+                                        var fileNames =
+                                            await handleUploadFile();
+                                        print(fileNames);
+                                        if (fileNames != null) {
+                                          setState(() {
+                                            _deleteIconVisible = true;
+                                            requestSolutionModel
+                                                .attachmentUrls = fileNames;
+                                          });
+                                          print("a");
+                                          print(fileNames);
+                                          print(
+                                              "abcxyz ${requestSolutionModel.attachmentUrls}");
+                                          print("b");
+                                        } else {
+                                          // Handle the case where fileNames is null (upload failed)
+                                          print("File upload failed");
+                                        }
+                                      },
+                                      child: Icon(
+                                        Icons.upload,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              SizedBox(width: 10),
+                            ],
+                          ),
                         ),
-                      ))
+                      ),
                     ],
                   ),
                   SizedBox(height: 20),

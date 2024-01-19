@@ -42,7 +42,7 @@ class _EditTicketTechnicianScreenState
     2: 'High',
     3: 'Critical',
   };
-  int selectedPriority = 0;
+  int? selectedPriority;
 
   List<String> listType = ["Offline", "Online"];
   String? selectedType = "";
@@ -57,7 +57,7 @@ class _EditTicketTechnicianScreenState
     ticket = widget.ticket;
     selectedImpact = widget.ticket.impact;
     description.text = widget.ticket.impactDetail ?? "";
-    selectedPriority = widget.ticket.priority ?? 0;
+    selectedPriority = widget.ticket.priority ;
     // date1 = ticket.scheduledStartTime != null
     // ? DateFormat('dd-MM-yyyy').format(DateTime.parse(ticket.scheduledStartTime!))
     // : "";
@@ -148,7 +148,7 @@ class _EditTicketTechnicianScreenState
           return Container(
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 229, 243, 254),
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10)),
             child: SingleChildScrollView(
               child: Column(
@@ -160,9 +160,11 @@ class _EditTicketTechnicianScreenState
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
+                   decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Color.fromARGB(255, 225, 224, 224)),
+                        borderRadius: BorderRadius.circular(12),
+                        color: WAPrimaryColor.withOpacity(0.07)),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2(
                         items: listImpact.entries
@@ -185,9 +187,11 @@ class _EditTicketTechnicianScreenState
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
+                   decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Color.fromARGB(255, 225, 224, 224)),
+                        borderRadius: BorderRadius.circular(12),
+                        color: WAPrimaryColor.withOpacity(0.07)),
                     child: TextFormField(
                       controller: description,
                       decoration: InputDecoration(
@@ -203,9 +207,11 @@ class _EditTicketTechnicianScreenState
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
+                   decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Color.fromARGB(255, 225, 224, 224)),
+                        borderRadius: BorderRadius.circular(12),
+                        color: WAPrimaryColor.withOpacity(0.07)),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2(
                         items: listPriority.entries
@@ -229,9 +235,11 @@ class _EditTicketTechnicianScreenState
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
+                   decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Color.fromARGB(255, 225, 224, 224)),
+                        borderRadius: BorderRadius.circular(12),
+                        color: WAPrimaryColor.withOpacity(0.07)),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2(
                         items: listType.map((String value) {
