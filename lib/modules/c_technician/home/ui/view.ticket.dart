@@ -189,7 +189,6 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                 children: [
                   Expanded(
                     child: Container(
-                      height: 80, // Adjust the overall height of the container
                       padding: EdgeInsets.only(left: 10),
                       child: Row(
                         children: [
@@ -300,6 +299,8 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
                         margin: EdgeInsets.only(left: 10),
                         child: InkWell(
                           onTap: () async {
+                            ChatUser user = await APIs.getUser(
+                               tiket.requester?.email ?? "");
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

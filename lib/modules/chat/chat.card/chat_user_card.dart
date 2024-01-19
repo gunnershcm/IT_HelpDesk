@@ -59,6 +59,7 @@ class _ChatUserCardState extends State<ChatUserCard> {
                       width: mq.height * .055,
                       height: mq.height * .055,
                       imageUrl: widget.user.image,
+                      fit: BoxFit.cover,
                       errorWidget: (context, url, error) => const CircleAvatar(backgroundColor:Colors.blue,child: Icon(CupertinoIcons.person)),
                     ),
                   ),

@@ -91,83 +91,84 @@ class _TicketItemState extends State<TicketItem> {
             ),
           ),
           const SizedBox(width: 10),
-          if (ticket!.ticketStatus == 2)
-            ElevatedButton(
-              onPressed: () async {
-                var response = await showNoti(context);
-                if (response) {
-                  var check = await TicketProvider.resolvedTicket(
-                    ticket!.id ?? -1,
-                  );
-                  if (check == true) {
-                    // Do something when the ticket is closed
-                    showToast(
-                      context: context,
-                      msg: "Update successfully",
-                      color: MyColors.success,
-                      icon: const Icon(Icons.done),
-                    );
-                    setState(() {
-                      ticket!.ticketStatus == 3;
-                      //callback!(ticket);
-                    });
-                  } else {
-                    showToast(
-                      context: context,
-                      msg:
-                          "Cannot resovle ticket if all\nthe tasks are not completed",
-                      color: MyColors.error,
-                      icon: const Icon(Icons.warning),
-                    );
-                  }
-                }
-              },
-              style: ElevatedButton.styleFrom(primary: Colors.green),
-              child: const Text(
-                "Resolved",
-                style: TextStyle(color: Colors.white),
-              ),
-            )
-          else if (ticket!.ticketStatus == 3)
-            ElevatedButton(
-              onPressed: () async {
-                var response = await showNoti(context);
-                if (response) {
-                  var check = await TicketProvider.resolvedTicketToProgress(
-                    ticket!.id ?? -1,
-                  );
-                  if (check == true) {
-                    // Do something when the ticket is closed
-                  }
-                }
-              },
-              style: ElevatedButton.styleFrom(primary: Colors.blue),
-              child: const Text(
-                "Progress",
-                style: TextStyle(color: Colors.white),
-              ),
-            )
-          else if (ticket!.ticketStatus == 1)
-            ElevatedButton(
-              onPressed: () async {
-                var response = await showNoti(context);
-                if (response) {
-                  var check = await TicketProvider.progressTicket(
-                    ticket!.id ?? -1,
-                  );
-                  if (check == true) {
-                    // Do something when the ticket is closed
-                  }
-                }
-              },
-              style: ElevatedButton.styleFrom(primary: Colors.blue),
-              child: const Text(
-                "Progress",
-                style: TextStyle(color: Colors.white),
-              ),
-            )
-          else
-            Container(),
+          (ticket!.ticketStatus == 2)
+              ? ElevatedButton(
+                  onPressed: () async {
+                    var response = await showNoti(context);
+                    if (response) {
+                      var check = await TicketProvider.resolvedTicket(
+                        ticket!.id ?? -1,
+                      );
+                      if (check == true) {
+                        // Do something when the ticket is closed
+                        showToast(
+                          context: context,
+                          msg: "Update successfully",
+                          color: MyColors.success,
+                          icon: const Icon(Icons.done),
+                        );
+                        setState(() {
+                          ticket!.ticketStatus = 3;
+                        });
+                      } else {
+                        showToast(
+                          context: context,
+                          msg:
+                              "Cannot resovle ticket if all\nthe tasks are not completed",
+                          color: MyColors.error,
+                          icon: const Icon(Icons.warning),
+                        );
+                      }
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(primary: Colors.green),
+                  child: const Text(
+                    "Resolved",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              : (ticket!.ticketStatus == 3)
+                  ? ElevatedButton(
+                      onPressed: () async {
+                        var response = await showNoti(context);
+                        if (response) {
+                          var check =
+                              await TicketProvider.resolvedTicketToProgress(
+                            ticket!.id ?? -1,
+                          );
+                          if (check == true) {
+                            setState(() {
+                              ticket!.ticketStatus = 2;
+                            });
+                          }
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(primary: Colors.blue),
+                      child: const Text(
+                        "Progress",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  : (ticket!.ticketStatus == 1)
+                      ? ElevatedButton(
+                          onPressed: () async {
+                            var response = await showNoti(context);
+                            if (response) {
+                              var check = await TicketProvider.progressTicket(
+                                ticket!.id ?? -1,
+                              );
+                              if (check == true) {
+                                // Do something when the ticket is closed
+                              }
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(primary: Colors.blue),
+                          child: const Text(
+                            "Progress",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )
+                      : Container(),
         ],
       ),
     );
