@@ -14,7 +14,6 @@ Future<List<String>?> uploadFile(List<File> files) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString(myToken);
-
     Map<String, String> headers = {
       'Authorization': 'Bearer $token',
     };

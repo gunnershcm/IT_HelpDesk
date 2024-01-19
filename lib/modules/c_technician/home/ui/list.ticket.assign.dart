@@ -6,11 +6,15 @@ import 'package:dich_vu_it/models/response/ticket.response.model.dart';
 import 'package:dich_vu_it/modules/c_technician/home/bloc/home.bloc.dart';
 import 'package:dich_vu_it/modules/c_technician/home/ui/view.ticket.dart';
 import 'package:dich_vu_it/modules/c_technician/history.task/bloc/component/ticket.item.tech.dart';
+import 'package:dich_vu_it/modules/customer/notification/notification.page.dart';
+import 'package:dich_vu_it/provider/noti.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListTicketAssign extends StatefulWidget {
-  const ListTicketAssign({super.key});
+  const ListTicketAssign({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ListTicketAssign> createState() => _ListTicketAssignState();
@@ -21,23 +25,31 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
   List<TicketResponseModel> listTicket = [];
   List<TicketResponseModel> filteredList = [];
   int? selectedStatus;
+  int countNoti = 0;
   late String query = '';
   bool updateList = false;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  void getNoti() async {
+    var noti = await NotiProvider.getCountNoti();
+    setState(() {
+      countNoti = noti;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    //getNoti();
+    getNoti();
     _bloc.add(GetListTicketAssignEvent());
   }
 
-  void updateTicketList() {
-    // _bloc.add(ClearDataEvent());
-    setState(() {
-      //updateList = !updateList;
-      _bloc.add(GetListTicketAssignEvent());
-    });
-  }
+  // void updateTicketList() {
+  //   // _bloc.add(ClearDataEvent());
+  //   setState(() {
+  //     //updateList = !updateList;
+  //     _bloc.add(GetListTicketAssignEvent());
+  //   });
+  // }
 
   void onStatusSelected(int? status) {
     setState(() {
@@ -63,6 +75,7 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Color.fromARGB(255, 229, 243, 254),
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -74,6 +87,39 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                 color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
           ),
         ),
+        actions: [
+          InkWell(
+            onTap: () async {
+              await Navigator.push<void>(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const NotificationPage(),
+                ),
+              );
+              getNoti();
+            },
+            child: Stack(
+              alignment: AlignmentDirectional.topEnd,
+              children: [
+                const Icon(
+                  Icons.notifications,
+                  size: 30,
+                  color: Colors.white,
+                ),
+                if (countNoti > 0)
+                  Container(
+                    width: 15,
+                    height: 15,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 248, 88, 77),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 10),
+        ],
       ),
       body: BlocConsumer<HomeBloc, HomeState>(
         bloc: _bloc,
@@ -139,6 +185,11 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                       isSelected: selectedStatus == null,
                     ),
                     ScrollItem(
+                      text: 'Open',
+                      onTap: () => onStatusSelected(0),
+                      isSelected: selectedStatus == 0,
+                    ),
+                    ScrollItem(
                       text: 'Assigned',
                       onTap: () => onStatusSelected(1),
                       isSelected: selectedStatus == 1,
@@ -185,9 +236,9 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                         );
                       },
                       child: TicketItem(
-                        listTicket: listTicket,
+                        //listTicket: listTicket,
                         ticket: element,
-                        callback: updateTicketList,
+                        //callback: updateTicketList,
                         onTap: (ticket) {
                           // onTap logic specific to the TicketItem
                         },
