@@ -283,8 +283,9 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
                   itemBuilder: (context, index) {
                     final element = filteredList[index];
                     return GestureDetector(
+                      key: Key(element.id.toString()),
                       onTap: () async {
-                         Navigator.push(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) => ViewTicketScreen(
@@ -292,7 +293,6 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
                             ),
                           ),
                         );
-                       
                       },
                       child: TicketItem(
                         ticket: element,
