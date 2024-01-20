@@ -82,7 +82,7 @@ class TicketItem extends StatelessWidget {
                   }
                 }
               },
-              style: ElevatedButton.styleFrom(primary: Colors.red),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               child: const Text(
                 "Cancel",
                 style: TextStyle(color: Colors.white),
@@ -101,7 +101,7 @@ class TicketItem extends StatelessWidget {
                   }
                 }
               },
-              style: ElevatedButton.styleFrom(primary: Colors.green),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
               child: const Text(
                 "Close",
                 style: TextStyle(color: Colors.white),

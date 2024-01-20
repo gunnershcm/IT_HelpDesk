@@ -9,17 +9,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'modules/login/ui/login.screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 
 late Size mq;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  HttpOverrides.global = MyHttpOverrides();
   await Firebase.initializeApp();
+  HttpOverrides.global = MyHttpOverrides();
+  await Future.delayed(const Duration(seconds: 1));
   await FireMessage.registerToken();
   FireMessage.registerFirebase();
   runApp(MyApp(FireMessage.authenticationRepository));

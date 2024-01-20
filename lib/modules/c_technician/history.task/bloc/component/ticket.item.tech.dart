@@ -121,7 +121,7 @@ class _TicketItemState extends State<TicketItem> {
                       }
                     }
                   },
-                  style: ElevatedButton.styleFrom(primary: Colors.green),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
                   child: const Text(
                     "Resolved",
                     style: TextStyle(color: Colors.white),
@@ -143,7 +143,7 @@ class _TicketItemState extends State<TicketItem> {
                           }
                         }
                       },
-                      style: ElevatedButton.styleFrom(primary: Colors.blue),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                       child: const Text(
                         "Progress",
                         style: TextStyle(color: Colors.white),
@@ -162,7 +162,7 @@ class _TicketItemState extends State<TicketItem> {
                               }
                             }
                           },
-                          style: ElevatedButton.styleFrom(primary: Colors.blue),
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                           child: const Text(
                             "Progress",
                             style: TextStyle(color: Colors.white),

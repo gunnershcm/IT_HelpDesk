@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "630938496572",
+    "firebase_url": "https://itsds-v1-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "itsds-v1",
     "storage_bucket": "itsds-v1.appspot.com"
   },
