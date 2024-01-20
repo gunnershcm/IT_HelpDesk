@@ -56,7 +56,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
           ),
         ),
         title: const Text(
-          "Task details",
+          "Task detail",
           style: TextStyle(
               color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
         ),

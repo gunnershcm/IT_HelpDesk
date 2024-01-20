@@ -22,6 +22,7 @@ class FeedbackModel {
     this.modifiedAt,
     this.user,
   });
+  
 
   FeedbackModel copyWith({
     int? id,

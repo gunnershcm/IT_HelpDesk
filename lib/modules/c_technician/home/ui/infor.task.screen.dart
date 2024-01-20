@@ -55,15 +55,24 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
     title.text = taskModel.title ?? "";
     description.text = taskModel.description ?? "";
     note.text = taskModel.note ?? "";
-    date1 = DateFormat('dd-MM-yyyy')
-        .format(DateTime.parse(taskModel.scheduledStartTime ?? ""));
-    time1 = DateFormat('HH:mm')
-        .format(DateTime.parse(taskModel.scheduledStartTime ?? ""));
-    date2 = DateFormat('dd-MM-yyyy')
-        .format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
-    time2 = DateFormat('HH:mm')
-        .format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
-    taskModel.progress ??= 0;
+    if (taskModel.scheduledStartTime != null) {
+      date1 = DateFormat('dd-MM-yyyy')
+          .format(DateTime.parse(taskModel.scheduledStartTime ?? ""));
+      time1 = DateFormat('HH:mm')
+          .format(DateTime.parse(taskModel.scheduledStartTime ?? ""));
+    } else {
+      date1 = "";
+      time1 = "";
+    }
+    if (taskModel.scheduledEndTime != null) {
+      date2 = DateFormat('dd-MM-yyyy')
+          .format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
+      time2 = DateFormat('HH:mm')
+          .format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
+    } else {
+      date2 = "";
+      time2 = "";
+    }
   }
 
   @override
@@ -94,11 +103,11 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                 taskModel.title = title.text;
                 taskModel.description = description.text;
                 taskModel.note = note.text;
-                if(taskModel.taskStatus == 2){
+                if (taskModel.taskStatus == 2) {
                   setState(() {
                     taskModel.progress = 100;
                   });
-                }              
+                }
                 bloc.add(UpdateTaskTicketEvent(taskModel: taskModel));
               },
               icon: Icon(
