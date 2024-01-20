@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, unrelated_type_equality_checks, must_be_immutable
 
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/models/response/task.model.dart';
@@ -13,8 +15,9 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ViewTaskScreen extends StatefulWidget {
-  TaskModel task;
-  ViewTaskScreen({super.key, required this.task});
+  final TaskModel task;
+  final Function callBack;
+  ViewTaskScreen({super.key, required this.task, required this.callBack});
 
   @override
   State<ViewTaskScreen> createState() => _ViewTaskScreenState();
@@ -22,6 +25,7 @@ class ViewTaskScreen extends StatefulWidget {
 
 class _ViewTaskScreenState extends State<ViewTaskScreen> {
   TaskModel task = TaskModel();
+  
   // List<Map<String, dynamic>> cities = [];
   // List<Map<String, dynamic>> districts = [];
   // List<Map<String, dynamic>> wards = [];
@@ -44,6 +48,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
+            widget.callBack(task);          
           },
           icon: const Icon(
             Icons.arrow_back_ios,

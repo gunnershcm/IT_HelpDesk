@@ -7,10 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TicketItem extends StatefulWidget {
-  //final List<TicketResponseModel> listTicket;
   final TicketResponseModel ticket;
   final Function(TicketResponseModel) onTap;
-  //final Function callback;
 
   const TicketItem({
     Key? key,
@@ -25,7 +23,6 @@ class TicketItem extends StatefulWidget {
 class _TicketItemState extends State<TicketItem> {
   TicketResponseModel? ticket;
   Function(TicketResponseModel)? onTap;
-  //List<TicketResponseModel>? listTicket;
   Function? callback;
 
   @override
@@ -33,8 +30,6 @@ class _TicketItemState extends State<TicketItem> {
     super.initState();
     ticket = widget.ticket;
     onTap = widget.onTap;
-    //listTicket = widget.listTicket;
-    //callback = widget.callback;
   }
 
   @override
@@ -158,7 +153,9 @@ class _TicketItemState extends State<TicketItem> {
                                 ticket!.id ?? -1,
                               );
                               if (check == true) {
-                                // Do something when the ticket is closed
+                                setState(() {
+                                  ticket!.ticketStatus = 2;
+                                });
                               }
                             }
                           },

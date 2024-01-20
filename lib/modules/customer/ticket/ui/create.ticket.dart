@@ -107,17 +107,19 @@ class _CreateTickketState extends State<CreateTickket> {
         bloc: _bloc,
         listener: (context, state) async {
           if (state is TicketLoading) {
-            onLoading(context);
+            //onLoading(context);
             return;
           } else if (state is CareateTicketSuccessState) {
             //Navigator.pop(context);
             // Navigator.pop(context);
             //widget.callBack(true);
-            // Navigator.pushReplacement(
+            // onLoading(context);
+            // Navigator.push<void>(
             //   context,
-            //   MaterialPageRoute(builder: (context) => TicketCustomerScreen()),
+            //   MaterialPageRoute<void>(
+            //     builder: (BuildContext context) => TicketCustomerScreen(),
+            //   ),
             // );
-            //onLoading(context);
             showToast(
               context: context,
               msg: "Create a new ticket successfully",

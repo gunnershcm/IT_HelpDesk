@@ -31,9 +31,9 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
         emit(TicketSuccessState(list: listTicket));
       } else if (event is CreateTicketEvent) {
         if (event.request.title == "") {
-          emit(TicketError(error: "Title not null"));
+          emit(TicketError(error: "Title can not be blank"));
         } else if (event.request.serviceId == null) {
-          emit(TicketError(error: "Service not null"));
+          emit(TicketError(error: "Service can not be blank"));
         } else {
           var checkCreateTiket =
               await TicketProvider.createTicket(event.request);
@@ -47,9 +47,9 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
       } else if (event is UpdtaeTicketEvent) {
         // updateTicket
         if (event.request.title == "") {
-          emit(TicketError(error: "Title not null"));
+          emit(TicketError(error: "Title can not be blank"));
         } else if (event.request.serviceId == null) {
-          emit(TicketError(error: "Service not null"));
+          emit(TicketError(error: "Service can not be blank"));
         } else {
           var checkCreateTiket =
               await TicketProvider.updateTicket(event.request);
