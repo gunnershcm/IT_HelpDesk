@@ -77,7 +77,7 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
             ),
           ),
           title: const Text(
-            "Ticket details",
+            "Detailed Ticket ",
             style: TextStyle(
               color: Colors.white,
               fontSize: 25,

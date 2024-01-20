@@ -145,6 +145,8 @@ class SolutionProvider {
     var url = "$baseUrl/v1/itsds/solution/feedback";
     var response = await http.post(Uri.parse(url.toString()),
         headers: header, body: json.encode(body));
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       var bodyConvert = jsonDecode(response.body);
       if (bodyConvert['isError'] == false) {

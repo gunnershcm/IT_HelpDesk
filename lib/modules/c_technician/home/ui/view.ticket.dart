@@ -81,7 +81,7 @@ class _ViewTicketAssigScreenState extends State<ViewTicketAssigScreen> {
           ),
         ),
         title: const Text(
-          "Ticket details",
+          "Detailed Ticket ",
           style: TextStyle(
               color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
         ),
