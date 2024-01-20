@@ -103,11 +103,11 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                 taskModel.title = title.text;
                 taskModel.description = description.text;
                 taskModel.note = note.text;
-                if (taskModel.taskStatus == 2) {
+                if(taskModel.taskStatus == 2){
                   setState(() {
                     taskModel.progress = 100;
                   });
-                }
+                }              
                 bloc.add(UpdateTaskTicketEvent(taskModel: taskModel));
               },
               icon: Icon(

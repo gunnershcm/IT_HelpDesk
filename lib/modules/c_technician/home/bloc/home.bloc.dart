@@ -47,9 +47,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         } else if (event.requestTaskModel.priority == null) {
           emit(HomeError(error: "Priority can not be blank"));
         } else if (event.requestTaskModel.scheduledStartTime == null) {
-          emit(HomeError(error: "Scheduled Start Time not be blank"));
+          emit(HomeError(error: "Scheduled Start Time can  not be blank"));
         } else if (event.requestTaskModel.scheduledEndTime == null) {
-          emit(HomeError(error: "Scheduled End Time not be blank"));
+          emit(HomeError(error: "Scheduled End Time can not be blank"));
         } else {
           var response =
               await TicketProvider.createTicketTask(event.requestTaskModel);
