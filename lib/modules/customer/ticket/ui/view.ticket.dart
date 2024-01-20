@@ -312,7 +312,7 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
-                                  "Technician Info",
+                                  "Technician Infomation",
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
