@@ -441,7 +441,6 @@ class _CreateTickketState extends State<CreateTickket> {
                       children: [
                         Expanded(
                           child: Container(
-                            height: 80,
                             padding: EdgeInsets.only(left: 10),
                             child: Row(
                               children: [
@@ -571,25 +570,25 @@ class _CreateTickketState extends State<CreateTickket> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 100,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.orange),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Center(
-                              child: Text(
-                                "Cancel",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Container(
+                        //   width: 100,
+                        //   height: 40,
+                        //   decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       color: Colors.orange),
+                        //   child: InkWell(
+                        //     onTap: () {
+                        //       Navigator.pop(context);
+                        //     },
+                        //     child: Center(
+                        //       child: Text(
+                        //         "Cancel",
+                        //         style: TextStyle(
+                        //             color: Colors.white, fontSize: 16),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         SizedBox(width: 30),
                         Container(
                           width: 100,
