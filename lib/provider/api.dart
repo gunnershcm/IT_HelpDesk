@@ -142,6 +142,9 @@ class APIs {
     });
   }
 
+  // update online or last active status of user
+ 
+
   // for creating a new user
   static Future<void> createUser() async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
@@ -275,7 +278,13 @@ class APIs {
 
   // update online or last active status of user
   static Future<void> updateActiveStatus(bool isOnline) async {
+    String defaultAvatar =
+        'https://firebasestorage.googleapis.com/v0/b/itsds-v1.appspot.com/o/0d64989794b1a4c9d89bff571d3d5842.jpg?alt=media&token=620af117-99ef-46ae-84ba-b81553baddfd';
+    DocumentSnapshot userDoc =
+        await firestore.collection('users').doc(user.uid).get();
+    String imageValue = userDoc['image'] == "" ? defaultAvatar : userDoc['image'];
     firestore.collection('users').doc(user.uid).update({
+      'image': imageValue,
       'is_online': isOnline,
       'last_active': DateTime.now().millisecondsSinceEpoch.toString(),
       'push_token': me.pushToken,

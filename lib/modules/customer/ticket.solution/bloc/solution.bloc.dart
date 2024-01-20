@@ -36,10 +36,12 @@ class TicketSolutionBloc
         emit(GetListSolutionState(list: listSolution));
       } else if (event is CreateSolutionEvent) {
         if (event.requestSolutionModel.title == "") {
-          emit(TicketSolutionError(error: "Title not null"));
+          emit(TicketSolutionError(error: "Title can not be blank"));
         } else if (event.requestSolutionModel.categoryId == null) {
-          emit(TicketSolutionError(error: "Category not null"));
-        } else {
+          emit(TicketSolutionError(error: "Category can not be blank"));
+        }else if (event.requestSolutionModel.ownerId == null) {
+          emit(TicketSolutionError(error: "Owner can not be blank"));
+        }else {
           var checkCreateTiket =
               await SolutionProvider.createSolution(event.requestSolutionModel);
           if (checkCreateTiket == true) {
@@ -50,15 +52,15 @@ class TicketSolutionBloc
         }
       } else if (event is UpdateSolutionTicketEvent) {
         if (event.solutionModel.title == null) {
-          emit(TicketSolutionError(error: "Title not null"));
+          emit(TicketSolutionError(error: "Title can not be blank"));
         } else if (event.solutionModel.reviewDate == null) {
-          emit(TicketSolutionError(error: "Review Date not null"));
+          emit(TicketSolutionError(error: "Review Date can not be blank"));
         } else if (event.solutionModel.expiredDate == null) {
-          emit(TicketSolutionError(error: "Expire Date not null"));
+          emit(TicketSolutionError(error: "Expire Date can not be blank"));
         } else if (event.solutionModel.categoryId == null) {
-          emit(TicketSolutionError(error: "Category not null"));
+          emit(TicketSolutionError(error: "Category can not be blank"));
         } else if (event.solutionModel.ownerId == null) {
-          emit(TicketSolutionError(error: "Owner not null"));
+          emit(TicketSolutionError(error: "Owner can not be blank"));
         } else {
           var response =
               await SolutionProvider.updateTicketSolution(event.solutionModel);
