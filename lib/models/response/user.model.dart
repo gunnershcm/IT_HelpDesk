@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class UserLoginResponseModel {
-  String? id;
+class UserModelResponse {
+  int? id;
   String? firstName;
   String? lastName;
   String? username;
@@ -14,7 +14,7 @@ class UserLoginResponseModel {
   String? dateOfBirth;
   int? gender;
   String? accessToken;
-  UserLoginResponseModel({
+  UserModelResponse({
     this.id,
     this.firstName,
     this.lastName,
@@ -30,8 +30,8 @@ class UserLoginResponseModel {
   });
   
 
-  UserLoginResponseModel copyWith({
-    String? id,
+  UserModelResponse copyWith({
+    int? id,
     String? firstName,
     String? lastName,
     String? username,
@@ -44,7 +44,7 @@ class UserLoginResponseModel {
     int? gender,
     String? accessToken,
   }) {
-    return UserLoginResponseModel(
+    return UserModelResponse(
       id: id ?? this.id,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
@@ -77,9 +77,9 @@ class UserLoginResponseModel {
     };
   }
 
-  factory UserLoginResponseModel.fromMap(Map<String, dynamic> map) {
-    return UserLoginResponseModel(
-      id: map['id'] != null ? map['id'] as String : null,
+  factory UserModelResponse.fromMap(Map<String, dynamic> map) {
+    return UserModelResponse(
+      id: map['id'] != null ? map['id'] as int : null,
       firstName: map['firstName'] != null ? map['firstName'] as String : null,
       lastName: map['lastName'] != null ? map['lastName'] as String : null,
       username: map['username'] != null ? map['username'] as String : null,
@@ -96,15 +96,15 @@ class UserLoginResponseModel {
 
   String toJson() => json.encode(toMap());
 
-  factory UserLoginResponseModel.fromJson(String source) => UserLoginResponseModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserModelResponse.fromJson(String source) => UserModelResponse.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'UserLoginResponseModel(id: $id, firstName: $firstName, lastName: $lastName, username: $username, email: $email, address: $address, avatarUrl: $avatarUrl, role: $role, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, gender: $gender, accessToken: $accessToken)';
+    return 'UserModelResponse(id: $id, firstName: $firstName, lastName: $lastName, username: $username, email: $email, address: $address, avatarUrl: $avatarUrl, role: $role, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, gender: $gender, accessToken: $accessToken)';
   }
 
   @override
-  bool operator ==(covariant UserLoginResponseModel other) {
+  bool operator ==(covariant UserModelResponse other) {
     if (identical(this, other)) return true;
   
     return 

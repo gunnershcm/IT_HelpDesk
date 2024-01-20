@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, unrelated_type_equality_checks, must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dich_vu_it/app/constant/enum.dart';
 import 'package:dich_vu_it/models/chat/chat_user.dart';
 import 'package:dich_vu_it/models/response/ticket.response.model.dart';
@@ -9,7 +8,6 @@ import 'package:dich_vu_it/modules/c_technician/home/ui/edit.ticket.technician.d
 import 'package:dich_vu_it/modules/chat/chat.card/chat.screen.dart';
 import 'package:dich_vu_it/provider/api.dart';
 import 'package:dich_vu_it/provider/file.provider.dart';
-import 'package:dich_vu_it/provider/location.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
