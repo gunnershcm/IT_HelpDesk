@@ -74,7 +74,7 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
       time2 = "";
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

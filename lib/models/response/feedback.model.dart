@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:dich_vu_it/models/response/user.login.response.model.dart';
+import 'package:dich_vu_it/models/response/user.model.dart';
 
 class FeedbackModel {
   int? id;
@@ -11,7 +12,7 @@ class FeedbackModel {
   String? comment;
   String? createdAt;
   String? modifiedAt;
-  UserLoginResponseModel? user;
+  UserModelResponse? user;
   FeedbackModel({
     this.id,
     this.userId,
@@ -32,7 +33,7 @@ class FeedbackModel {
     String? comment,
     String? createdAt,
     String? modifiedAt,
-    UserLoginResponseModel? user,
+    UserModelResponse? user,
   }) {
     return FeedbackModel(
       id: id ?? this.id,
@@ -68,7 +69,7 @@ class FeedbackModel {
       comment: map['comment'] != null ? map['comment'] as String : null,
       createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
       modifiedAt: map['modifiedAt'] != null ? map['modifiedAt'] as String : null,
-      user: map['user'] != null ? UserLoginResponseModel.fromMap(map['user'] as Map<String,dynamic>) : null,
+      user: map['user'] != null ? UserModelResponse.fromMap(map['user'] as Map<String,dynamic>) : null,
     );
   }
 
