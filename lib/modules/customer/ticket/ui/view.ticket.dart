@@ -77,7 +77,7 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
             ),
           ),
           title: const Text(
-            "Ticket details",
+            "Detailed Ticket ",
             style: TextStyle(
               color: Colors.white,
               fontSize: 25,
@@ -180,7 +180,7 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                                     child: FieldTextWidget(
                                       title: 'Mode',
                                       content:
-                                          ticket.mode?.name ?? "Not Assigned",
+                                          ticket.mode?.name ?? "",
                                     ),
                                   ),
                                 ],
@@ -202,17 +202,17 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                               // Other Fields
                               FieldTextWidget(
                                 title: 'Description',
-                                content: ticket.description ?? "Not Assigned",
+                                content: ticket.description ?? "",
                               ),
                               FieldTextWidget(
                                 title: 'Category',
                                 content:
-                                    ticket.category?.name ?? "Not Assigned",
+                                    ticket.category?.name ?? "",
                               ),
                               FieldTextWidget(
                                 title: 'Service',
                                 content: ticket.service?.description ??
-                                    "Not Assigned",
+                                    "",
                               ),
 
                               // Additional Fields
@@ -222,14 +222,14 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                               ),
                               FieldTextWidget(
                                 title: 'Impact Detail',
-                                content: ticket.impactDetail ?? "Not Assigned",
+                                content: ticket.impactDetail ?? "",
                               ),
                               FieldTextWidget(
                                 title: 'Complete Date',
                                 content: (ticket.completedTime != null)
                                     ? DateFormat('HH:mm   dd-MM-yyyy').format(
                                         DateTime.parse(ticket.completedTime!))
-                                    : "Not Assigned",
+                                    : "",
                               ),
                               const Text(
                                 "Attachment",
@@ -312,7 +312,7 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
-                                  "Technician Info",
+                                  "Technician Infomation",
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -334,7 +334,7 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                                             title: 'Technician Name',
                                             content: ticket.assignment
                                                     ?.technicianFullName ??
-                                                "Not Assigned",
+                                                "",
                                             widget: (ticket.assignment
                                                         ?.technicianFullName !=
                                                     null)
@@ -371,7 +371,7 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                                             title: 'Technician Email',
                                             content: ticket.assignment
                                                     ?.technicianEmail ??
-                                                "Not Assigned",
+                                                "",
                                           ),
                                         ],
                                       ),
@@ -386,7 +386,7 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                                             title: 'Technician Phone',
                                             content: ticket.assignment
                                                     ?.technicianPhoneNumber ??
-                                                "Not Assigned",
+                                                "",
                                             widget: (ticket.assignment
                                                         ?.technicianPhoneNumber !=
                                                     null)
@@ -420,7 +420,7 @@ class _ViewTicketScreenState extends State<ViewTicketScreen> {
                                             title: 'Team Assignment',
                                             content:
                                                 ticket.assignment?.teamName ??
-                                                    "Not Assigned",
+                                                    "",
                                           ),
                                         ],
                                       ),

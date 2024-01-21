@@ -61,14 +61,25 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
   // Add this function to filter the list based on the search query
   void filterList() {
     setState(() {
-      filteredList = listTicket
-          .where((ticket) =>
-              (ticket.title!.toLowerCase().contains(query.toLowerCase()) ||
-                  ticket.category!.name!
-                      .toLowerCase()
-                      .contains(query.toLowerCase())) &&
-              (ticket.ticketStatus == selectedStatus || selectedStatus == null))
-          .toList();
+      filteredList = [];
+      if (selectedStatus == null) {
+        filteredList = listTicket;
+      } else {
+        for (var element in listTicket) {
+          if (element.ticketStatus == selectedStatus) {
+            filteredList.add(element);
+          }
+        }
+      }
+
+      // filteredList = listTicket
+      //     .where((ticket) =>
+      //         (ticket.title!.toLowerCase().contains(query.toLowerCase()) ||
+      //             ticket.category!.name!
+      //                 .toLowerCase()
+      //                 .contains(query.toLowerCase())) &&
+      //         (ticket.ticketStatus == selectedStatus || selectedStatus == null))
+      //     .toList();
     });
   }
 
@@ -224,6 +235,7 @@ class _ListTicketAssignState extends State<ListTicketAssign> {
                   itemBuilder: (context, index) {
                     final element = filteredList[index];
                     return GestureDetector(
+                      key: Key(element.id.toString()),
                       onTap: () {
                         Navigator.push<void>(
                           context,

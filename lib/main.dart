@@ -17,7 +17,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   HttpOverrides.global = MyHttpOverrides();
   await Firebase.initializeApp();
   await FireMessage.registerToken();

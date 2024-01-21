@@ -18,7 +18,7 @@ Future<bool> showNoti(context) async {
               children: [
                 SvgPicture.asset("assets/noti.svg"),
                 Text(
-                  "Are you sure?",
+                  "Do you want to change your status?",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 19,

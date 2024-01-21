@@ -203,7 +203,7 @@ class _ViewSolutionDetailState extends State<ViewSolutionDetail> {
               children: [
                 TabBar(tabs: const [
                   Tab(
-                    text: "Details",
+                    text: "Detail",
                   ),
                   Tab(
                     text: "Feedback",

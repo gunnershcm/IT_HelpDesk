@@ -107,17 +107,19 @@ class _CreateTickketState extends State<CreateTickket> {
         bloc: _bloc,
         listener: (context, state) async {
           if (state is TicketLoading) {
-            onLoading(context);
+            //onLoading(context);
             return;
           } else if (state is CareateTicketSuccessState) {
             //Navigator.pop(context);
             // Navigator.pop(context);
             //widget.callBack(true);
-            // Navigator.pushReplacement(
+            // onLoading(context);
+            // Navigator.push<void>(
             //   context,
-            //   MaterialPageRoute(builder: (context) => TicketCustomerScreen()),
+            //   MaterialPageRoute<void>(
+            //     builder: (BuildContext context) => TicketCustomerScreen(),
+            //   ),
             // );
-            //onLoading(context);
             showToast(
               context: context,
               msg: "Create a new ticket successfully",
@@ -439,7 +441,6 @@ class _CreateTickketState extends State<CreateTickket> {
                       children: [
                         Expanded(
                           child: Container(
-                            height: 80,
                             padding: EdgeInsets.only(left: 10),
                             child: Row(
                               children: [
@@ -569,25 +570,25 @@ class _CreateTickketState extends State<CreateTickket> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 100,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.orange),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Center(
-                              child: Text(
-                                "Cancel",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Container(
+                        //   width: 100,
+                        //   height: 40,
+                        //   decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       color: Colors.orange),
+                        //   child: InkWell(
+                        //     onTap: () {
+                        //       Navigator.pop(context);
+                        //     },
+                        //     child: Center(
+                        //       child: Text(
+                        //         "Cancel",
+                        //         style: TextStyle(
+                        //             color: Colors.white, fontSize: 16),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         SizedBox(width: 30),
                         Container(
                           width: 100,

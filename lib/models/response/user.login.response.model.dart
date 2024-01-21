@@ -28,6 +28,7 @@ class UserLoginResponseModel {
     this.gender,
     this.accessToken,
   });
+  
 
   UserLoginResponseModel copyWith({
     String? id,
@@ -86,21 +87,16 @@ class UserLoginResponseModel {
       address: map['address'] != null ? map['address'] as String : null,
       avatarUrl: map['avatarUrl'] != null ? map['avatarUrl'] as String : null,
       role: map['role'] != null ? map['role'] as int : null,
-      phoneNumber:
-          map['phoneNumber'] != null ? map['phoneNumber'] as String : null,
-      dateOfBirth:
-          map['dateOfBirth'] != null ? map['dateOfBirth'] as String : null,
+      phoneNumber: map['phoneNumber'] != null ? map['phoneNumber'] as String : null,
+      dateOfBirth: map['dateOfBirth'] != null ? map['dateOfBirth'] as String : null,
       gender: map['gender'] != null ? map['gender'] as int : null,
-      accessToken:
-          map['accessToken'] != null ? map['accessToken'] as String : null,
+      accessToken: map['accessToken'] != null ? map['accessToken'] as String : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserLoginResponseModel.fromJson(String source) =>
-      UserLoginResponseModel.fromMap(
-          json.decode(source) as Map<String, dynamic>);
+  factory UserLoginResponseModel.fromJson(String source) => UserLoginResponseModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -110,34 +106,35 @@ class UserLoginResponseModel {
   @override
   bool operator ==(covariant UserLoginResponseModel other) {
     if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.firstName == firstName &&
-        other.lastName == lastName &&
-        other.username == username &&
-        other.email == email &&
-        other.address == address &&
-        other.avatarUrl == avatarUrl &&
-        other.role == role &&
-        other.phoneNumber == phoneNumber &&
-        other.dateOfBirth == dateOfBirth &&
-        other.gender == gender &&
-        other.accessToken == accessToken;
+  
+    return 
+      other.id == id &&
+      other.firstName == firstName &&
+      other.lastName == lastName &&
+      other.username == username &&
+      other.email == email &&
+      other.address == address &&
+      other.avatarUrl == avatarUrl &&
+      other.role == role &&
+      other.phoneNumber == phoneNumber &&
+      other.dateOfBirth == dateOfBirth &&
+      other.gender == gender &&
+      other.accessToken == accessToken;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        firstName.hashCode ^
-        lastName.hashCode ^
-        username.hashCode ^
-        email.hashCode ^
-        address.hashCode ^
-        avatarUrl.hashCode ^
-        role.hashCode ^
-        phoneNumber.hashCode ^
-        dateOfBirth.hashCode ^
-        gender.hashCode ^
-        accessToken.hashCode;
+      firstName.hashCode ^
+      lastName.hashCode ^
+      username.hashCode ^
+      email.hashCode ^
+      address.hashCode ^
+      avatarUrl.hashCode ^
+      role.hashCode ^
+      phoneNumber.hashCode ^
+      dateOfBirth.hashCode ^
+      gender.hashCode ^
+      accessToken.hashCode;
   }
 }

@@ -35,17 +35,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             idTicket: event.idTicket);
         emit(GetListTaskActiveSuccessState(list: listTask));
       } else if (event is CreateTaskCustomer) {
+        DateTime startTime =
+            DateTime.parse(event.requestTaskModel.scheduledStartTime ?? "");
+        DateTime endTime =
+            DateTime.parse(event.requestTaskModel.scheduledEndTime ?? "");
         if (event.requestTaskModel.title == "" ||
             event.requestTaskModel.title == null) {
-          emit(HomeError(error: "Title not null"));
+          emit(HomeError(error: "Title can not be blank"));
         } else if (event.requestTaskModel.ticketId == null) {
-          emit(HomeError(error: "Ticket not null"));
+          emit(HomeError(error: "Title can not be blank"));
         } else if (event.requestTaskModel.priority == null) {
-          emit(HomeError(error: "Priority not null"));
+          emit(HomeError(error: "Priority can not be blank"));
         } else if (event.requestTaskModel.scheduledStartTime == null) {
-          emit(HomeError(error: "Scheduled Start Time not null"));
+          emit(HomeError(error: "Scheduled Start Time can  not be blank"));
         } else if (event.requestTaskModel.scheduledEndTime == null) {
-          emit(HomeError(error: "Scheduled End Time not null"));
+          emit(HomeError(error: "Scheduled End Time can not be blank"));
+        } else if (startTime.isAfter(endTime)) {
+          emit(HomeError(
+              error: "Start Time must be before End Time"));
         } else {
           var response =
               await TicketProvider.createTicketTask(event.requestTaskModel);
@@ -57,11 +64,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
       } else if (event is UpdateTaskTicketEvent) {
         if (event.taskModel.priority == null) {
-          emit(HomeError(error: "Priority not null"));
+          emit(HomeError(error: "Priority can not be blank"));
         } else if (event.taskModel.scheduledStartTime == null) {
-          emit(HomeError(error: "Scheduled Start Time not null"));
+          emit(HomeError(error: "Scheduled Start Time can not be blank"));
         } else if (event.taskModel.scheduledEndTime == null) {
-          emit(HomeError(error: "Scheduled End Time not null"));
+          emit(HomeError(error: "Scheduled End Time can not be blank"));
+        } else if (event.taskModel.title == null) {
+          emit(HomeError(error: "Title can not be blank"));
+        } else if (event.taskModel.taskStatus == null) {
+          emit(HomeError(error: "Task Status can not be blank"));
+        } else if (event.taskModel.progress == null) {
+          emit(HomeError(error: "Progress can not be blank"));
         } else {
           var response = await TicketProvider.updateTicketTask(event.taskModel);
           if (response) {

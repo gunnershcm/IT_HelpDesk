@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:dich_vu_it/app/constant/value.dart';
+import 'package:dich_vu_it/provider/api.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -55,10 +58,18 @@ Future<List<String>?> uploadFile(List<File> files) async {
     print("Error during upload: $e");
     return null;
   }
-  
 }
 
+// // update profile picture of user
+// static Future<String> uploadFile(File file) async {
 
+//   //updating image in firestore database
+//   me.image = await ref.getDownloadURL();
+//   await firestore
+//       .collection('users')
+//       .doc(user.uid)
+//       .update({'image': me.image});
+// }
 Future<List<String>?> handleUploadFile() async {
   List<String>? fileNames;
 
@@ -68,11 +79,21 @@ Future<List<String>?> handleUploadFile() async {
   );
 
   if (result != null && result.files.isNotEmpty) {
+    fileNames = [];
     try {
       List<File> files =
           result.files.map((file) => File(file.path ?? "")).toList();
-      print(files);
-      fileNames = await uploadFile(files);
+      for (var element in files) {
+        var ext = element.path.split('.').last;
+        var ref = APIs.storage.ref().child('pictures/${generateRandomString()}$ext');
+        await ref
+            .putFile(element, SettableMetadata(contentType: 'image/$ext'))
+            .then((p0) {
+          // log('Data Transferred: ${p0.bytesTransferred / 1000} kb');
+        });
+        var image = await ref.getDownloadURL();
+        fileNames.add(image);
+      }
       print(fileNames);
     } catch (e) {
       print("Error handling file upload: $e");
@@ -81,7 +102,6 @@ Future<List<String>?> handleUploadFile() async {
 
   return fileNames;
 }
-
 
 Future<void> downloadFile(BuildContext context, List<String> urls) async {
   try {
@@ -107,4 +127,17 @@ Future<void> downloadFile(BuildContext context, List<String> urls) async {
   } catch (e) {
     print("error: $e");
   }
+}
+
+
+String generateRandomString() {
+  const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  final random = Random();
+  String result = '';
+
+  for (int i = 0; i < 20; i++) {
+    result += characters[random.nextInt(characters.length)];
+  }
+
+  return result;
 }

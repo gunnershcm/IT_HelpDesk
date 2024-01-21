@@ -37,7 +37,7 @@ static Future<UserLoginResponseModel?> login(
         userLoginResponseModel = UserLoginResponseModel.fromMap(bodyConvert['result']);
         // Lưu thông tin vào SharedPreferences
          SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('idUser',userLoginResponseModel.id!);
+        prefs.setString('idUser',userLoginResponseModel.id!.toString());
         
       }
       return userLoginResponseModel;
@@ -207,4 +207,5 @@ static Future<UserLoginResponseModel?> login(
       return true;
     }
   }
+  
 }

@@ -1,14 +1,18 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dich_vu_it/app/constant/value.dart';
 import 'package:dich_vu_it/models/chat/chat_user.dart';
 import 'package:dich_vu_it/models/chat/massage.dart';
+import 'package:dich_vu_it/provider/session.provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class APIs {
   // for authentication
@@ -102,8 +106,6 @@ class APIs {
         .where('email', isEqualTo: email)
         .get();
 
-    log('data: ${data.docs}');
-
     if (data.docs.isNotEmpty && data.docs.first.id != user.uid) {
       //user exists
 
@@ -140,6 +142,9 @@ class APIs {
     });
   }
 
+  // update online or last active status of user
+ 
+
   // for creating a new user
   static Future<void> createUser() async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
@@ -163,12 +168,35 @@ class APIs {
 
 //get user
   static Future<ChatUser> getUser(String email) async {
-    var query = await firestore
+    var queryUser = await firestore
         .collection('users')
         .where("email", isEqualTo: email)
         .limit(1)
         .get();
-    ChatUser userQuery = ChatUser.fromJson(query.docs.first.data());
+    ChatUser userQuery = ChatUser.fromJson(queryUser.docs.first.data());
+    var queryChat = await firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('my_users')
+        .get();
+    bool check = false;
+
+    for (var element in queryChat.docs) {
+      if (element.id == userQuery.id) {
+        check = true;
+        break;
+      }
+    }
+
+    if (!check) {
+      firestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('my_users')
+          .doc(userQuery.id)
+          .set({});
+    }
+
     return userQuery;
   }
 
@@ -250,7 +278,13 @@ class APIs {
 
   // update online or last active status of user
   static Future<void> updateActiveStatus(bool isOnline) async {
+    String defaultAvatar =
+        'https://firebasestorage.googleapis.com/v0/b/itsds-v1.appspot.com/o/0d64989794b1a4c9d89bff571d3d5842.jpg?alt=media&token=620af117-99ef-46ae-84ba-b81553baddfd';
+    DocumentSnapshot userDoc =
+        await firestore.collection('users').doc(user.uid).get();
+    String imageValue = userDoc['image'] == "" ? defaultAvatar : userDoc['image'];
     firestore.collection('users').doc(user.uid).update({
+      'image': imageValue,
       'is_online': isOnline,
       'last_active': DateTime.now().millisecondsSinceEpoch.toString(),
       'push_token': me.pushToken,
@@ -353,5 +387,37 @@ class APIs {
         .collection('chats/${getConversationID(message.toId)}/messages/')
         .doc(message.sent)
         .update({'msg': updatedMsg});
+  }
+
+  static Future<bool> sendNotificationChat(
+      {required String email,
+      required String type,
+      required String content}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(myToken);
+    Map<String, String> header = {
+      'Content-type': 'application/json',
+    };
+    Map<String, String> body = {
+      "email": email,
+      "type": type,
+      "content": content
+    };
+    header.addAll({'Authorization': 'Bearer $token'});
+    var url = "$baseUrl/v1/itsds/notification/send-chat-notification";
+    var response = await http.post(Uri.parse(url.toString()),
+        headers: header, body: json.encode(body));
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      var bodyConvert = jsonDecode(response.body);
+      if (bodyConvert['isError'] == false) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
   }
 }

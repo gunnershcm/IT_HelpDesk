@@ -27,6 +27,7 @@ class HomeTechiacaPage extends StatefulWidget {
 
 class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
   var bloc = HomeBloc();
+  TaskModel task = TaskModel();
   List<TicketResponseModel> listTiketAssign = [];
   List<TaskModel> listTask = [];
   TicketResponseModel? selectedTicket =
@@ -39,11 +40,23 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
     });
   }
 
+  Future<List<TicketResponseModel>> getTicketAvailable() async {
+  var filterTicket;
+  filterTicket = await TicketProvider.getAllListTicketAssignFillter();
+  filterTicket = filterTicket.where((element) =>
+      element.ticketStatus == 1 ||
+      element.ticketStatus == 2 ||
+      element.ticketStatus == 3).toList();
+
+  return filterTicket; // Add this line to return the filtered list
+}
+
   @override
   void initState() {
     super.initState();
     bloc.add(GetListTicketAssignEvent());
     getNoti();
+    //task;
   }
 
   @override
@@ -214,7 +227,7 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                             ),
                           ),
                           asyncItems: (String? filter) =>
-                              TicketProvider.getAllListTicketAssignFillter(),
+                              getTicketAvailable(),
                           itemAsString: (TicketResponseModel u) =>
                               "${u.title!} ${u.createdAt != null ? "(${(u.createdAt != null) ? DateFormat('HH:mm dd/MM/yyyy').format(DateTime.parse(u.createdAt!).toLocal()) : ""})" : ""}",
                           selectedItem: selectedTicket,
@@ -290,13 +303,13 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                                     builder: (BuildContext context) =>
                                         ViewTaskScreen(
                                       task: element,
-                                      // callBack: (value) {
-                                      //   if (value != null) {
-                                      //     setState(() { 
-                                      //       element = value;
-                                      //     });
-                                      //   }
-                                      // },
+                                      callBack: (value) {
+                                        if (value != null) {
+                                          setState(() {
+                                            element = value;
+                                          });
+                                        }
+                                      },
                                     ),
                                   ),
                                 );
@@ -336,7 +349,7 @@ class _HomeTechiacaPageState extends State<HomeTechiacaPage> {
                                   Text(
                                     "Ticket: ${element.ticket?.title ?? ""}",
                                     style: TextStyle(),
-                                    maxLines: 1,  
+                                    maxLines: 1,
                                   ),
                                   SizedBox(height: 5),
                                   Row(

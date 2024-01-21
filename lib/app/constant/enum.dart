@@ -27,7 +27,7 @@ String getNameTicketStatus(int status) {
     case 5:
       return "Cancelled";
     default:
-      return "Not Assigned";
+      return "";
   }
 }
 
@@ -84,7 +84,7 @@ String nameFromPriority(int status) {
     case 3:
       return "Critical";
     default:
-      return "Not Assigned";
+      return "";
   }
 }
 
@@ -103,7 +103,7 @@ String nameRole(int role) {
     case 4:
       return "Accountant";
     default:
-      return "Not Assigned";
+      return "";
   }
 }
 
@@ -120,7 +120,7 @@ String nameGender(int role) {
     case 3:
       return "Prefer Not To Say";
     default:
-      return "Not Assigned";
+      return "";
   }
 }
 
@@ -135,7 +135,7 @@ String nameTaskStatus(int status) {
     case 3:
       return "Cancelled";
     default:
-      return "Not Assigned";
+      return "";
   }
 }
 
@@ -146,6 +146,10 @@ Map<int, String> taskStatus = {
   2: "Completed",
   3: "Cancelled",
 };
+
+
+
+
 
 Color colorTaskStatus(int status) {
   switch (status) {
@@ -171,7 +175,7 @@ String nameImpact(int impact) {
     case 2:
       return "High";
     default:
-      return "Not Assigned";
+      return "";
   }
 }
 
@@ -186,7 +190,7 @@ String nameUrgency(int urgency) {
     case 3:
       return "Urgent";
     default:
-      return "Not Assigned";
+      return "";
   }
 }
 
@@ -208,7 +212,7 @@ String getPublicStatus(bool? status) {
     case false:
       return "Private";
     default:
-      return "Not Assigned";
+      return "";
   }
 }
 

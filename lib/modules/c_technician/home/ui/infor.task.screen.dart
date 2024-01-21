@@ -55,17 +55,26 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
     title.text = taskModel.title ?? "";
     description.text = taskModel.description ?? "";
     note.text = taskModel.note ?? "";
-    date1 = DateFormat('dd-MM-yyyy')
-        .format(DateTime.parse(taskModel.scheduledStartTime ?? ""));
-    time1 = DateFormat('HH:mm')
-        .format(DateTime.parse(taskModel.scheduledStartTime ?? ""));
-    date2 = DateFormat('dd-MM-yyyy')
-        .format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
-    time2 = DateFormat('HH:mm')
-        .format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
-    taskModel.progress ??= 0;
+    if (taskModel.scheduledStartTime != null) {
+      date1 = DateFormat('dd-MM-yyyy')
+          .format(DateTime.parse(taskModel.scheduledStartTime ?? ""));
+      time1 = DateFormat('HH:mm')
+          .format(DateTime.parse(taskModel.scheduledStartTime ?? ""));
+    } else {
+      date1 = "";
+      time1 = "";
+    }
+    if (taskModel.scheduledEndTime != null) {
+      date2 = DateFormat('dd-MM-yyyy')
+          .format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
+      time2 = DateFormat('HH:mm')
+          .format(DateTime.parse(taskModel.scheduledEndTime ?? ""));
+    } else {
+      date2 = "";
+      time2 = "";
+    }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,6 +103,11 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                 taskModel.title = title.text;
                 taskModel.description = description.text;
                 taskModel.note = note.text;
+                if (taskModel.taskStatus == 2) {
+                  setState(() {
+                    taskModel.progress = 100;
+                  });
+                }
                 bloc.add(UpdateTaskTicketEvent(taskModel: taskModel));
               },
               icon: Icon(
@@ -135,8 +149,7 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10)),
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,47 +221,44 @@ class _InforTaskScreenState extends State<InforTaskScreen> {
                     },
                   ),
                   SizedBox(height: 20),
-                   const Text(
-                      "Title",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  const Text(
+                    "Title",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: TextFormField(
+                      maxLines: null,
+                      controller: title,
+                      decoration: waInputDecoration(hint: ''),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: TextFormField(
-                        maxLines: null,
-                        controller: title,
-                        decoration: waInputDecoration(hint: ''),
-                      ),
-                    ),
-                  SizedBox(height: 20),
-                   const Text(
-                      "Description",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: TextFormField(
-                        maxLines: null,
-                        controller: description,
-                        decoration: waInputDecoration(hint: ''),
-                      ),
-                    ),
+                  ),
                   SizedBox(height: 20),
                   const Text(
-                      "Note",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    "Description",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: TextFormField(
+                      maxLines: null,
+                      controller: description,
+                      decoration: waInputDecoration(hint: ''),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: TextFormField(
-                        maxLines: null,
-                        controller: note,
-                        decoration: waInputDecoration(hint: ''),
-                      ),
+                  ),
+                  SizedBox(height: 20),
+                  const Text(
+                    "Note",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: TextFormField(
+                      maxLines: null,
+                      controller: note,
+                      decoration: waInputDecoration(hint: ''),
                     ),
+                  ),
                   SizedBox(height: 20),
                   const Text(
                     "Priority",
