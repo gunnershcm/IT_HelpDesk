@@ -50,7 +50,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     super.initState();
     requestTaskModel.priority = 0;
   }
-  
+
+  Future<List<TicketResponseModel>> getTicketAvailable() async {
+    var filterTicket;
+    filterTicket = await TicketProvider.getAllListTicketAssignFillter();
+    filterTicket = filterTicket
+        .where((element) =>
+            element.ticketStatus == 1 ||
+            element.ticketStatus == 2 ||
+            element.ticketStatus == 3)
+        .toList();
+
+    return filterTicket; // Add this line to return the filtered list
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,7 +166,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           ),
                         ),
                         asyncItems: (String? filter) =>
-                            TicketProvider.getAllListTicketAssign(),
+                            getTicketAvailable(),
                         itemAsString: (TicketResponseModel u) => u.title ?? "",
                         onChanged: (value) {
                           requestTaskModel.ticketId = value?.id;
@@ -177,32 +190,30 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   // ),
                   SizedBox(height: 20),
                   const Text(
-                      "Title",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    "Title",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: TextFormField(
+                      maxLines: null,
+                      controller: title,
+                      decoration: waInputDecoration(hint: ''),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: TextFormField(
-                        maxLines: null,
-                        controller: title,
-                        decoration: waInputDecoration(hint: ''),
-                      ),
-                    ),
+                  ),
                   SizedBox(height: 20),
-                   const Text(
-                      "Description",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  const Text(
+                    "Description",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: TextFormField(
+                      maxLines: null,
+                      controller: description,
+                      decoration: waInputDecoration(hint: ''),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: TextFormField(
-                        maxLines: null,
-                        controller: description,
-                        decoration: waInputDecoration(hint: ''),
-                      ),
-                    ),
+                  ),
                   SizedBox(height: 20),
                   const Text(
                     "Priority",
@@ -211,10 +222,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Color.fromARGB(255, 225, 224, 224)),
-                          borderRadius: BorderRadius.circular(12),
-                          color: WAPrimaryColor.withOpacity(0.07)),
+                        border: Border.all(
+                            color: Color.fromARGB(255, 225, 224, 224)),
+                        borderRadius: BorderRadius.circular(12),
+                        color: WAPrimaryColor.withOpacity(0.07)),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2(
                         items: listPriority.entries
