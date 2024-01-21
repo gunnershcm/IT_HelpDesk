@@ -148,33 +148,33 @@ class _TicketCustomerScreenState extends State<TicketCustomerScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              ListTile(
-                title: const Text(
-                  'Menu Item 1',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                ),
-                onTap: () {
-                  // Handle the action for Menu Item 1
-                  // For example, navigate to a different screen
-                },
-              ),
-              const SizedBox(height: 16),
-              ListTile(
-                title: const Text(
-                  'Menu Item 2',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                ),
-                onTap: () {
-                  // Handle the action for Menu Item 2
-                  // For example, navigate to a different screen
-                },
-              ),
+              // ListTile(
+              //   title: const Text(
+              //     'Menu Item 1',
+              //     style: TextStyle(
+              //       fontSize: 18,
+              //       color: Colors.white,
+              //     ),
+              //   ),
+              //   onTap: () {
+              //     // Handle the action for Menu Item 1
+              //     // For example, navigate to a different screen
+              //   },
+              // ),
+              // const SizedBox(height: 16),
+              // ListTile(
+              //   title: const Text(
+              //     'Menu Item 2',
+              //     style: TextStyle(
+              //       fontSize: 18,
+              //       color: Colors.white,
+              //     ),
+              //   ),
+              //   onTap: () {
+              //     // Handle the action for Menu Item 2
+              //     // For example, navigate to a different screen
+              //   },
+              // ),
               // Add more menu items as needed
             ],
           ),
